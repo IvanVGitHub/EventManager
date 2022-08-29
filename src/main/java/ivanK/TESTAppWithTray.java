@@ -61,7 +61,7 @@ public class TESTAppWithTray {
 //        System.out.println( desktopBounds );
 
         final int width = 600;
-        final int height = 400;
+        final int height = 300;
         windowBasic.setBounds(
                 desktopBounds.x + desktopBounds.width - width,
                 desktopBounds.y + desktopBounds.height - height,
@@ -77,13 +77,15 @@ public class TESTAppWithTray {
 
 
 
-        Dimension labelSize = new Dimension(80, 80);
+    Dimension labelSize = new Dimension(80, 80);
 
         Border solidBorder = BorderFactory.createLineBorder(Color.GREEN, 1);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-        mainPanel.setLayout(new BorderLayout());
+
+        //puts elements vertically
+        mainPanel.setLayout(new BoxLayout (mainPanel, BoxLayout.Y_AXIS));
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.setBorder(BorderFactory.createTitledBorder("topPanel"));
@@ -108,8 +110,7 @@ public class TESTAppWithTray {
         centerLabel3.setBorder(solidBorder);
         topPanel.add(centerLabel3);
 
-        //не опнял, как правильно сделать списком Панели, так делает Панель "северной", верхней
-        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(topPanel);
 //
         JPanel secondPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         secondPanel.setBorder(BorderFactory.createTitledBorder("secondPanel"));
@@ -132,9 +133,7 @@ public class TESTAppWithTray {
         centerLabel6.setBorder(solidBorder);
         secondPanel.add(centerLabel6);
 
-        //не опнял, как правильно сделать списком Панели, так делает Панель "центральной", посередине, растягивая рамку,
-        //если окно больше 3 Паленей в высоту
-        mainPanel.add(secondPanel, BorderLayout.CENTER);
+        mainPanel.add(secondPanel);
 //
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         bottomPanel.setBorder(BorderFactory.createTitledBorder("bottomPanel"));
@@ -157,8 +156,7 @@ public class TESTAppWithTray {
         centerLabel9.setBorder(solidBorder);
         bottomPanel.add(centerLabel9);
 
-        //не опнял, как правильно сделать списком Панели, так делает Панель "южной", нижней
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        mainPanel.add(bottomPanel);
         windowBasic.getContentPane().add(mainPanel);
 
 
