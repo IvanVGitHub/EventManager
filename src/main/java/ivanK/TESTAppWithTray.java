@@ -7,6 +7,7 @@ import com.bedivierre.eloquent.expr.DBWhereOp;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class TESTAppWithTray {
     JFrame windowBasic;
@@ -17,7 +18,7 @@ public class TESTAppWithTray {
         new TESTAppWithTray();
     }
 
-    private static void TestDB(TrayIcon trayIcon) {
+    private static void testDB(TrayIcon trayIcon) {
         if(trayIcon == null)
             return;
         try {
@@ -48,16 +49,8 @@ public class TESTAppWithTray {
         }
     }
 
-    private void WindowBasic() {
+    private void windowMain() {
         windowBasic = new JFrame("Главное окно");
-
-        Button buttonAdd = new Button("Button");
-//        buttonAdd.setFont(new Font("Arial", Font.PLAIN, 50));
-        buttonAdd.addActionListener(e -> {
-//                windowAddCameras.setVisible(true); //делаю форму 2 видимой
-//                CreateWindowAddCameras();
-        });
-        windowBasic.add(buttonAdd);
 
         //parameters window of windowBasic
         //specification work screen
@@ -75,17 +68,110 @@ public class TESTAppWithTray {
                 width,
                 height
         );
-        windowBasic.getContentPane().setLayout(new FlowLayout()); //чтобы кнопка не растянулся на весь экран
+//        windowBasic.getContentPane().setLayout(new FlowLayout()); //чтобы кнопка не растянулся на весь экран
         //"стягивает" окно вокруг внутренних элементов
 //        windowBasic.pack();
-//        windowBasic.
+
+
+
+
+
+
+        Dimension labelSize = new Dimension(80, 80);
+
+        Border solidBorder = BorderFactory.createLineBorder(Color.GREEN, 1);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+        mainPanel.setLayout(new BorderLayout());
+
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setBorder(BorderFactory.createTitledBorder("topPanel"));
+
+        JLabel centerLabel1 = new JLabel("Center1");
+        //не понимаю, почему не работает добавление картинки в Label
+//        centerLabel1.setIcon(new ImageIcon("img/logoSmall.png"));
+        centerLabel1.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel1.setPreferredSize(labelSize);
+        centerLabel1.setBorder(solidBorder);
+        topPanel.add(centerLabel1);
+
+        JLabel centerLabel2 = new JLabel("Center2");
+        centerLabel2.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel2.setPreferredSize(labelSize);
+        centerLabel2.setBorder(solidBorder);
+        topPanel.add(centerLabel2);
+
+        JLabel centerLabel3 = new JLabel("Center3");
+        centerLabel3.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel3.setPreferredSize(labelSize);
+        centerLabel3.setBorder(solidBorder);
+        topPanel.add(centerLabel3);
+
+        //не опнял, как правильно сделать списком Панели, так делает Панель "северной", верхней
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+//
+        JPanel secondPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        secondPanel.setBorder(BorderFactory.createTitledBorder("secondPanel"));
+
+        JLabel centerLabel4 = new JLabel("Center4");
+        centerLabel4.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel4.setPreferredSize(labelSize);
+        centerLabel4.setBorder(solidBorder);
+        secondPanel.add(centerLabel4);
+
+        JLabel centerLabel5 = new JLabel("Center5");
+        centerLabel5.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel5.setPreferredSize(labelSize);
+        centerLabel5.setBorder(solidBorder);
+        secondPanel.add(centerLabel5);
+
+        JLabel centerLabel6 = new JLabel("Center6");
+        centerLabel6.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel6.setPreferredSize(labelSize);
+        centerLabel6.setBorder(solidBorder);
+        secondPanel.add(centerLabel6);
+
+        //не опнял, как правильно сделать списком Панели, так делает Панель "центральной", посередине, растягивая рамку,
+        //если окно больше 3 Паленей в высоту
+        mainPanel.add(secondPanel, BorderLayout.CENTER);
+//
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        bottomPanel.setBorder(BorderFactory.createTitledBorder("bottomPanel"));
+
+        JLabel centerLabel7 = new JLabel("Center7");
+        centerLabel7.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel7.setPreferredSize(labelSize);
+        centerLabel7.setBorder(solidBorder);
+        bottomPanel.add(centerLabel7);
+
+        JLabel centerLabel8 = new JLabel("Center8");
+        centerLabel8.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel8.setPreferredSize(labelSize);
+        centerLabel8.setBorder(solidBorder);
+        bottomPanel.add(centerLabel8);
+
+        JLabel centerLabel9 = new JLabel("Center9");
+        centerLabel9.setHorizontalAlignment(JLabel.CENTER);
+        centerLabel9.setPreferredSize(labelSize);
+        centerLabel9.setBorder(solidBorder);
+        bottomPanel.add(centerLabel9);
+
+        //не опнял, как правильно сделать списком Панели, так делает Панель "южной", нижней
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        windowBasic.getContentPane().add(mainPanel);
+
+
+
+
+
         windowBasic.setVisible(true);
 
         //create a menubar components
-        MenuBarInWindowBasic(windowBasic);
+        menuBarInWindowBasic(windowBasic);
     }
 
-    private void WindowAddCameras() {
+    private void windowAddCameras() {
         windowAddCameras = new JFrame();
 
         windowAddCameras.setSize(200, 200);
@@ -96,12 +182,12 @@ public class TESTAppWithTray {
 //        CreateWindowAddCameras();
     }
 
-    private void PopupMenuInTray(TrayIcon trayIcon) {
+    private void popupMenuInTray(TrayIcon trayIcon) {
         PopupMenu popupMenu = new PopupMenu();
 
         MenuItem startApp = new MenuItem("Открыть");
         startApp.addActionListener(e -> {
-            WindowBasic();
+            windowMain();
         });
         MenuItem exit = new MenuItem("Exit");
         exit.addActionListener(e -> {
@@ -136,7 +222,7 @@ public class TESTAppWithTray {
         trayIcon.setPopupMenu(popupMenu);
     }
 
-    private void MenuBarInWindowBasic(JFrame windowBasic) {
+    private void menuBarInWindowBasic(JFrame windowBasic) {
         MenuBar menuBar = new MenuBar();
         Menu parameters = new Menu("Параметры");
 //        menuBar.setFont(new Font("Arial", Font.PLAIN, 50));
@@ -145,7 +231,7 @@ public class TESTAppWithTray {
         parameters.add(addCamera);
 
         parameters.addActionListener(e -> {
-                WindowAddCameras();
+            windowAddCameras();
         });
 
         menuBar.add(parameters);
@@ -165,20 +251,20 @@ public class TESTAppWithTray {
             ex.printStackTrace();
         }
         trayIcon.addActionListener(e -> {
-            WindowBasic();
+            windowMain();
         });
 
         //create basic window in the app
-        WindowBasic();
+        windowMain();
         if (SystemTray.isSupported()) {
             //app will be closed only from tray
             windowBasic.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         }
 
         //create a popup menu components
-        PopupMenuInTray(trayIcon);
+        popupMenuInTray(trayIcon);
 
         //connection to DB, query to DB, status notification
-        TestDB(trayIcon);
+        testDB(trayIcon);
     }
 }
