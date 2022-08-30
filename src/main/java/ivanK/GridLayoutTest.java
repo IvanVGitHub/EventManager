@@ -1,51 +1,28 @@
 package ivanK;
 
+import java.awt.Dimension;
+
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.*;
 
-/**
- * GridLayoutTest
- *
- * @author Eugene Matyushkin
- */
-public class GridLayoutTest extends JFrame{
+public class GridLayoutTest {
 
-    public GridLayoutTest(){
-        super("GridLayout");
-        final JPanel content = new JPanel(new GridLayout());
-        for(int i=0; i<8; i++){
-            content.add(createComponent(i));
+    public static void main(String... args) {
+        JFrame frame = new JFrame();
+        JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createTitledBorder("panel"));
+        for (int i = 0; i < 10; i++) {
+            panel.add(new JButton("Hello-" + i));
         }
-        final JCheckBox chkOrientation = new JCheckBox("Right-to-left orientation");
-        chkOrientation.addChangeListener(new ChangeListener(){
-            public void stateChanged(ChangeEvent e){
-                content.setComponentOrientation( chkOrientation.isSelected() ?
-                        ComponentOrientation.RIGHT_TO_LEFT :
-                        ComponentOrientation.LEFT_TO_RIGHT);
-                content.doLayout();
-            }
-        });
-        content.setBorder(BorderFactory.createLineBorder(Color.red));
-        getContentPane().add(content, BorderLayout.CENTER);
-        getContentPane().add(chkOrientation, BorderLayout.SOUTH);
-        setSize(410, 220);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-    }
-
-    private JComponent createComponent(int number){
-        JLabel lbl = new JLabel("Label "+number);
-        lbl.setPreferredSize(new Dimension(100, 50));
-        lbl.setHorizontalAlignment(JLabel.CENTER);
-        lbl.setBorder(BorderFactory.createLineBorder(Color.blue, 3));
-        return lbl;
-    }
-
-    public static void main(String[] args){
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        new GridLayoutTest().setVisible(true);
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setBounds(50, 30, 300, 80);
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension(500, 400));
+        contentPane.add(scrollPane);
+        frame.setContentPane(contentPane);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
     }
 }

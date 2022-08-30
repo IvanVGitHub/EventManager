@@ -4,15 +4,20 @@ import com.bedivierre.eloquent.DB;
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 import com.bedivierre.eloquent.expr.DBWhereOp;
+import ivanK.components.CameraEventsPanel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class TESTAppWithTray {
     JFrame windowBasic;
     JFrame windowAddCameras;
     static DB connector;
+
+    int countCamers = 3;
 
     public static void main(String[] args) {
         new TESTAppWithTray();
@@ -57,11 +62,12 @@ public class TESTAppWithTray {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle desktopBounds = ge.getMaximumWindowBounds();
 
-        //check screen sizes
+        //view screen sizes
 //        System.out.println( desktopBounds );
 
         final int width = 600;
-        final int height = 300;
+        final int height = 400;
+        //location app on the screen
         windowBasic.setBounds(
                 desktopBounds.x + desktopBounds.width - width,
                 desktopBounds.y + desktopBounds.height - height,
@@ -72,14 +78,11 @@ public class TESTAppWithTray {
         //"стягивает" окно вокруг внутренних элементов
 //        windowBasic.pack();
 
+        //random color border event for TEST
+        Random rand = new Random();
 
-
-
-
-
-    Dimension labelSize = new Dimension(80, 80);
-
-        Border solidBorder = BorderFactory.createLineBorder(Color.GREEN, 1);
+        //size icon event
+        Dimension labelSize = new Dimension(80, 80);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
@@ -87,81 +90,37 @@ public class TESTAppWithTray {
         //puts elements vertically
         mainPanel.setLayout(new BoxLayout (mainPanel, BoxLayout.Y_AXIS));
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topPanel.setBorder(BorderFactory.createTitledBorder("topPanel"));
+        //image to icon even for TEST
+        ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/event.jpg")));
 
-        JLabel centerLabel1 = new JLabel("Center1");
-        //не понимаю, почему не работает добавление картинки в Label
-//        centerLabel1.setIcon(new ImageIcon("img/logoSmall.png"));
-        centerLabel1.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel1.setPreferredSize(labelSize);
-        centerLabel1.setBorder(solidBorder);
-        topPanel.add(centerLabel1);
+        //отрисовывать группы событий в цикле неопределённое количество раз
+        for (int i = 0; i < countCamers; i++) {
+            CameraEventsPanel p = new CameraEventsPanel("Камера " + i);
 
-        JLabel centerLabel2 = new JLabel("Center2");
-        centerLabel2.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel2.setPreferredSize(labelSize);
-        centerLabel2.setBorder(solidBorder);
-        topPanel.add(centerLabel2);
+            //add event to group event
+            for(int j = 0; j < 8; j++) {
+                Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
+                p.createEventLabel(j, labelSize, randomColor, image);
+            }
 
-        JLabel centerLabel3 = new JLabel("Center3");
-        centerLabel3.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel3.setPreferredSize(labelSize);
-        centerLabel3.setBorder(solidBorder);
-        topPanel.add(centerLabel3);
+            mainPanel.add(p);
 
-        mainPanel.add(topPanel);
-//
-        JPanel secondPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        secondPanel.setBorder(BorderFactory.createTitledBorder("secondPanel"));
-
-        JLabel centerLabel4 = new JLabel("Center4");
-        centerLabel4.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel4.setPreferredSize(labelSize);
-        centerLabel4.setBorder(solidBorder);
-        secondPanel.add(centerLabel4);
-
-        JLabel centerLabel5 = new JLabel("Center5");
-        centerLabel5.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel5.setPreferredSize(labelSize);
-        centerLabel5.setBorder(solidBorder);
-        secondPanel.add(centerLabel5);
-
-        JLabel centerLabel6 = new JLabel("Center6");
-        centerLabel6.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel6.setPreferredSize(labelSize);
-        centerLabel6.setBorder(solidBorder);
-        secondPanel.add(centerLabel6);
-
-        mainPanel.add(secondPanel);
-//
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBorder(BorderFactory.createTitledBorder("bottomPanel"));
-
-        JLabel centerLabel7 = new JLabel("Center7");
-        centerLabel7.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel7.setPreferredSize(labelSize);
-        centerLabel7.setBorder(solidBorder);
-        bottomPanel.add(centerLabel7);
-
-        JLabel centerLabel8 = new JLabel("Center8");
-        centerLabel8.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel8.setPreferredSize(labelSize);
-        centerLabel8.setBorder(solidBorder);
-        bottomPanel.add(centerLabel8);
-
-        JLabel centerLabel9 = new JLabel("Center9");
-        centerLabel9.setHorizontalAlignment(JLabel.CENTER);
-        centerLabel9.setPreferredSize(labelSize);
-        centerLabel9.setBorder(solidBorder);
-        bottomPanel.add(centerLabel9);
-
-        mainPanel.add(bottomPanel);
-        windowBasic.getContentPane().add(mainPanel);
+            JScrollPane scrollPaneEvent = new JScrollPane(
+                    p,
+                    JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+            );
+            mainPanel.add(scrollPaneEvent);
+        }
 
 
+        JScrollPane scrollPaneGroupEvent = new JScrollPane(
+                mainPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
 
-
+        windowBasic.setContentPane(mainPanel);
 
         windowBasic.setVisible(true);
 
@@ -172,12 +131,25 @@ public class TESTAppWithTray {
     private void windowAddCameras() {
         windowAddCameras = new JFrame();
 
-        windowAddCameras.setSize(200, 200);
-        Button buttonAddCamera = new Button("Добавить камеру");
-        windowAddCameras.add(buttonAddCamera);
+        Container container = new  Container();
+        container.setLayout(new FlowLayout());
 
+        //window in the center of the screen
+        windowAddCameras.setLocationRelativeTo(null);
+        windowAddCameras.setSize(200, 200);
+        JButton buttonAddCamera = new JButton("Добавить камеру");
+        buttonAddCamera.setBounds(7, 25, 150, 50);
+        container.add(buttonAddCamera);
+
+        buttonAddCamera.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                countCamers++;
+            }
+        });
+
+        windowAddCameras.add(container);
         windowAddCameras.setVisible(true); //делаю форму 2 видимой
-//        CreateWindowAddCameras();
     }
 
     private void popupMenuInTray(TrayIcon trayIcon) {
