@@ -1,10 +1,10 @@
-package ivanK.components;
+package com.ivank.fraui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CameraEventsPanel  extends JPanel {
+public class CameraEventsPanel extends JPanel {
     private ArrayList<JComponent> labels = new ArrayList<>();
 
     public ArrayList<JComponent> getLabels() {

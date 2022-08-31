@@ -13,8 +13,9 @@ import java.util.Random;
 import javax.swing.*;
 
 public class TESTAppWithTray {
-    JFrame windowBasic;
-    JFrame windowAddCameras;
+    JFrame windowBasic = null;
+    JFrame windowAddCameras = null;
+    int countCameras = 3;
 
     public void setCountCameras(int countCameras) {
         this.countCameras = countCameras;
@@ -24,16 +25,10 @@ public class TESTAppWithTray {
         return countCameras;
     }
 
-    public JFrame getWindowAddCameras() {
-        return windowAddCameras;
-    }
-
     public JFrame getWindowBasic() {
         return windowBasic;
     }
     static DB connector;
-
-    int countCameras = 3;
 
     public static void main(String[] args) {
         new TESTAppWithTray();
@@ -114,7 +109,7 @@ public class TESTAppWithTray {
             CameraEventsPanel p = new CameraEventsPanel("Камера " + i);
 
             //add event to group event
-            for(int j = 0; j < 8; j++) {
+            for(int j = 0; j < 20; j++) {
                 Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
                 p.createEventLabel(j, labelSize, randomColor, image);
             }
@@ -138,6 +133,8 @@ public class TESTAppWithTray {
 
         windowBasic.setContentPane(mainPanel);
 
+        //open window in full screen
+        windowBasic.setExtendedState(JFrame.MAXIMIZED_BOTH);
         windowBasic.setVisible(true);
 
         //create a menubar components
@@ -222,12 +219,7 @@ public class TESTAppWithTray {
         parameters.add(addCamera);
 
         parameters.addActionListener(e -> {
-            if(getWindowBasic() == null) {
-                windowAddCameras();
-            }
-            else {
-                getWindowAddCameras().setVisible(true);
-            }
+            windowAddCameras();
         });
 
         menuBar.add(parameters);
