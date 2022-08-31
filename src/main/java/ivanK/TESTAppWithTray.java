@@ -15,9 +15,25 @@ import javax.swing.*;
 public class TESTAppWithTray {
     JFrame windowBasic;
     JFrame windowAddCameras;
+
+    public void setCountCameras(int countCameras) {
+        this.countCameras = countCameras;
+    }
+
+    public int getCountCameras() {
+        return countCameras;
+    }
+
+    public JFrame getWindowAddCameras() {
+        return windowAddCameras;
+    }
+
+    public JFrame getWindowBasic() {
+        return windowBasic;
+    }
     static DB connector;
 
-    int countCamers = 3;
+    int countCameras = 3;
 
     public static void main(String[] args) {
         new TESTAppWithTray();
@@ -94,7 +110,7 @@ public class TESTAppWithTray {
         ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/event.jpg")));
 
         //отрисовывать группы событий в цикле неопределённое количество раз
-        for (int i = 0; i < countCamers; i++) {
+        for (int i = 0; i < countCameras; i++) {
             CameraEventsPanel p = new CameraEventsPanel("Камера " + i);
 
             //add event to group event
@@ -144,7 +160,7 @@ public class TESTAppWithTray {
         buttonAddCamera.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                countCamers++;
+                countCameras++;
             }
         });
 
@@ -157,7 +173,12 @@ public class TESTAppWithTray {
 
         MenuItem startApp = new MenuItem("Открыть");
         startApp.addActionListener(e -> {
-            windowMain();
+            if(getWindowBasic() == null) {
+                windowMain();
+            }
+            else {
+                getWindowBasic().setVisible(true);
+            }
         });
         MenuItem exit = new MenuItem("Exit");
         exit.addActionListener(e -> {
@@ -201,7 +222,12 @@ public class TESTAppWithTray {
         parameters.add(addCamera);
 
         parameters.addActionListener(e -> {
-            windowAddCameras();
+            if(getWindowBasic() == null) {
+                windowAddCameras();
+            }
+            else {
+                getWindowAddCameras().setVisible(true);
+            }
         });
 
         menuBar.add(parameters);
@@ -220,16 +246,23 @@ public class TESTAppWithTray {
         } catch (AWTException ex) {
             ex.printStackTrace();
         }
-        trayIcon.addActionListener(e -> {
-            windowMain();
-        });
 
         //create basic window in the app
         windowMain();
         if (SystemTray.isSupported()) {
             //app will be closed only from tray
+            //HIDE_ON_CLOSE - when closing windowBasic and reopening across tray, it opens in its previous state
             windowBasic.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         }
+
+        trayIcon.addActionListener(e -> {
+            if(getWindowBasic() == null) {
+                windowMain();
+            }
+            else {
+                getWindowBasic().setVisible(true);
+            }
+        });
 
         //create a popup menu components
         popupMenuInTray(trayIcon);
