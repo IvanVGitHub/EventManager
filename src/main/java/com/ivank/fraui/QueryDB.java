@@ -4,9 +4,9 @@ import com.bedivierre.eloquent.DB;
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 import com.bedivierre.eloquent.expr.DBWhereOp;
-import ivanK.TestModel;
 
 import java.awt.*;
+
 
 public class QueryDB {
     static DB connector;

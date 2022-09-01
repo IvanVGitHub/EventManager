@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+
 public class CameraEventsPanel extends JPanel {
     private ArrayList<JComponent> labels = new ArrayList<>();
 
@@ -14,17 +15,17 @@ public class CameraEventsPanel extends JPanel {
     public CameraEventsPanel(String name) {
         super(new FlowLayout(FlowLayout.LEFT));
         setName(name);
-        this.setBounds(this.getX(), this.getY(), this.getWidth(), 100);
+//        this.setBounds(this.getX(), this.getY(), this.getWidth(), 100);
     }
 
     public void setName(String name) {
         setBorder(BorderFactory.createTitledBorder(name));
     }
 
-    @Override
-    public Dimension getMinimumSize() {
-        return new Dimension(250, 100);
-    }
+//    @Override
+//    public Dimension getMinimumSize() {
+//        return new Dimension(250, 100);
+//    }
 
     public JComponent createEventLabel(int index, Dimension labelSize, Color randomColor, ImageIcon icon) {
         JLabel label = new JLabel(icon);

@@ -3,8 +3,6 @@ package com.ivank.fraui;
 import javax.swing.*;
 import java.awt.*;
 
-import static com.ivank.fraui.Content.windowBasic;
-import static com.ivank.fraui.QueryDB.connector;
 
 public class AppInTray {
     QueryDB queryDB = new QueryDB();
@@ -24,7 +22,7 @@ public class AppInTray {
         if (SystemTray.isSupported()) {
             //app will be closed only from tray
             //HIDE_ON_CLOSE - when closing windowBasic and reopening across tray, it opens in its previous state
-            windowBasic.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+            Content.windowBasic.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         }
 
         trayIcon.addActionListener(e -> {
@@ -58,7 +56,7 @@ public class AppInTray {
         MenuItem exit = new MenuItem("Exit");
         exit.addActionListener(e -> {
             try {
-                connector.close();
+                QueryDB.connector.close();
                 trayIcon.displayMessage("Соединение c БД",
                         "Соединение с БД успешно закрыто",
                         TrayIcon.MessageType.INFO);
