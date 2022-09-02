@@ -1,14 +1,19 @@
 package com.ivank.fraui;
 
+import com.ivank.fraui.components.WindowMain;
+import com.ivank.fraui.db.QueryDB;
+
 import javax.swing.*;
 import java.awt.*;
 
 
 public class AppInTray {
     QueryDB queryDB = new QueryDB();
-    Content content = new Content();
+    WindowMain windowMain;
 
     public AppInTray() {
+
+        windowMain = WindowMain.getInstance();
         SystemTray systemTray = SystemTray.getSystemTray();
 
         TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/logoBig.png")));
@@ -22,15 +27,15 @@ public class AppInTray {
         if (SystemTray.isSupported()) {
             //app will be closed only from tray
             //HIDE_ON_CLOSE - when closing windowBasic and reopening across tray, it opens in its previous state
-            Content.windowBasic.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+            WindowMain.getInstance().setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         }
 
         trayIcon.addActionListener(e -> {
-            if(content.getWindowBasic() == null) {
-                content.windowMain();
+            if(windowMain == null) {
+                windowMain = WindowMain.getInstance();
             }
             else {
-                content.getWindowBasic().setVisible(true);
+                windowMain.setVisible(true);
             }
         });
 
@@ -46,17 +51,17 @@ public class AppInTray {
 
         MenuItem startApp = new MenuItem("Открыть");
         startApp.addActionListener(e -> {
-            if(content.getWindowBasic() == null) {
-                content.windowMain();
+            if(windowMain == null) {
+                windowMain = WindowMain.getInstance();
             }
             else {
-                content.getWindowBasic().setVisible(true);
+                windowMain.setVisible(true);
             }
         });
         MenuItem exit = new MenuItem("Exit");
         exit.addActionListener(e -> {
             try {
-                QueryDB.connector.close();
+                QueryDB.getConnector().close();
                 trayIcon.displayMessage("Соединение c БД",
                         "Соединение с БД успешно закрыто",
                         TrayIcon.MessageType.INFO);

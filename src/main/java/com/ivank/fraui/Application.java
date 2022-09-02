@@ -1,12 +1,14 @@
 package com.ivank.fraui;
 
 
+import com.ivank.fraui.components.WindowMain;
+
 public class Application {
+    static WindowMain windowMain;
     static AppInTray appInTray;
-    static WindowMain mainWindow;
 
     public static void main(String[] args) {
-        mainWindow = new WindowMain();
+        windowMain = new WindowMain();
         appInTray = new AppInTray();
     }
 }

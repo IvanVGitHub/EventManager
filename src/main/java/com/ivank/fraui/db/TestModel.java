@@ -1,4 +1,4 @@
-package com.ivank.fraui;
+package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.annotations.NotSqlField;
 import com.bedivierre.eloquent.model.DBModel;

@@ -1,4 +1,4 @@
-package com.ivank.fraui;
+package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.DB;
 import com.bedivierre.eloquent.QueryBuilder;
@@ -9,8 +9,12 @@ import java.awt.*;
 
 
 public class QueryDB {
+    public static DB getConnector() {
+        return connector;
+    }
+
     static DB connector;
-    static void testDB(TrayIcon trayIcon) {
+    public static void testDB(TrayIcon trayIcon) {
         if(trayIcon == null)
             return;
         try {
