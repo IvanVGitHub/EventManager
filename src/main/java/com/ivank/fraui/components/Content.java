@@ -5,11 +5,13 @@ import com.ivank.fraui.WindowAddCameras;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-
 public class Content extends JPanel {
-    public int countCameras = 4;
+    public static final List<JPanel> labels = new ArrayList<JPanel>();
+    public int countCameras = 6;
     //for random color
     Random rand = new Random();
 
@@ -32,14 +34,15 @@ public class Content extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
         //puts elements vertically
 //        this.setLayout(new BoxLayout (this, BoxLayout.Y_AXIS));
-        this.setLayout(new BorderLayout());
+//        this.setLayout(new BorderLayout());
 
-        final JPanel externalPanel = new JPanel();
-        final JScrollPane scrollPane = new JScrollPane();
+        JPanel externalPanel = new JPanel();
         externalPanel.setLayout(new BorderLayout(0, 0));
-        scrollPane.setViewportView(externalPanel);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPane = new JScrollPane(
+                externalPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
 
         JPanel internalPanel = new JPanel();
         externalPanel.add(internalPanel, BorderLayout.NORTH);
@@ -54,24 +57,30 @@ public class Content extends JPanel {
 
         //отрисовывать группы событий в цикле неопределённое количество раз
         for (int i = 0; i < getCountCameras(); i++) {
-            TEST eventGroups = new TEST();
+            EventAdd eventAdd = new EventAdd();
 
             //add event to group event
             for(int a = 0; a < 20; a++) {
                 //random color border event for TEST
                 Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-                eventGroups.createEventLabel("Камера " + i, labelSize, randomColor, image);
+                eventAdd.createEventLabel("Камера " + i, labelSize, randomColor, image);
             }
 
-            this.add(eventGroups);
-
             JScrollPane scrollPaneEvent = new JScrollPane(
-                    eventGroups,
+                    eventAdd,
                     JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+                    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
             );
-            this.add(scrollPaneEvent);
+
+//            labels.add(eventAdd);
+//            scrollPane.add(scrollPaneEvent);
+
+            internalPanel.add(scrollPaneEvent, BorderLayout.NORTH);
+            scrollPaneEvent.revalidate();
+            scrollPane.revalidate();
         }
 
+        this.setLayout(new BorderLayout());
+        this.add(scrollPane, BorderLayout.CENTER);
     }
 }

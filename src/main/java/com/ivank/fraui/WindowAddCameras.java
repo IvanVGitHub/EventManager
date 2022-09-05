@@ -1,7 +1,6 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.components.Content;
-import com.ivank.fraui.components.TEST;
+import com.ivank.fraui.components.EventAdd;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,29 +9,31 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-
-public class WindowAddCameras {
-    private static final List<JPanel> labels = new ArrayList<JPanel>();
+public class WindowAddCameras extends JFrame {
+    public static final List<JPanel> labels = new ArrayList<JPanel>();
 
     public WindowAddCameras() {
-        JFrame frameAddCameras = new JFrame("Test frame");
-        frameAddCameras.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super("Добавить камеру");
 
-        JPanel panelMain = new JPanel();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panelButton = new JPanel();
 
         JButton addButton = new JButton("+");
         addButton.setFocusable(false);
-        panelMain.add(addButton);
+        panelButton.add(addButton);
 
         JButton remButton = new JButton("-");
         remButton.setFocusable(false);
-        panelMain.add(remButton);
+        panelButton.add(remButton);
 
-        final JPanel externalPanel = new JPanel();
-        final JScrollPane scrollPane = new JScrollPane();
+        JPanel externalPanel = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(externalPanel);
         externalPanel.setLayout(new BorderLayout(0, 0));
-        scrollPane.setViewportView(externalPanel);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         JPanel internalPanel = new JPanel();
         externalPanel.add(internalPanel, BorderLayout.NORTH);
@@ -41,17 +42,24 @@ public class WindowAddCameras {
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int number = labels.size() + 1;
-                TEST p = new TEST();
-                p.setBorder(BorderFactory.createTitledBorder("Камера " + number));
-//                URL url = getClass().getResource("../img/event.jpg");
-//                ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
-//                p.createEventLabel("Камера " + number, new Dimension(80, 80), Color.RED, image);
-                JButton button = new JButton("New button");
-                button.setBounds(20, 5, 89, 23);
-                p.add(button);
-                labels.add(p);
+                EventAdd eventAdd = new EventAdd();
+//                p.setBorder(BorderFactory.createTitledBorder("Камера " + number));
+                URL url = getClass().getResource("./img/event.jpg");
+                ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
+                Dimension labelSize = new Dimension(80, 80);
+
+                //add event to group event
+                Random rand = new Random();
+                for(int a = 0; a < 20; a++) {
+                    //random color border event for TEST
+                    Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
+                    eventAdd.createEventLabel("Камера " + number, labelSize, randomColor, image);
+                }
+
+                labels.add(eventAdd);
 //                p.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-                internalPanel.add(p, BorderLayout.NORTH);
+                internalPanel.add(eventAdd, BorderLayout.NORTH);
+//                internalPanel.add(p, new FlowLayout(FlowLayout.LEFT));
                 scrollPane.revalidate();
             }
         });
@@ -60,21 +68,21 @@ public class WindowAddCameras {
             public void actionPerformed(ActionEvent e) {
                 if(labels.size() > 0) {
                     int index = labels.size() - 1;
-                    JPanel p = labels.remove(index);
-                    internalPanel.remove(p);
+                    JPanel panel = labels.remove(index);
+                    internalPanel.remove(panel);
                     internalPanel.repaint();
                     scrollPane.revalidate();
                 }
             }
         });
 
-        frameAddCameras.getContentPane().setLayout(new BorderLayout());
-        frameAddCameras.getContentPane().add(panelMain, BorderLayout.NORTH);
-        frameAddCameras.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(panelButton, BorderLayout.NORTH);
+        this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        frameAddCameras.setPreferredSize(new Dimension(600, 400));
-        frameAddCameras.pack();
-        frameAddCameras.setLocationRelativeTo(null);
-        frameAddCameras.setVisible(true);
+        this.setPreferredSize(new Dimension(600, 400));
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 }

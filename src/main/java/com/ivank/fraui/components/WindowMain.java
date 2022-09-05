@@ -1,6 +1,5 @@
 package com.ivank.fraui.components;
 
-
 import com.ivank.fraui.WindowAddCameras;
 import com.ivank.fraui.db.QueryDB;
 

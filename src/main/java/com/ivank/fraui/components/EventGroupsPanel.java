@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-
 public class EventGroupsPanel extends JPanel {
     private ArrayList<JComponent> labels = new ArrayList<>();
 
@@ -17,7 +16,7 @@ public class EventGroupsPanel extends JPanel {
     }
 
     public JComponent createEventLabel(int index, String name, Dimension labelSize, Color randomColor, ImageIcon icon) {
-        setBorder(BorderFactory.createTitledBorder(name));
+        this.setBorder(BorderFactory.createTitledBorder(name));
         JLabel label = new JLabel(icon);
         label.setPreferredSize(labelSize);
         label.setHorizontalAlignment(JLabel.CENTER);
