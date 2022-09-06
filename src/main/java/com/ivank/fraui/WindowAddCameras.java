@@ -30,20 +30,25 @@ public class WindowAddCameras extends JFrame {
         panelButton.add(remButton);
 
         JPanel externalPanel = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(externalPanel);
         externalPanel.setLayout(new BorderLayout(0, 0));
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPaneGroupEvent = new JScrollPane(
+                externalPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
 
         JPanel internalPanel = new JPanel();
-        externalPanel.add(internalPanel, BorderLayout.NORTH);
         internalPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
+        JScrollPane scrollPaneEvent = new JScrollPane(internalPanel);
+        scrollPaneEvent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPaneEvent.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        externalPanel.add(scrollPaneEvent, BorderLayout.NORTH);
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int number = labels.size() + 1;
                 EventAdd eventAdd = new EventAdd();
-//                p.setBorder(BorderFactory.createTitledBorder("Камера " + number));
                 URL url = getClass().getResource("./img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
                 Dimension labelSize = new Dimension(80, 80);
@@ -57,10 +62,8 @@ public class WindowAddCameras extends JFrame {
                 }
 
                 labels.add(eventAdd);
-//                p.setAlignmentX(JLabel.CENTER_ALIGNMENT);
                 internalPanel.add(eventAdd, BorderLayout.NORTH);
-//                internalPanel.add(p, new FlowLayout(FlowLayout.LEFT));
-                scrollPane.revalidate();
+                scrollPaneGroupEvent.revalidate();
             }
         });
 
@@ -71,14 +74,14 @@ public class WindowAddCameras extends JFrame {
                     JPanel panel = labels.remove(index);
                     internalPanel.remove(panel);
                     internalPanel.repaint();
-                    scrollPane.revalidate();
+                    scrollPaneGroupEvent.revalidate();
                 }
             }
         });
 
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(panelButton, BorderLayout.NORTH);
-        this.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        this.getContentPane().add(scrollPaneGroupEvent, BorderLayout.CENTER);
 
         this.setPreferredSize(new Dimension(600, 400));
         this.pack();

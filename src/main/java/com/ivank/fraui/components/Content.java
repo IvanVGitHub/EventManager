@@ -32,21 +32,19 @@ public class Content extends JPanel {
 
     public Content() {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-        //puts elements vertically
-//        this.setLayout(new BoxLayout (this, BoxLayout.Y_AXIS));
-//        this.setLayout(new BorderLayout());
+
+        JPanel internalPanel = new JPanel();
+        internalPanel.setLayout(new GridLayout(0, 1));
 
         JPanel externalPanel = new JPanel();
         externalPanel.setLayout(new BorderLayout(0, 0));
-        JScrollPane scrollPane = new JScrollPane(
+        externalPanel.add(internalPanel, BorderLayout.NORTH);
+
+        JScrollPane scrollPaneGroupEvent = new JScrollPane(
                 externalPanel,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
-
-        JPanel internalPanel = new JPanel();
-        externalPanel.add(internalPanel, BorderLayout.NORTH);
-        internalPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
         //size icon event
         Dimension labelSize = new Dimension(80, 80);
@@ -72,15 +70,10 @@ public class Content extends JPanel {
                     JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
             );
 
-//            labels.add(eventAdd);
-//            scrollPane.add(scrollPaneEvent);
-
-            internalPanel.add(scrollPaneEvent, BorderLayout.NORTH);
-            scrollPaneEvent.revalidate();
-            scrollPane.revalidate();
+            internalPanel.add(scrollPaneEvent);
         }
 
         this.setLayout(new BorderLayout());
-        this.add(scrollPane, BorderLayout.CENTER);
+        this.add(scrollPaneGroupEvent, BorderLayout.CENTER);
     }
 }

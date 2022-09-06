@@ -85,9 +85,6 @@ public class TESTAppWithTray {
                 width,
                 height
         );
-//        windowBasic.getContentPane().setLayout(new FlowLayout()); //чтобы кнопка не растянулся на весь экран
-        //"стягивает" окно вокруг внутренних элементов
-//        windowBasic.pack();
 
         //random color border event for TEST
         Random rand = new Random();
@@ -114,16 +111,14 @@ public class TESTAppWithTray {
                 p.createEventLabel(j, labelSize, randomColor, image);
             }
 
-            mainPanel.add(p);
-
             JScrollPane scrollPaneEvent = new JScrollPane(
                     p,
                     JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
             );
+
             mainPanel.add(scrollPaneEvent);
         }
-
 
         JScrollPane scrollPaneGroupEvent = new JScrollPane(
                 mainPanel,
