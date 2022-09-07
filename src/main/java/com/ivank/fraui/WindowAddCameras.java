@@ -45,6 +45,7 @@ public class WindowAddCameras extends JFrame {
         scrollPaneEvent.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         externalPanel.add(scrollPaneEvent, BorderLayout.NORTH);
+
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int number = labels.size() + 1;

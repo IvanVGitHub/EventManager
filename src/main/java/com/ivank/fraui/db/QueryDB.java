@@ -1,47 +1,41 @@
 package com.ivank.fraui.db;
 
-import com.bedivierre.eloquent.DB;
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 import com.bedivierre.eloquent.expr.DBWhereOp;
 
 import java.awt.*;
 
-
 public class QueryDB {
-    public static DB getConnector() {
-        return connector;
-    }
-
-    static DB connector;
     public static void testDB(TrayIcon trayIcon) {
         if(trayIcon == null)
             return;
         try {
-            connector = new DB("172.20.3.221", "test", "ivanUser", "Qwerty!@#456");
-
-//            TestModel v = connector.find(1, TestModel.class);
-
             //query to MYSQL
-            QueryBuilder<TestModel> query = connector.query(TestModel.class);
-            query.where("name", DBWhereOp.LIKE, "%i%");
-            ResultSet<TestModel> result = query.get();
+            QueryBuilder<ModelTest001> query = ConnectDB.getConnector().query(ModelTest001.class);
+            query.where(
+                    "name",
+                    DBWhereOp.LIKE,
+                    "%i%"
+            );
+            ResultSet<ModelTest001> result = query.get();
 
             //create string from query result
             StringBuilder sb = new StringBuilder();
-            for (TestModel t :
-                    result) {
+            for (ModelTest001 t : result) {
                 sb.append(t.name).append(", ");
             }
-//            TestModel m = connector.query(TestModel.class).first();
-            trayIcon.displayMessage("DB Connection successful!",
-//                    "Есть контакт: " + sb.toString(),
+            trayIcon.displayMessage(
+                    "DB Connection successful!",
                     "Есть контакт: " + sb,
-                    TrayIcon.MessageType.INFO);
+                    TrayIcon.MessageType.INFO
+            );
         } catch (Exception ex) {
-            trayIcon.displayMessage("DB Connection failed...",
+            trayIcon.displayMessage(
+                    "DB Connection failed...",
                     "Не контачит...",
-                    TrayIcon.MessageType.ERROR);
+                    TrayIcon.MessageType.ERROR
+            );
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.ivank.fraui;
 
 import com.ivank.fraui.components.WindowMain;
+import com.ivank.fraui.db.ConnectDB;
 import com.ivank.fraui.db.QueryDB;
 
 import javax.swing.*;
@@ -61,7 +62,7 @@ public class AppInTray {
         MenuItem exit = new MenuItem("Exit");
         exit.addActionListener(e -> {
             try {
-                QueryDB.getConnector().close();
+                ConnectDB.getConnector().close();
                 trayIcon.displayMessage("Соединение c БД",
                         "Соединение с БД успешно закрыто",
                         TrayIcon.MessageType.INFO);
@@ -75,7 +76,7 @@ public class AppInTray {
                         TrayIcon.MessageType.ERROR);
                 try {
                     //delay for wait notification and read his
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException exc) {
                     throw new RuntimeException(exc);
                 }

@@ -1,6 +1,7 @@
 package com.ivank.fraui.components;
 
 import com.ivank.fraui.WindowAddCameras;
+import com.ivank.fraui.db.QueryCameras;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.util.Random;
 
 public class Content extends JPanel {
     public static final List<JPanel> labels = new ArrayList<JPanel>();
-    public int countCameras = 6;
+    public int countCameras = QueryCameras.listNamesCameras.size();
     //for random color
     Random rand = new Random();
 
