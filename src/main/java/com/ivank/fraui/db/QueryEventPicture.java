@@ -18,7 +18,7 @@ public class QueryEventPicture {
                     "camera_id",
                     DBWhereOp.EQ,
                     camera.id
-            ).limit(5);//последние 5 событий, отсортированных false: от свежих к старым; true: от старых к свежим
+            ).limit(10);//последние 10 событий, отсортированных false: от свежих к старым; true: от старых к свежим
 
             String sql = query.toSql();
 
