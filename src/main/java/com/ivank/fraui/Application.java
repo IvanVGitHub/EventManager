@@ -10,7 +10,6 @@ public class Application {
 
     public static void main(String[] args) {
         ConnectDB.init();
-        QueryCameras.listCameras();//временно
         windowMain = new WindowMain();
         appInTray = new AppInTray();
     }

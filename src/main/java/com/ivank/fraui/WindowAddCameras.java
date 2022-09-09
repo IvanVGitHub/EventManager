@@ -40,11 +40,9 @@ public class WindowAddCameras extends JFrame {
         JPanel internalPanel = new JPanel();
         internalPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
-        JScrollPane scrollPaneEvent = new JScrollPane(internalPanel);
-        scrollPaneEvent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPaneEvent.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        externalPanel.add(scrollPaneEvent, BorderLayout.NORTH);
+
+        externalPanel.add(internalPanel, BorderLayout.NORTH);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -62,8 +60,16 @@ public class WindowAddCameras extends JFrame {
                     eventAdd.createEventLabel("Камера " + number, labelSize, randomColor, image);
                 }
 
-                labels.add(eventAdd);
-                internalPanel.add(eventAdd, BorderLayout.NORTH);
+                JScrollPane scrollPaneEvent = new JScrollPane(
+                        eventAdd,
+                        JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
+                );
+                JPanel panel123 = new JPanel();
+                panel123.add(scrollPaneEvent);
+
+                labels.add(panel123);
+                internalPanel.add(panel123, BorderLayout.NORTH);
                 scrollPaneGroupEvent.revalidate();
             }
         });
