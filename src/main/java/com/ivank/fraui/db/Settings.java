@@ -21,9 +21,15 @@ public class Settings extends DBModel {
         return null;
     }
 
+    //получить настройку по имени image_options
+    public static String getOptionsLabel(){
+        Settings defaultImage = getByCode("image_options");
+        return defaultImage == null ? "" : defaultImage.data;
+    }
+
     //получить настройку по имени default_image
     public static String getDefaultImage(){
-        Settings defaultImage = getByCode("default_image");
+        Settings defaultImage = getByCode("image_default_event");
         return defaultImage == null ? "" : defaultImage.data;
     }
 }

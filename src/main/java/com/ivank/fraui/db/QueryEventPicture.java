@@ -5,8 +5,6 @@ import com.bedivierre.eloquent.ResultSet;
 import com.bedivierre.eloquent.expr.DBWhereOp;
 
 import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -23,10 +21,12 @@ public class QueryEventPicture {
                     camera.id
             ).limit(30);//последние 30 событий, отсортированных false: от свежих к старым; true: от старых к свежим
 
+            //result to SQL query for test
             String sql = query.toSql();
 
             ResultSet<ModelEvent> result = query.get();
 
+            listEventPicture.clear();
             for (ModelEvent event : result) {
                 listEventPicture.add(event.photo);
             }
@@ -39,22 +39,29 @@ public class QueryEventPicture {
             //image to icon empty event
             String strImgDflt = Settings.getDefaultImage();
             listEventPicture.add(strImgDflt);
-            return null;
+
+            return listEventPicture;
         }
     }
 
     public static ArrayList<ImageIcon> imageIcon(int i) {
-        ArrayList<ImageIcon> imageIcon = new ArrayList<>();
+        try {
+            ArrayList<ImageIcon> listImageIcon = new ArrayList<>();
 
-        //image to icon event
-        ArrayList<String> base64string = new ArrayList<>();
-        base64string = addEventPictureBase64(i);
-        String str = base64string.get(0);
+            //image to icon event
+            ArrayList<String> listStringBase64 = addEventPictureBase64(i);
 
-        for (int a = 0; a < base64string.size(); a++) {
-            byte[] byteImageBase64 = Base64.getDecoder().decode(base64string.get(a));
-            imageIcon.add(new ImageIcon(byteImageBase64));
+            for (int a = 0; a < listStringBase64.size(); a++) {
+                byte[] byteImageBase64 = Base64.getDecoder().decode(listStringBase64.get(a));
+                listImageIcon.add(new ImageIcon(byteImageBase64));
+            }
+
+            return listImageIcon;
+        } catch (Exception ex) {
+            //shows line with error in console
+            ex.printStackTrace();
+
+            return null;
         }
-        return imageIcon;
     }
 }

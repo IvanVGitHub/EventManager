@@ -61,13 +61,15 @@ public class Content extends JPanel {
         for (int i = 0; i < getCountCameras(); i++) {
             EventAdd eventAdd = new EventAdd();
 
-            ArrayList<ImageIcon> image = QueryEventPicture.imageIcon(i);
+            ArrayList<ImageIcon> listImage = QueryEventPicture.imageIcon(i);
 
+            //add picture options
+            eventAdd.createOptionsButton();
             //add event to group event
-            for(int a = 0; a < image.size(); a++) {
+            for(int a = 0; a < listImage.size(); a++) {
                 //random color border event for TEST
                 Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-                eventAdd.createEventLabel("Камера " + QueryCameras.getListNamesCameras(), labelSize, randomColor, image.get(a));
+                eventAdd.createEventLabel("Камера " + String.valueOf(QueryCameras.getListNamesCameras().get(i).camera_name), labelSize, randomColor, listImage.get(a));
             }
 
             JScrollPane scrollPaneEvent = new JScrollPane(

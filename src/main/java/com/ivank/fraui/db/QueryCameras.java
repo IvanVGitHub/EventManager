@@ -11,9 +11,9 @@ public class QueryCameras {
         try {
             //query to MYSQL
             QueryBuilder<ModelCamera> query = ConnectDB.getConnector().query(ModelCamera.class);
-            ResultSet<ModelCamera> result1 = query.get();
+            ResultSet<ModelCamera> result = query.get();
             listNamesCameras.clear();
-            listNamesCameras.addAll(result1);
+            listNamesCameras.addAll(result);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
