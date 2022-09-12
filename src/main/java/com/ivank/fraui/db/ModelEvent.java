@@ -7,6 +7,7 @@ public class ModelEvent extends DBModel {
     public String uuid;
     public String camera_id;
     public String photo;
+    public String color;
 
     @Override
     public String getTable() {

@@ -1,6 +1,7 @@
 package com.ivank.fraui.components;
 
 import com.ivank.fraui.db.QueryCameras;
+import com.ivank.fraui.db.QueryEventColor;
 import com.ivank.fraui.db.QueryEventPicture;
 
 import javax.swing.*;
@@ -69,7 +70,7 @@ public class Content extends JPanel {
             for(int a = 0; a < listImage.size(); a++) {
                 //random color border event for TEST
                 Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-                eventAdd.createEventLabel("Камера " + String.valueOf(QueryCameras.getListNamesCameras().get(i).camera_name), labelSize, randomColor, listImage.get(a));
+                eventAdd.createEventLabel("Камера " + String.valueOf(QueryCameras.getListNamesCameras().get(i).camera_name), labelSize, QueryEventColor.addEventColor(a), listImage.get(a));
             }
 
             JScrollPane scrollPaneEvent = new JScrollPane(

@@ -8,11 +8,12 @@ import java.util.ArrayList;
 public class QueryCameras {
     private static ArrayList<ModelCamera> listNamesCameras = new ArrayList<>();
     public static ArrayList<ModelCamera> getListNamesCameras() {
+        listNamesCameras.clear();
+
         try {
             //query to MYSQL
             QueryBuilder<ModelCamera> query = ConnectDB.getConnector().query(ModelCamera.class);
             ResultSet<ModelCamera> result = query.get();
-            listNamesCameras.clear();
             listNamesCameras.addAll(result);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -26,12 +27,13 @@ public class QueryCameras {
 
     private static ArrayList<String> listEventCamera = new ArrayList<>();
     public static ArrayList<String> getListEventCamera(int i) {
+        listEventCamera.clear();
+
         try {
             //query to MYSQL
             ModelCamera camera = listNamesCameras.get(i);
             QueryBuilder<ModelEvent> q = ConnectDB.getConnector().query(ModelEvent.class);
             ResultSet<ModelEvent> result = q.where("camera_id", camera.id).get();
-            listEventCamera.clear();
             for (ModelEvent event : result) {
                 listEventCamera.add(String.valueOf(event.id));
             }
