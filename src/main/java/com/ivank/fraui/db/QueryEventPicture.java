@@ -3,6 +3,7 @@ package com.ivank.fraui.db;
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 import com.bedivierre.eloquent.expr.DBWhereOp;
+import com.ivank.fraui.components.Content;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class QueryEventPicture {
                     "camera_id",
                     DBWhereOp.EQ,
                     camera.id
-            ).limit(30);//последние 30 событий, отсортированных false: от свежих к старым; true: от старых к свежим
+            ).limit(Content.getLimitEvent());//последние n событий, отсортированных false: от свежих к старым; true: от старых к свежим
 
             //result to SQL query for test
             String sql = query.toSql();
@@ -37,7 +38,7 @@ public class QueryEventPicture {
             ex.printStackTrace();
 
             //image to icon empty event
-            String strImgDflt = Settings.getDefaultImage();
+            String strImgDflt = Settings.getImageDefault();
             listEventPicture.add(strImgDflt);
 
             return listEventPicture;

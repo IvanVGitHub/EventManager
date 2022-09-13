@@ -14,6 +14,62 @@ import java.util.Random;
 public class WindowAddCameras extends JFrame {
     public static final List<JPanel> labels = new ArrayList<JPanel>();
 
+    private static class CameraListPanel
+            extends JPanel
+            implements Scrollable {
+        private static final long serialVersionUID = 1;
+
+        CameraListPanel() {
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        }
+
+        @Override
+        public Dimension getPreferredScrollableViewportSize() {
+            return getPreferredSize();
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportWidth() {
+            return true;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
+        }
+
+        @Override
+        public int getScrollableUnitIncrement(Rectangle visibleRect,
+                                              int orientation,
+                                              int direction) {
+            return getScrollableIncrement(30,
+                    visibleRect, orientation, direction);
+        }
+
+        @Override
+        public int getScrollableBlockIncrement(Rectangle visibleRect,
+                                               int orientation,
+                                               int direction) {
+            return getScrollableIncrement(
+                    orientation == SwingConstants.HORIZONTAL ?
+                            getWidth() : getHeight(),
+                    visibleRect, orientation, direction);
+        }
+
+        private int getScrollableIncrement(int amount,
+                                           Rectangle visibleRect,
+                                           int orientation,
+                                           int direction) {
+            if (orientation == SwingConstants.HORIZONTAL) {
+                return Math.min(amount, direction < 0 ? visibleRect.x :
+                        getWidth() - (visibleRect.x + visibleRect.width));
+            } else {
+                return Math.min(amount, direction < 0 ? visibleRect.y :
+                        getHeight() - (visibleRect.y + visibleRect.height));
+            }
+        }
+    }
+
     public WindowAddCameras() {
         super("Добавить камеру");
 
@@ -29,20 +85,8 @@ public class WindowAddCameras extends JFrame {
         remButton.setFocusable(false);
         panelButton.add(remButton);
 
-        JPanel externalPanel = new JPanel();
-        externalPanel.setLayout(new BorderLayout(0, 0));
-        JScrollPane scrollPaneGroupEvent = new JScrollPane(
-                externalPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
-
-        JPanel internalPanel = new JPanel();
-        internalPanel.setLayout(new GridLayout(0, 1, 0, 0));
-
-
-
-        externalPanel.add(internalPanel, BorderLayout.NORTH);
+        JPanel camerasPanel = new CameraListPanel();
+        JScrollPane scrollPaneGroupEvent = new JScrollPane(camerasPanel);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -57,19 +101,11 @@ public class WindowAddCameras extends JFrame {
                 for(int a = 0; a < 20; a++) {
                     //random color border event for TEST
                     Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-                    eventAdd.createEventLabel("Камера " + number, labelSize, randomColor, image);
+                    eventAdd.createLabelEvent("Камера " + number, labelSize, randomColor, image);
                 }
 
-                JScrollPane scrollPaneEvent = new JScrollPane(
-                        eventAdd,
-                        JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
-                );
-                JPanel panel123 = new JPanel();
-                panel123.add(scrollPaneEvent);
-
-                labels.add(panel123);
-                internalPanel.add(panel123, BorderLayout.NORTH);
+                labels.add(eventAdd);
+                camerasPanel.add(eventAdd, BorderLayout.NORTH);
                 scrollPaneGroupEvent.revalidate();
             }
         });
@@ -79,8 +115,8 @@ public class WindowAddCameras extends JFrame {
                 if(labels.size() > 0) {
                     int index = labels.size() - 1;
                     JPanel panel = labels.remove(index);
-                    internalPanel.remove(panel);
-                    internalPanel.repaint();
+                    camerasPanel.remove(panel);
+                    camerasPanel.repaint();
                     scrollPaneGroupEvent.revalidate();
                 }
             }

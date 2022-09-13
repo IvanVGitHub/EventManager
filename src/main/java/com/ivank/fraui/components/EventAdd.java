@@ -11,8 +11,8 @@ public class EventAdd extends JPanel {
         super(new FlowLayout(FlowLayout.LEFT));
     }
 
-    public JComponent createOptionsButton() {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getOptionsLabel());
+    public JComponent createButtonOptions() {
+        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getLabelOptions());
         JButton button = new JButton(new ImageIcon(byteImageBase64));
         button.setPreferredSize(new Dimension(30, 30));
 
@@ -21,7 +21,17 @@ public class EventAdd extends JPanel {
         return button;
     }
 
-    public JComponent createEventLabel(String name, Dimension labelSize, Color randomColor, ImageIcon icon) {
+    public JComponent createButtonAllImgEvents() {
+        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getButtonAllImgEvents());
+        JButton button = new JButton(new ImageIcon(byteImageBase64));
+        button.setPreferredSize(new Dimension(50, 50));
+
+        this.add(button);
+
+        return button;
+    }
+
+    public JComponent createLabelEvent(String name, Dimension labelSize, Color randomColor, ImageIcon icon) {
         this.setBorder(BorderFactory.createTitledBorder(name));
         JLabel label = new JLabel(icon);
         label.setPreferredSize(labelSize);

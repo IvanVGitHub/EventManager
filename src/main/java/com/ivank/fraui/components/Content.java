@@ -1,5 +1,6 @@
 package com.ivank.fraui.components;
 
+import com.ivank.fraui.Properties;
 import com.ivank.fraui.db.QueryCameras;
 import com.ivank.fraui.db.QueryEventColor;
 import com.ivank.fraui.db.QueryEventPicture;
@@ -10,6 +11,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Content extends JPanel {
+    //длина выборки событий (полученных из БД) для группы событий
+    public static int limitEvent = 10;
+
+    public static int getLimitEvent() {
+        return limitEvent;
+    }
+
+    public static void setLimitEvent(int limitEvent) {
+        Content.limitEvent = limitEvent;
+    }
     public int countCameras = QueryCameras.getListNamesCameras().size();
 
     //for random color
@@ -27,10 +38,68 @@ public class Content extends JPanel {
         return WindowMain.instance;
     }
 
+    private static class CameraListPanel
+            extends JPanel
+            implements Scrollable {
+        private static final long serialVersionUID = 1;
+
+        CameraListPanel() {
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        }
+
+        @Override
+        public Dimension getPreferredScrollableViewportSize() {
+            return getPreferredSize();
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportWidth() {
+            return true;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
+        }
+
+        @Override
+        public int getScrollableUnitIncrement(Rectangle visibleRect,
+                                              int orientation,
+                                              int direction) {
+            return getScrollableIncrement(30,
+                    visibleRect, orientation, direction);
+        }
+
+        @Override
+        public int getScrollableBlockIncrement(Rectangle visibleRect,
+                                               int orientation,
+                                               int direction) {
+            return getScrollableIncrement(
+                    orientation == SwingConstants.HORIZONTAL ?
+                            getWidth() : getHeight(),
+                    visibleRect, orientation, direction);
+        }
+
+        private int getScrollableIncrement(int amount,
+                                           Rectangle visibleRect,
+                                           int orientation,
+                                           int direction) {
+            if (orientation == SwingConstants.HORIZONTAL) {
+                return Math.min(amount, direction < 0 ? visibleRect.x :
+                        getWidth() - (visibleRect.x + visibleRect.width));
+            } else {
+                return Math.min(amount, direction < 0 ? visibleRect.y :
+                        getHeight() - (visibleRect.y + visibleRect.height));
+            }
+        }
+    }
+
     public Content() {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+        Properties.loadProperties();
 
-        JPanel internalPanel = new JPanel();
+
+        JPanel internalPanel = new CameraListPanel();
         internalPanel.setLayout(new GridLayout(0, 1));
 
         JPanel externalPanel = new JPanel();
@@ -64,22 +133,18 @@ public class Content extends JPanel {
 
             ArrayList<ImageIcon> listImage = QueryEventPicture.imageIcon(i);
 
-            //add picture options
-            eventAdd.createOptionsButton();
+            //add buttons "options"
+            eventAdd.createButtonOptions();
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
                 //random color border event for TEST
                 Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-                eventAdd.createEventLabel("Камера " + String.valueOf(QueryCameras.getListNamesCameras().get(i).camera_name), labelSize, QueryEventColor.addEventColor(a), listImage.get(a));
+                eventAdd.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListNamesCameras().get(i).camera_name), labelSize, QueryEventColor.addEventColor(a), listImage.get(a));
             }
+            //add buttons "all img events"
+            eventAdd.createButtonAllImgEvents();
 
-            JScrollPane scrollPaneEvent = new JScrollPane(
-                    eventAdd,
-                    JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
-            );
-
-            internalPanel.add(scrollPaneEvent);
+            internalPanel.add(eventAdd);
         }
 
         this.setLayout(new BorderLayout());

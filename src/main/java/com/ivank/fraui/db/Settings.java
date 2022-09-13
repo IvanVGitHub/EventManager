@@ -12,7 +12,7 @@ public class Settings extends DBModel {
         return "settings";
     }
 
-    public static Settings getByCode(String code){
+    public static Settings getByCode(String code) {
         try {
             return ConnectDB.getConnector().where(Settings.class, "code", code).first();
         } catch (Exception ex) {
@@ -22,13 +22,19 @@ public class Settings extends DBModel {
     }
 
     //получить настройку по имени image_options
-    public static String getOptionsLabel(){
+    public static String getLabelOptions() {
         Settings defaultImage = getByCode("image_options");
         return defaultImage == null ? "" : defaultImage.data;
     }
 
+    //получить настройку по имени image_options
+    public static String getButtonAllImgEvents() {
+        Settings defaultImage = getByCode("image_all_img_events");
+        return defaultImage == null ? "" : defaultImage.data;
+    }
+
     //получить настройку по имени default_image
-    public static String getDefaultImage(){
+    public static String getImageDefault() {
         Settings defaultImage = getByCode("image_default_event");
         return defaultImage == null ? "" : defaultImage.data;
     }
