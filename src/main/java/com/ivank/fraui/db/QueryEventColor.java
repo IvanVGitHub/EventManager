@@ -7,13 +7,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class QueryEventColor {
-    public static Color addEventColor(int i) {
+    public static Color addEventColor(String str) {
         try {
-            //query to MYSQL
-            QueryBuilder<ModelEvent> query = ConnectDB.getConnector().query(ModelEvent.class);
-            ResultSet<ModelEvent> result = query.get();
-
-            switch (result.get(i).color) {
+            switch (str) {
                 case  ("black"):
                     return Color.BLACK;
                 case  ("yellow"):
@@ -25,12 +21,10 @@ public class QueryEventColor {
                 default:
                     return Color.BLACK;
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
 
             return Color.BLACK;
         }
-
     }
 }

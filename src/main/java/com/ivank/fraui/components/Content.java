@@ -1,6 +1,8 @@
 package com.ivank.fraui.components;
 
+import com.bedivierre.eloquent.ResultSet;
 import com.ivank.fraui.AppConfig;
+import com.ivank.fraui.db.ModelEvent;
 import com.ivank.fraui.db.QueryCameras;
 import com.ivank.fraui.db.QueryEventColor;
 import com.ivank.fraui.db.QueryEventsCamera;
@@ -125,13 +127,17 @@ public class Content extends JPanel {
             EventAdd eventAdd = new EventAdd();
 
             ArrayList<ImageIcon> listImage = QueryEventsCamera.imageIcon(i);
-            Color listEventColor = QueryEventColor.addEventColor(i);
+            ResultSet<ModelEvent> resultQueryEventsCamera = QueryEventsCamera.eventColor(i);
+            Color color;
 
             //add buttons "options"
             eventAdd.createButtonOptions();
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
-                eventAdd.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, listEventColor, listImage.get(a));
+                if (resultQueryEventsCamera.size() == 0)
+                    color = Color.WHITE;
+                else color = QueryEventColor.addEventColor(resultQueryEventsCamera.get(a).color);
+                eventAdd.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
             }
             //add buttons "all img events"
             eventAdd.createButtonAllImgEvents();

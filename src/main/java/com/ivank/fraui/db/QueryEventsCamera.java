@@ -8,10 +8,35 @@ import com.ivank.fraui.components.Content;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Objects;
 
 public class QueryEventsCamera {
     private static ArrayList<String> listEventPicture = new ArrayList<>();
+
+    public static ResultSet<ModelEvent> eventColor(int i) {
+        try {
+            //query to MYSQL
+            ModelCamera camera = QueryCameras.getListCameras().get(i);
+            QueryBuilder<ModelEvent> query = ConnectDB.getConnector().query(ModelEvent.class);
+            query.where(
+                    "camera_id",
+                    DBWhereOp.EQ,
+                    camera.id
+            ).limit(Content.getLimitEvent());//последние n событий, отсортированных false: от свежих к старым; true: от старых к свежим
+
+            //result to SQL query for test
+            String sql = query.toSql();
+
+            ResultSet<ModelEvent> result = query.get();
+
+            return result;
+        } catch (Exception ex) {
+            //shows line with error in console
+            ex.printStackTrace();
+
+            return null;
+        }
+    }
+
     public static ArrayList<String> addEventPictureBase64(int i) {
         try {
             //query to MYSQL
