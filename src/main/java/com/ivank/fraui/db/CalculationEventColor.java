@@ -1,13 +1,9 @@
 package com.ivank.fraui.db;
 
-import com.bedivierre.eloquent.QueryBuilder;
-import com.bedivierre.eloquent.ResultSet;
-
 import java.awt.*;
-import java.util.ArrayList;
 
-public class QueryEventColor {
-    public static Color addEventColor(String str) {
+public class CalculationEventColor {
+    public static Color eventColor(String str) {
         try {
             switch (str) {
                 case  ("black"):

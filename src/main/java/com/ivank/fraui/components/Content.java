@@ -4,7 +4,7 @@ import com.bedivierre.eloquent.ResultSet;
 import com.ivank.fraui.AppConfig;
 import com.ivank.fraui.db.ModelEvent;
 import com.ivank.fraui.db.QueryCameras;
-import com.ivank.fraui.db.QueryEventColor;
+import com.ivank.fraui.db.CalculationEventColor;
 import com.ivank.fraui.db.QueryEventsCamera;
 
 import javax.swing.*;
@@ -134,9 +134,10 @@ public class Content extends JPanel {
             eventAdd.createButtonOptions();
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
+                //проверка, если в БД нет события, соответственно, нет привязки к цвету события
                 if (resultQueryEventsCamera.size() == 0)
                     color = Color.WHITE;
-                else color = QueryEventColor.addEventColor(resultQueryEventsCamera.get(a).color);
+                else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).color);
                 eventAdd.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
             }
             //add buttons "all img events"
