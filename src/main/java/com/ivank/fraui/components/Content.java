@@ -1,6 +1,6 @@
 package com.ivank.fraui.components;
 
-import com.ivank.fraui.Properties;
+import com.ivank.fraui.AppConfig;
 import com.ivank.fraui.db.QueryCameras;
 import com.ivank.fraui.db.QueryEventColor;
 import com.ivank.fraui.db.QueryEventPicture;
@@ -11,15 +11,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Content extends JPanel {
-    //длина выборки событий (полученных из БД) для группы событий
-    public static int limitEvent = 10;
-
     public static int getLimitEvent() {
-        return limitEvent;
+        return AppConfig.limitEvent;
     }
 
     public static void setLimitEvent(int limitEvent) {
-        Content.limitEvent = limitEvent;
+        AppConfig.limitEvent = limitEvent;
     }
     public int countCameras = QueryCameras.getListNamesCameras().size();
 
@@ -96,7 +93,7 @@ public class Content extends JPanel {
 
     public Content() {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-        Properties.loadProperties();
+        AppConfig.loadProperties();
 
 
         JPanel internalPanel = new CameraListPanel();

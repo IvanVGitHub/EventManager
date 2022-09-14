@@ -4,6 +4,7 @@ import com.ivank.fraui.db.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Base64;
 
 public class EventAdd extends JPanel {
@@ -33,7 +34,8 @@ public class EventAdd extends JPanel {
 
     public JComponent createLabelEvent(String name, Dimension labelSize, Color randomColor, ImageIcon icon) {
         this.setBorder(BorderFactory.createTitledBorder(name));
-        JLabel label = new JLabel(icon);
+        //paste image with the specific dimensions
+        JLabel label = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(labelSize.width, labelSize.height,  java.awt.Image.SCALE_SMOOTH)));
         label.setPreferredSize(labelSize);
         label.setHorizontalAlignment(JLabel.CENTER);
 

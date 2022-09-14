@@ -9,6 +9,9 @@ public class Application {
     static AppInTray appInTray;
 
     public static void main(String[] args) {
+        //load settings, first of all!
+        AppConfig.loadProperties();
+        //connect to DB
         ConnectDB.init();
         windowMain = new WindowMain();
         appInTray = new AppInTray();

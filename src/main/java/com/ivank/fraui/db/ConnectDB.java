@@ -1,6 +1,7 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.DB;
+import com.ivank.fraui.AppConfig;
 
 public class ConnectDB {
     static DB connector;
@@ -10,7 +11,7 @@ public class ConnectDB {
     }
 
     public static void init(){
-        connector = new DB("172.20.3.221", "test", "ivanUser", "Qwerty!@#456");
+        connector = new DB(AppConfig.host, AppConfig.database, AppConfig.username, AppConfig.password);
     }
 
     private ConnectDB() {
