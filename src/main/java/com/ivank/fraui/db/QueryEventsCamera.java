@@ -8,13 +8,14 @@ import com.ivank.fraui.components.Content;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Objects;
 
-public class QueryEventPicture {
+public class QueryEventsCamera {
     private static ArrayList<String> listEventPicture = new ArrayList<>();
     public static ArrayList<String> addEventPictureBase64(int i) {
         try {
             //query to MYSQL
-            ModelCamera camera = QueryCameras.getListNamesCameras().get(i);
+            ModelCamera camera = QueryCameras.getListCameras().get(i);
             QueryBuilder<ModelEvent> query = ConnectDB.getConnector().query(ModelEvent.class);
             query.where(
                     "camera_id",
@@ -37,11 +38,7 @@ public class QueryEventPicture {
             //shows line with error in console
             ex.printStackTrace();
 
-            //image to icon empty event
-            String strImgDflt = Settings.getImageDefault();
-            listEventPicture.add(strImgDflt);
-
-            return listEventPicture;
+            return null;
         }
     }
 
@@ -51,6 +48,13 @@ public class QueryEventPicture {
 
             //image to icon event
             ArrayList<String> listStringBase64 = addEventPictureBase64(i);
+
+            //проверяем, если событий нет, то добавим одно стандартное событие
+            if (listStringBase64.size() == 0) {
+                //image to icon empty event
+                String strImgDflt = Settings.getImageDefault();
+                listStringBase64.add(strImgDflt);
+            }
 
             for (int a = 0; a < listStringBase64.size(); a++) {
                 byte[] byteImageBase64 = Base64.getDecoder().decode(listStringBase64.get(a));

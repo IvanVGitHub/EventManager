@@ -22,7 +22,7 @@ public class ToolBar extends JPanel {
 
         buttonAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                buttonAdd.setText(String.valueOf("Камер: " + QueryCameras.getListNamesCameras().size()));
+                buttonAdd.setText(String.valueOf("Камер: " + QueryCameras.getListCameras().size()));
             }
         });
     }

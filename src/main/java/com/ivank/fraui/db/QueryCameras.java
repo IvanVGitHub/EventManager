@@ -6,23 +6,23 @@ import com.bedivierre.eloquent.ResultSet;
 import java.util.ArrayList;
 
 public class QueryCameras {
-    private static ArrayList<ModelCamera> listNamesCameras = new ArrayList<>();
-    public static ArrayList<ModelCamera> getListNamesCameras() {
-        listNamesCameras.clear();
+    private static ArrayList<ModelCamera> listCameras = new ArrayList<>();
+    public static ArrayList<ModelCamera> getListCameras() {
+        listCameras.clear();
 
         try {
             //query to MYSQL
             QueryBuilder<ModelCamera> query = ConnectDB.getConnector().query(ModelCamera.class);
             ResultSet<ModelCamera> result = query.get();
-            listNamesCameras.addAll(result);
+            listCameras.addAll(result);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return listNamesCameras;
+        return listCameras;
     }
-    public static void setListNamesCameras(ArrayList<ModelCamera> listNamesCameras) {
-        QueryCameras.listNamesCameras = listNamesCameras;
+    public static void setListCameras(ArrayList<ModelCamera> listCameras) {
+        QueryCameras.listCameras = listCameras;
     }
 
     private static ArrayList<String> listEventCamera = new ArrayList<>();
@@ -31,7 +31,7 @@ public class QueryCameras {
 
         try {
             //query to MYSQL
-            ModelCamera camera = listNamesCameras.get(i);
+            ModelCamera camera = listCameras.get(i);
             QueryBuilder<ModelEvent> q = ConnectDB.getConnector().query(ModelEvent.class);
             ResultSet<ModelEvent> result = q.where("camera_id", camera.id).get();
             for (ModelEvent event : result) {

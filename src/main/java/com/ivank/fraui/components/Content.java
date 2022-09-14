@@ -3,12 +3,11 @@ package com.ivank.fraui.components;
 import com.ivank.fraui.AppConfig;
 import com.ivank.fraui.db.QueryCameras;
 import com.ivank.fraui.db.QueryEventColor;
-import com.ivank.fraui.db.QueryEventPicture;
+import com.ivank.fraui.db.QueryEventsCamera;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Content extends JPanel {
     public static int getLimitEvent() {
@@ -18,10 +17,7 @@ public class Content extends JPanel {
     public static void setLimitEvent(int limitEvent) {
         AppConfig.limitEvent = limitEvent;
     }
-    public int countCameras = QueryCameras.getListNamesCameras().size();
-
-    //for random color
-    Random rand = new Random();
+    public int countCameras = QueryCameras.getListCameras().size();
 
     public void setCountCameras(int countCameras) {
         this.countCameras = countCameras;
@@ -128,15 +124,14 @@ public class Content extends JPanel {
         for (int i = 0; i < getCountCameras(); i++) {
             EventAdd eventAdd = new EventAdd();
 
-            ArrayList<ImageIcon> listImage = QueryEventPicture.imageIcon(i);
+            ArrayList<ImageIcon> listImage = QueryEventsCamera.imageIcon(i);
+            Color listEventColor = QueryEventColor.addEventColor(i);
 
             //add buttons "options"
             eventAdd.createButtonOptions();
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
-                //random color border event for TEST
-                Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-                eventAdd.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListNamesCameras().get(i).camera_name), labelSize, QueryEventColor.addEventColor(a), listImage.get(a));
+                eventAdd.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, listEventColor, listImage.get(a));
             }
             //add buttons "all img events"
             eventAdd.createButtonAllImgEvents();

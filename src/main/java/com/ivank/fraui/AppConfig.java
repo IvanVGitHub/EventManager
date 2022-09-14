@@ -32,8 +32,8 @@ public class AppConfig {
 
             //получаем числовое значение из объекта Properties
 
-        } catch (IOException e) {
-            System.err.println("ОШИБКА: Файл свойств отсуствует!");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }
