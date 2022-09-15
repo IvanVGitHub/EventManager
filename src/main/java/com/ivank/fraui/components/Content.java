@@ -12,25 +12,19 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Content extends JPanel {
-    public static int getLimitEvent() {
-        return AppConfig.limitEvent;
-    }
-
-    public static void setLimitEvent(int limitEvent) {
-        AppConfig.limitEvent = limitEvent;
-    }
     public int countCameras = QueryCameras.getListCameras().size();
 
+    public static int getLimitEvent() {
+        return AppConfig.getInstance().getEventLimit();
+    }
+    public static void setLimitEvent(int limitEvent) {
+        AppConfig.getInstance().setEventLimit(limitEvent);
+    }
     public void setCountCameras(int countCameras) {
         this.countCameras = countCameras;
     }
-
     public int getCountCameras() {
         return countCameras;
-    }
-
-    public JFrame getWindowMain() {
-        return WindowMain.instance;
     }
 
     private static class CameraListPanel
@@ -91,8 +85,6 @@ public class Content extends JPanel {
 
     public Content() {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-        AppConfig.loadProperties();
-
 
         JPanel internalPanel = new CameraListPanel();
         internalPanel.setLayout(new GridLayout(0, 1));

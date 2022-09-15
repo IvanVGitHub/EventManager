@@ -11,7 +11,12 @@ public class ConnectDB {
     }
 
     public static void init(){
-        connector = new DB(AppConfig.host, AppConfig.database, AppConfig.username, AppConfig.password);
+        connector = new DB(
+                AppConfig.getInstance().getConnection().host,
+                AppConfig.getInstance().getConnection().database,
+                AppConfig.getInstance().getConnection().username,
+                AppConfig.getInstance().getConnection().password
+        );
     }
 
     private ConnectDB() {

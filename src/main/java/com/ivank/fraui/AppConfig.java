@@ -1,39 +1,77 @@
 package com.ivank.fraui;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.ivank.fraui.settings.CameraSettings;
+import com.ivank.fraui.settings.ConnectionSettings;
+
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.Properties;
+import java.io.FileWriter;
+import java.util.HashMap;
 
 public class AppConfig {
-    //for connect to DB
-    public static String host;
-    public static String database;
-    public static String username;
-    public static String password;
-    //длина выборки событий (полученных из БД) для группы событий
-    public static int limitEvent;
+    private static String configFile = "src/main/resources/config.json";
 
-    public static void loadProperties() {
+    public static AppConfig getInstance() {
+        if(instance == null)
+            loadConfig();
+        return instance;
+    }
+    private static AppConfig instance;
+
+    //fields
+    private HashMap<String, CameraSettings> cameras = new HashMap<>();
+    private ConnectionSettings connection = new ConnectionSettings();
+    private int eventLimit;
+
+    public HashMap<String, CameraSettings> getCameras() {
+        return cameras;
+    }
+    public ConnectionSettings getConnection() {
+        return connection;
+    }
+    public int getEventLimit() {
+        return eventLimit;
+    }
+    public void setEventLimit(int eventLimit) {
+        this.eventLimit = eventLimit;
+    }
+    ///end of fields
+
+    public static AppConfig loadConfig(){
+        return loadConfig(true);
+    }
+    public static AppConfig loadConfig(boolean reload){
         try {
-            //файл, который хранит свойства нашего проекта
-            File file = new File("src/main/resources/config.properties");
-
-            //создаём объект Properties и загружаем в него данные из файла.
-            Properties properties = new Properties();
-            properties.load(new FileReader(file));
-
-            //получаем значения свойств из объекта Properties
-            host = properties.getProperty("host");
-            database = properties.getProperty("database");
-            username = properties.getProperty("username");
-            password = properties.getProperty("password");
-            limitEvent = Integer.parseInt(properties.getProperty("limitEvent"));
-
-            //получаем числовое значение из объекта Properties
-
-        } catch (IOException ex) {
+            File file = new File(configFile);
+            Gson gson = new Gson();
+            if (file.exists()) {
+                AppConfig conf = gson.fromJson(new FileReader(file), AppConfig.class);
+                if(reload)
+                    instance = conf;
+                return conf;
+            }
+        } catch (Exception ex){
             ex.printStackTrace();
         }
+        return new AppConfig();
+    }
+    public static void saveConfig(){
+        if(instance == null)
+            return;
+
+        try{
+            Gson gson =new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(instance);
+            File file = new File(configFile);
+            FileWriter wr = new FileWriter(file);
+            wr.write(json);
+            wr.close();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+
     }
 }

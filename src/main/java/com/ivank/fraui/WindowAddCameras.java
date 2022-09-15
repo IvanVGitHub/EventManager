@@ -89,6 +89,7 @@ public class WindowAddCameras extends JFrame {
         JScrollPane scrollPaneGroupEvent = new JScrollPane(camerasPanel);
 
         addButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 int number = labels.size() + 1;
                 EventAdd eventAdd = new EventAdd();
@@ -111,6 +112,7 @@ public class WindowAddCameras extends JFrame {
         });
 
         remButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if(labels.size() > 0) {
                     int index = labels.size() - 1;

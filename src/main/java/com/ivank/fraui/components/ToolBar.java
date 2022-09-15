@@ -21,6 +21,7 @@ public class ToolBar extends JPanel {
         this.add(panelMain);
 
         buttonAdd.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 buttonAdd.setText(String.valueOf("Камер: " + QueryCameras.getListCameras().size()));
             }
