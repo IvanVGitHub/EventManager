@@ -3,10 +3,11 @@ package com.ivank.fraui;
 import com.ivank.fraui.settings.ConnectionSettings;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SettingsConnectDBWindow extends JFrame {
+public class WindowSettingsConnectDB extends JFrame {
     private JTextField textFieldHost;
     private JTextField textFieldDatabase;
     private JTextField textFieldUsername;
@@ -14,7 +15,9 @@ public class SettingsConnectDBWindow extends JFrame {
     private JButton buttonApply;
     private JPanel panelMain;
 
-    public SettingsConnectDBWindow() {
+    public WindowSettingsConnectDB() {
+        super("Подключение к БД");
+
         textFieldHost.setText(AppConfig.getInstance().getConnection().host);
         textFieldDatabase.setText(AppConfig.getInstance().getConnection().database);
         textFieldUsername.setText(AppConfig.getInstance().getConnection().username);
@@ -30,8 +33,27 @@ public class SettingsConnectDBWindow extends JFrame {
                     conn.username = textFieldUsername.getText();
                     conn.password = textFieldPassword.getText();
                     AppConfig.saveConfig();
+
+                    try {
+                        //модальное окно для донесения информации
+                        JDialog dialog = new JDialog();
+                        JLabel label = new JLabel("Чтобы изменения вступили в силу, перепустите приложение!");
+
+                        dialog.add(label);
+
+                        dialog.setTitle("Внимание");
+                        label.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                        dialog.setModal(true);
+                        dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                        dialog.pack();
+                        dialog.setLocationRelativeTo(null);
+                        dialog.setVisible(true);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    dispose();
                 }
             }
         });
@@ -39,7 +61,8 @@ public class SettingsConnectDBWindow extends JFrame {
         setContentPane(panelMain);
         setVisible(true);
         pack();//окно создаётся по размерам внутренних элементов, а не [0;0] px
+        setLocationRelativeTo(null);
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
 }

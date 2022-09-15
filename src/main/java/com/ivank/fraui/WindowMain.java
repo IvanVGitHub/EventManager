@@ -1,7 +1,6 @@
-package com.ivank.fraui.components;
+package com.ivank.fraui;
 
-import com.ivank.fraui.WindowAddCameras;
-import com.ivank.fraui.db.QueryDB;
+import com.ivank.fraui.components.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +12,6 @@ public class WindowMain extends JFrame {
 
     static WindowMain instance;
 
-    WindowAddCameras windowAddCameras;
-    EventGroupsPanel eventGroupsPanel;
-    QueryDB queryDB;
     Content content = new Content();
     ToolBar toolBar = new ToolBar();
     StatusBar statusBar = new StatusBar();
@@ -34,8 +30,10 @@ public class WindowMain extends JFrame {
         //specification work screen
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle desktopBounds = ge.getMaximumWindowBounds();
+/*
         //view screen sizes
-//        System.out.println(desktopBounds);
+        System.out.println(desktopBounds);
+*/
         //size window in "small" mode
         final int width = 600;
         final int height = 400;
@@ -68,8 +66,15 @@ public class WindowMain extends JFrame {
         MenuItem addCamera = new MenuItem("+ камера");
         parameters.add(addCamera);
 
-        parameters.addActionListener(e -> {
-            windowAddCameras = new WindowAddCameras();
+        MenuItem settingsConnection = new MenuItem("параметры подключения");
+        parameters.add(settingsConnection);
+
+        addCamera.addActionListener(e -> {
+            new WindowAddCameras();
+        });
+
+        settingsConnection.addActionListener(e -> {
+            new WindowSettingsConnectDB();
         });
 
         menuBar.add(parameters);

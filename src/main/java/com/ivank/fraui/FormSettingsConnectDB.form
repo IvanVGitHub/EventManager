@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.ivank.fraui.SettingsConnectDBWindow">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.ivank.fraui.WindowSettingsConnectDB">
   <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="true" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+    <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="314" height="191"/>
+      <xy x="20" y="20" width="380" height="191"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -24,7 +24,7 @@
       <component id="4e6" class="javax.swing.JTextField" binding="textFieldHost">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="200" height="-1"/>
           </grid>
         </constraints>
         <properties>
@@ -42,10 +42,12 @@
       <component id="6f341" class="javax.swing.JTextField" binding="textFieldDatabase" default-binding="true">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="200" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
       <component id="a3d43" class="javax.swing.JLabel">
         <constraints>
@@ -58,10 +60,12 @@
       <component id="133fa" class="javax.swing.JTextField" binding="textFieldUsername" default-binding="true">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="200" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
       <component id="d4923" class="javax.swing.JLabel">
         <constraints>
@@ -74,10 +78,12 @@
       <component id="be8ae" class="javax.swing.JTextField" binding="textFieldPassword" default-binding="true">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="200" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
       <component id="66399" class="javax.swing.JButton" binding="buttonApply">
         <constraints>

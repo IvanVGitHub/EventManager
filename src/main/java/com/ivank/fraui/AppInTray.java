@@ -1,12 +1,10 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.components.WindowMain;
 import com.ivank.fraui.db.ConnectDB;
 import com.ivank.fraui.db.QueryDB;
 
 import javax.swing.*;
 import java.awt.*;
-
 
 public class AppInTray {
     QueryDB queryDB = new QueryDB();
@@ -27,7 +25,7 @@ public class AppInTray {
 
         if (SystemTray.isSupported()) {
             //app will be closed only from tray
-            //HIDE_ON_CLOSE - when closing windowBasic and reopening across tray, it opens in its previous state
+            //HIDE_ON_CLOSE - when closing WindowMain and reopening across tray, it opens in its previous state
             WindowMain.getInstance().setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         }
 

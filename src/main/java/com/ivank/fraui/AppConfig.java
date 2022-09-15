@@ -39,10 +39,10 @@ public class AppConfig {
     }
     ///end of fields
 
-    public static AppConfig loadConfig(){
+    public static AppConfig loadConfig() {
         return loadConfig(true);
     }
-    public static AppConfig loadConfig(boolean reload){
+    public static AppConfig loadConfig(boolean reload) {
         try {
             File file = new File(configFile);
             Gson gson = new Gson();
@@ -57,21 +57,18 @@ public class AppConfig {
         }
         return new AppConfig();
     }
-    public static void saveConfig(){
-        if(instance == null)
+    public static void saveConfig() {
+        if (instance == null)
             return;
-
         try{
-            Gson gson =new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(instance);
             File file = new File(configFile);
             FileWriter wr = new FileWriter(file);
             wr.write(json);
             wr.close();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-
     }
 }

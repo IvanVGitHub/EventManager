@@ -73,7 +73,7 @@ public class WindowAddCameras extends JFrame {
     public WindowAddCameras() {
         super("Добавить камеру");
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         JPanel panelButton = new JPanel();
 
