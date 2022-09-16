@@ -66,15 +66,23 @@ public class WindowMain extends JFrame {
         MenuItem addCamera = new MenuItem("+ камера");
         parameters.add(addCamera);
 
-        MenuItem settingsConnection = new MenuItem("параметры подключения");
+        MenuItem settingsConnection = new MenuItem("Параметры подключения");
         parameters.add(settingsConnection);
 
+        MenuItem addCameraTEST = new MenuItem("(тестовое окно)");
+        parameters.add(addCameraTEST);
+
         addCamera.addActionListener(e -> {
-            new WindowAddCameras();
+            new WindowAddCamera();
+            new CheckboxListCellRenderer();
         });
 
         settingsConnection.addActionListener(e -> {
             new WindowSettingsConnectDB();
+        });
+
+        addCameraTEST.addActionListener(e -> {
+            new WindowAddCamerasTEST();
         });
 
         menuBar.add(parameters);

@@ -35,19 +35,11 @@ public class WindowSettingsConnectDB extends JFrame {
                     AppConfig.saveConfig();
 
                     try {
-                        //модальное окно для донесения информации
-                        JDialog dialog = new JDialog();
-                        JLabel label = new JLabel("Чтобы изменения вступили в силу, перепустите приложение!");
-
-                        dialog.add(label);
-
-                        dialog.setTitle("Внимание");
-                        label.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-                        dialog.setModal(true);
-                        dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-                        dialog.pack();
-                        dialog.setLocationRelativeTo(null);
-                        dialog.setVisible(true);
+                        JOptionPane.showMessageDialog(null, "Чтобы изменения вступили в силу, перезапустите приложение!", "Внимание", JOptionPane.INFORMATION_MESSAGE);
+                        //при нажатии на кнопку "Ок" закроется не только диалоговое окно, но и окно настроек подкючения
+                        if (JOptionPane.OK_OPTION == 0) {
+                            setVisible(false);
+                        }
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }

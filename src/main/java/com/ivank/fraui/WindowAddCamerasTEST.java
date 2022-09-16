@@ -1,6 +1,6 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.components.EventAdd;
+import com.ivank.fraui.components.AddEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class WindowAddCameras extends JFrame {
+public class WindowAddCamerasTEST extends JFrame {
     public static final List<JPanel> labels = new ArrayList<JPanel>();
 
     private static class CameraListPanel
@@ -70,7 +70,7 @@ public class WindowAddCameras extends JFrame {
         }
     }
 
-    public WindowAddCameras() {
+    public WindowAddCamerasTEST() {
         super("Добавить камеру");
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -92,7 +92,7 @@ public class WindowAddCameras extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int number = labels.size() + 1;
-                EventAdd eventAdd = new EventAdd();
+                AddEvent eventAdd = new AddEvent();
                 URL url = getClass().getResource("./img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
                 Dimension labelSize = new Dimension(80, 80);

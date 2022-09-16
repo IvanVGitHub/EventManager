@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class QueryCameras {
     private static ArrayList<ModelCamera> listCameras = new ArrayList<>();
+    private static ArrayList<String> listEventCamera = new ArrayList<>();
     public static ArrayList<ModelCamera> getListCameras() {
         listCameras.clear();
 
@@ -21,11 +22,10 @@ public class QueryCameras {
 
         return listCameras;
     }
+
     public static void setListCameras(ArrayList<ModelCamera> listCameras) {
         QueryCameras.listCameras = listCameras;
     }
-
-    private static ArrayList<String> listEventCamera = new ArrayList<>();
     public static ArrayList<String> getListEventCamera(int i) {
         listEventCamera.clear();
 

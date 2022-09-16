@@ -27,9 +27,7 @@ public class Content extends JPanel {
         return countCameras;
     }
 
-    private static class CameraListPanel
-            extends JPanel
-            implements Scrollable {
+    private static class CameraListPanel extends JPanel implements Scrollable {
         private static final long serialVersionUID = 1;
 
         CameraListPanel() {
@@ -116,26 +114,26 @@ public class Content extends JPanel {
 
         //отрисовывать группы событий в цикле неопределённое количество раз
         for (int i = 0; i < getCountCameras(); i++) {
-            EventAdd eventAdd = new EventAdd();
+            AddEvent addEvent = new AddEvent();
 
             ArrayList<ImageIcon> listImage = QueryEventsCamera.imageIcon(i);
             ResultSet<ModelEvent> resultQueryEventsCamera = QueryEventsCamera.eventColor(i);
             Color color;
 
             //add buttons "options"
-            eventAdd.createButtonOptions();
+            addEvent.createButtonOptions();
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
                 //проверка, если в БД нет события, соответственно, нет привязки к цвету события
                 if (resultQueryEventsCamera.size() == 0)
                     color = Color.WHITE;
                 else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).color);
-                eventAdd.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
+                addEvent.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
             }
             //add buttons "all img events"
-            eventAdd.createButtonAllImgEvents();
+            addEvent.createButtonAllImgEvents();
 
-            internalPanel.add(eventAdd);
+            internalPanel.add(addEvent);
         }
 
         this.setLayout(new BorderLayout());

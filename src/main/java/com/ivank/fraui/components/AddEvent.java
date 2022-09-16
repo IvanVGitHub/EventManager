@@ -4,11 +4,10 @@ import com.ivank.fraui.db.Settings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Base64;
 
-public class EventAdd extends JPanel {
-    public EventAdd() {
+public class AddEvent extends JPanel {
+    public AddEvent() {
         super(new FlowLayout(FlowLayout.LEFT));
     }
 
