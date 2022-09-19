@@ -5,4 +5,5 @@ public class ConnectionSettings {
     public String database;
     public String username;
     public String password;
+
 }

@@ -35,6 +35,7 @@ public class WindowSettingsConnectDB extends JFrame {
                     AppConfig.saveConfig();
 
                     try {
+                        //диалоговое окно
                         JOptionPane.showMessageDialog(null, "Чтобы изменения вступили в силу, перезапустите приложение!", "Внимание", JOptionPane.INFORMATION_MESSAGE);
                         //при нажатии на кнопку "Ок" закроется не только диалоговое окно, но и окно настроек подкючения
                         if (JOptionPane.OK_OPTION == 0) {

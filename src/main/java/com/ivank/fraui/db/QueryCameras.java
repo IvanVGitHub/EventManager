@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class QueryCameras {
     private static ArrayList<ModelCamera> listCameras = new ArrayList<>();
     private static ArrayList<String> listEventCamera = new ArrayList<>();
+    private static ArrayList<String> listCameraName = new ArrayList<>();
+
     public static ArrayList<ModelCamera> getListCameras() {
         listCameras.clear();
 
@@ -22,16 +24,16 @@ public class QueryCameras {
 
         return listCameras;
     }
-
     public static void setListCameras(ArrayList<ModelCamera> listCameras) {
         QueryCameras.listCameras = listCameras;
     }
+
     public static ArrayList<String> getListEventCamera(int i) {
         listEventCamera.clear();
 
         try {
             //query to MYSQL
-            ModelCamera camera = listCameras.get(i);
+            ModelCamera camera = getListCameras().get(i);
             QueryBuilder<ModelEvent> q = ConnectDB.getConnector().query(ModelEvent.class);
             ResultSet<ModelEvent> result = q.where("camera_id", camera.id).get();
             for (ModelEvent event : result) {
@@ -45,5 +47,22 @@ public class QueryCameras {
     }
     public static void setListEventCamera(ArrayList<String> listEventCamera) {
         QueryCameras.listEventCamera = listEventCamera;
+    }
+
+    public static ArrayList<String> getListCameraName() {
+        listCameraName.clear();
+
+        try {
+            for (ModelCamera event : getListCameras()) {
+                listCameraName.add(String.valueOf(event.camera_name));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return listCameraName;
+    }
+    public static void setListCameraName(ArrayList<String> listCameraName) {
+        QueryCameras.listCameraName = listCameraName;
     }
 }

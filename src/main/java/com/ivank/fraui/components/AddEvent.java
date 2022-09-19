@@ -31,14 +31,14 @@ public class AddEvent extends JPanel {
         return button;
     }
 
-    public JComponent createLabelEvent(String name, Dimension labelSize, Color randomColor, ImageIcon icon) {
+    public JComponent createLabelEvent(String name, Dimension labelSize, Color color, ImageIcon icon) {
         this.setBorder(BorderFactory.createTitledBorder(name));
         //paste image with the specific dimensions
-        JLabel label = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(labelSize.width, labelSize.height,  java.awt.Image.SCALE_SMOOTH)));
+        JLabel label = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(labelSize.width, labelSize.height, java.awt.Image.SCALE_SMOOTH)));
         label.setPreferredSize(labelSize);
         label.setHorizontalAlignment(JLabel.CENTER);
 
-        label.setBorder(BorderFactory.createLineBorder(randomColor, 5));
+        label.setBorder(BorderFactory.createLineBorder(color, 5));
         this.add(label);
 
         return label;

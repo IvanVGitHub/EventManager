@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 public class WindowAddCamerasTEST extends JFrame {
-    public static final List<JPanel> labels = new ArrayList<JPanel>();
+    public static final List<JPanel> labels = new ArrayList<>();
 
     private static class CameraListPanel
             extends JPanel

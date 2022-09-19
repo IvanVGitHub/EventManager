@@ -8,6 +8,7 @@ import com.ivank.fraui.settings.ConnectionSettings;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AppConfig {
@@ -21,11 +22,11 @@ public class AppConfig {
     private static AppConfig instance;
 
     //fields
-    private HashMap<String, CameraSettings> cameras = new HashMap<>();
+    private ArrayList<CameraSettings> cameras = new ArrayList<>();
     private ConnectionSettings connection = new ConnectionSettings();
     private int eventLimit;
 
-    public HashMap<String, CameraSettings> getCameras() {
+    public ArrayList<CameraSettings> getCameras() {
         return cameras;
     }
     public ConnectionSettings getConnection() {

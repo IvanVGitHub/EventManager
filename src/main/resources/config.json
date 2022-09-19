@@ -1,5 +1,14 @@
 {
-  "cameras": {},
+  "cameras": [
+    {
+      "name": "qwerty",
+      "ip": "127.0.0.1",
+      "port": 0,
+      "width": 1920,
+      "height": 1080,
+      "limitEvents": 10
+    }
+  ],
   "connection": {
     "host": "172.20.3.221",
     "database": "test",
