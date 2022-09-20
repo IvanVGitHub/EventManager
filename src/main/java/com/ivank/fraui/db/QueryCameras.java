@@ -2,6 +2,8 @@ package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
+import com.ivank.fraui.AppConfig;
+import com.ivank.fraui.utils.MyDB;
 
 import java.util.ArrayList;
 
@@ -10,7 +12,7 @@ public class QueryCameras {
     private static ArrayList<String> listEventCamera = new ArrayList<>();
     private static ArrayList<String> listCameraName = new ArrayList<>();
 
-    public static ArrayList<ModelCamera> getListCameras() {
+    public static ArrayList<ModelCamera> getListCamerasALL() {
         listCameras.clear();
 
         try {
@@ -24,8 +26,24 @@ public class QueryCameras {
 
         return listCameras;
     }
-    public static void setListCameras(ArrayList<ModelCamera> listCameras) {
-        QueryCameras.listCameras = listCameras;
+
+    public static ArrayList<ModelCamera> getListCameras() {
+        listCameras.clear();
+
+        try {
+            //query to MYSQL
+            ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasView();
+            for (String event : camerasIsSlct)
+            {
+                ResultSet<ModelCamera> result = MyDB.cameraQuery("camera_name", event).get();
+
+                listCameras.addAll(result);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return listCameras;
     }
 
     public static ArrayList<String> getListEventCamera(int i) {
@@ -35,7 +53,10 @@ public class QueryCameras {
             //query to MYSQL
             ModelCamera camera = getListCameras().get(i);
             QueryBuilder<ModelEvent> q = ConnectDB.getConnector().query(ModelEvent.class);
-            ResultSet<ModelEvent> result = q.where("camera_id", camera.id).get();
+            ResultSet<ModelEvent> result = q.where(
+                    "camera_id",
+                    camera.id
+            ).get();
             for (ModelEvent event : result) {
                 listEventCamera.add(String.valueOf(event.id));
             }
@@ -44,9 +65,6 @@ public class QueryCameras {
         }
 
         return listEventCamera;
-    }
-    public static void setListEventCamera(ArrayList<String> listEventCamera) {
-        QueryCameras.listEventCamera = listEventCamera;
     }
 
     public static ArrayList<String> getListCameraName() {
@@ -61,8 +79,5 @@ public class QueryCameras {
         }
 
         return listCameraName;
-    }
-    public static void setListCameraName(ArrayList<String> listCameraName) {
-        QueryCameras.listCameraName = listCameraName;
     }
 }

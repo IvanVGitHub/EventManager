@@ -74,7 +74,6 @@ public class WindowMain extends JFrame {
 
         addCamera.addActionListener(e -> {
             new WindowAddCamera();
-            new CheckboxListCellRenderer();
         });
 
         settingsConnection.addActionListener(e -> {

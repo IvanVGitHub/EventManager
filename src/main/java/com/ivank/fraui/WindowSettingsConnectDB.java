@@ -27,6 +27,7 @@ public class WindowSettingsConnectDB extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    //сохранение настроек подключения к БД в файл настроек
                     ConnectionSettings conn = AppConfig.getInstance().getConnection();
                     conn.host = textFieldHost.getText();
                     conn.database = textFieldDatabase.getText();
@@ -43,6 +44,8 @@ public class WindowSettingsConnectDB extends JFrame {
                         }
                     } catch (Exception ex) {
                         ex.printStackTrace();
+
+                        JOptionPane.showMessageDialog(null, "При сохранении настроек произошла ошибка! Обратитесь к разработчику.", "Произошла ошибка", JOptionPane.ERROR);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

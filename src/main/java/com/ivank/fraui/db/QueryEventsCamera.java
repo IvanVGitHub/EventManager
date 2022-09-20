@@ -10,9 +10,15 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 public class QueryEventsCamera {
+    private static ArrayList<ImageIcon> listImageIcon = new ArrayList<>();
+    private static ResultSet<ModelEvent> result = new ResultSet<>();
     private static ArrayList<String> listEventPicture = new ArrayList<>();
 
+
+
     public static ResultSet<ModelEvent> eventColor(int i) {
+        result.clear();
+
         try {
             //query to MYSQL
             ModelCamera camera = QueryCameras.getListCameras().get(i);
@@ -26,18 +32,18 @@ public class QueryEventsCamera {
             //result to SQL query for test
             String sql = query.toSql();
 
-            ResultSet<ModelEvent> result = query.get();
-
-            return result;
+            result = query.get();
         } catch (Exception ex) {
             //shows line with error in console
             ex.printStackTrace();
-
-            return null;
         }
+
+        return result;
     }
 
     public static ArrayList<String> addEventPictureBase64(int i) {
+        listEventPicture.clear();
+
         try {
             //query to MYSQL
             ModelCamera camera = QueryCameras.getListCameras().get(i);
@@ -53,24 +59,21 @@ public class QueryEventsCamera {
 
             ResultSet<ModelEvent> result = query.get();
 
-            listEventPicture.clear();
             for (ModelEvent event : result) {
                 listEventPicture.add(event.photo);
             }
-
-            return listEventPicture;
         } catch (Exception ex) {
             //shows line with error in console
             ex.printStackTrace();
-
-            return null;
         }
+
+        return listEventPicture;
     }
 
-    public static ArrayList<ImageIcon> imageIcon(int i) {
-        try {
-            ArrayList<ImageIcon> listImageIcon = new ArrayList<>();
+    public static ArrayList<ImageIcon> getListImageIcon(int i) {
+        listImageIcon.clear();
 
+        try {
             //image to icon event
             ArrayList<String> listStringBase64 = addEventPictureBase64(i);
 
@@ -85,13 +88,11 @@ public class QueryEventsCamera {
                 byte[] byteImageBase64 = Base64.getDecoder().decode(listStringBase64.get(a));
                 listImageIcon.add(new ImageIcon(byteImageBase64));
             }
-
-            return listImageIcon;
         } catch (Exception ex) {
             //shows line with error in console
             ex.printStackTrace();
-
-            return null;
         }
+
+        return listImageIcon;
     }
 }

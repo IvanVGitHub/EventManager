@@ -17,12 +17,6 @@ public class Content extends JPanel {
     public static int getLimitEvent() {
         return AppConfig.getInstance().getEventLimit();
     }
-    public static void setLimitEvent(int limitEvent) {
-        AppConfig.getInstance().setEventLimit(limitEvent);
-    }
-    public void setCountCameras(int countCameras) {
-        this.countCameras = countCameras;
-    }
     public int getCountCameras() {
         return countCameras;
     }
@@ -116,7 +110,7 @@ public class Content extends JPanel {
         for (int i = 0; i < getCountCameras(); i++) {
             AddEvent addEvent = new AddEvent();
 
-            ArrayList<ImageIcon> listImage = QueryEventsCamera.imageIcon(i);
+            ArrayList<ImageIcon> listImage = QueryEventsCamera.getListImageIcon(i);
             ResultSet<ModelEvent> resultQueryEventsCamera = QueryEventsCamera.eventColor(i);
             Color color;
 
@@ -130,7 +124,7 @@ public class Content extends JPanel {
                 else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).color);
                 addEvent.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
             }
-            //add buttons "all img events"
+            //add buttons "all img events this camera"
             addEvent.createButtonAllImgEvents();
 
             internalPanel.add(addEvent);

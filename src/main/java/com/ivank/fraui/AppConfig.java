@@ -9,28 +9,34 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AppConfig {
     private static String configFile = "src/main/resources/config.json";
 
     public static AppConfig getInstance() {
-        if(instance == null)
+        if (instance == null)
             loadConfig();
         return instance;
     }
     private static AppConfig instance;
 
     //fields
-    private ArrayList<CameraSettings> cameras = new ArrayList<>();
+    private ArrayList<CameraSettings> camera = new ArrayList<>();
+    private ArrayList<String> camerasIsSlct = new ArrayList<>();
     private ConnectionSettings connection = new ConnectionSettings();
     private int eventLimit;
 
-    public ArrayList<CameraSettings> getCameras() {
-        return cameras;
+    public ArrayList<CameraSettings> getCamera() {
+        return camera;
     }
     public ConnectionSettings getConnection() {
         return connection;
+    }
+    public ArrayList<String> getCamerasView() {
+        return camerasIsSlct;
+    }
+    public void setCamerasView(ArrayList<String> camerasIsSlct) {
+        this.camerasIsSlct = camerasIsSlct;
     }
     public int getEventLimit() {
         return eventLimit;
@@ -49,11 +55,11 @@ public class AppConfig {
             Gson gson = new Gson();
             if (file.exists()) {
                 AppConfig conf = gson.fromJson(new FileReader(file), AppConfig.class);
-                if(reload)
+                if (reload)
                     instance = conf;
                 return conf;
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return new AppConfig();
@@ -61,7 +67,7 @@ public class AppConfig {
     public static void saveConfig() {
         if (instance == null)
             return;
-        try{
+        try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(instance);
             File file = new File(configFile);
