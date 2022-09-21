@@ -17,17 +17,21 @@ public class WindowAddCamera extends JFrame {
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         //получаем список имён всех камер
-        ArrayList<String> listCameraName = new ArrayList<>();
+        ArrayList<String> listCameraNameALL = new ArrayList<>();
         for (ModelCamera event : QueryCameras.getListCamerasALL()) {
-            listCameraName.add(String.valueOf(event.camera_name));
+            listCameraNameALL.add(String.valueOf(event.camera_name));
         }
 
         JPanel panelMain = new JPanel();
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
         ArrayList<JCheckBox> checkboxes = new ArrayList<>();
 
-        for(String element : listCameraName) {
+        for (String element : listCameraNameALL) {
             JCheckBox box = new JCheckBox(element);
+
+            //если камера уже есть в списке отображаемых, то помечается "галочкой"
+            box.setSelected(QueryCameras.statusChBx(element));
+
             checkboxes.add(box);
             panelMain.add(box);
         }

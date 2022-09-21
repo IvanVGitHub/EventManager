@@ -80,4 +80,20 @@ public class QueryCameras {
 
         return listCameraName;
     }
+
+    public static Boolean statusChBx(String nameChbx) {
+        Boolean result = false;
+
+        try {
+            for (String event : getListCameraName()) {
+                if (event.equals(nameChbx)) {
+                    result = true;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return result;
+    }
 }

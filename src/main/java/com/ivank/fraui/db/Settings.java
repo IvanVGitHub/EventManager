@@ -27,13 +27,13 @@ public class Settings extends DBModel {
         return defaultImage == null ? "" : defaultImage.data;
     }
 
-    //получить настройку по имени image_options
+    //получить настройку по имени image_all_img_events
     public static String getButtonAllImgEvents() {
         Settings defaultImage = getByCode("image_all_img_events");
         return defaultImage == null ? "" : defaultImage.data;
     }
 
-    //получить настройку по имени default_image
+    //получить настройку по имени image_default_event
     public static String getImageDefault() {
         Settings defaultImage = getByCode("image_default_event");
         return defaultImage == null ? "" : defaultImage.data;
