@@ -12,13 +12,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Content extends JPanel {
-    public int countCameras = QueryCameras.getListCameras().size();
+    public static JPanel externalPanel = new JPanel();
+    public static JPanel internalPanel = new CameraListPanel();
+    public static JScrollPane scrollPaneGroupEvent = new JScrollPane();
 
     public static int getLimitEvent() {
         return AppConfig.getInstance().getEventLimit();
-    }
-    public int getCountCameras() {
-        return countCameras;
     }
 
     private static class CameraListPanel extends JPanel implements Scrollable {
@@ -78,23 +77,29 @@ public class Content extends JPanel {
     public Content() {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 
-        JPanel internalPanel = new CameraListPanel();
         internalPanel.setLayout(new GridLayout(0, 1));
 
-        JPanel externalPanel = new JPanel();
         externalPanel.setLayout(new BorderLayout(0, 0));
         externalPanel.add(internalPanel, BorderLayout.NORTH);
 
-        JScrollPane scrollPaneGroupEvent = new JScrollPane(
-                externalPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
+        scrollPaneGroupEvent.setViewportView(externalPanel);
+        scrollPaneGroupEvent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneGroupEvent.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        setCameraView();
+
+        this.setLayout(new BorderLayout());
+        this.add(scrollPaneGroupEvent, BorderLayout.CENTER);
+    }
+
+    public void setCameraView() {
+        //очищаем список групп событий
+        internalPanel.removeAll();
 
         //size icon event
         Dimension labelSize = new Dimension(80, 80);
 
-        //image to icon event for test
+        //image to icon event for TEST
         /*
 //        //image to icon event for test
 //        URL url = getClass().getResource("../img/event.jpg");
@@ -105,9 +110,8 @@ public class Content extends JPanel {
 //        byte[] byteImageBase64 = Base64.getDecoder().decode(base64string);
 //        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         */
-
         //отрисовывать группы событий в цикле неопределённое количество раз
-        for (int i = 0; i < getCountCameras(); i++) {
+        for (int i = 0; i < QueryCameras.getListCameras().size(); i++) {
             AddEvent addEvent = new AddEvent();
 
             ArrayList<ImageIcon> listImage = QueryEventsCamera.getListImageIcon(i);
@@ -130,7 +134,7 @@ public class Content extends JPanel {
             internalPanel.add(addEvent);
         }
 
-        this.setLayout(new BorderLayout());
-        this.add(scrollPaneGroupEvent, BorderLayout.CENTER);
+        internalPanel.revalidate();
+        internalPanel.repaint();
     }
 }

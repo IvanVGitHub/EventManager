@@ -4,6 +4,7 @@ import com.ivank.fraui.db.ModelCamera;
 import com.ivank.fraui.db.QueryCameras;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,8 +14,7 @@ public class WindowAddCamera extends JFrame {
 
     public WindowAddCamera() {
         super("Список камер");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 300);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         //получаем список имён всех камер
         ArrayList<String> listCameraName = new ArrayList<>();
@@ -47,20 +47,31 @@ public class WindowAddCamera extends JFrame {
                             listChckBxIsSlctName.add(element.getText());
                         }
                     }
-                    JOptionPane.showMessageDialog(null, listChckBxIsSlctName + " " + String.valueOf(countTEST));
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Выбрано камер: " + String.valueOf(countTEST) + " " + listChckBxIsSlctName
+                    );
 
                     //сохранение списка выбранных камер в файл настроек
                     AppConfig.getInstance().setCamerasView(listChckBxIsSlctName);
                     AppConfig.saveConfig();
+
+                    //при нажатии на кнопку "Ок" закроется не только диалоговое окно, но и окно выбора камер
+                    if (JOptionPane.OK_OPTION == 0) {
+                        setVisible(false);
+                    }
+
+                    //перерисовываем Content JPanel основном окне
+                    Application.windowMain().getContent().setCameraView();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
-        add(buttonAddCameras);
-        add(panelMain);
+        add(panelMain, BorderLayout.CENTER);
+        add(buttonAddCameras, BorderLayout.SOUTH);
 
-//        pack();
+        pack();
         setVisible(true);
         setLocationRelativeTo(null);
     }

@@ -3,7 +3,6 @@ package com.ivank.fraui;
 import com.ivank.fraui.settings.ConnectionSettings;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -49,7 +48,6 @@ public class WindowSettingsConnectDB extends JFrame {
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    dispose();
                 }
             }
         });

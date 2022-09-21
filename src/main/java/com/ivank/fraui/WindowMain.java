@@ -10,7 +10,27 @@ public class WindowMain extends JFrame {
         return instance;
     }
 
-    static WindowMain instance;
+    private static WindowMain instance;
+
+    public Content getContent() {
+        return content;
+    }
+
+    public ToolBar getToolBar() {
+        return toolBar;
+    }
+
+    public StatusBar getStatusBar() {
+        return statusBar;
+    }
+
+    public Tree getTree() {
+        return tree;
+    }
+
+    public Reserved getReserved() {
+        return reserved;
+    }
 
     Content content = new Content();
     ToolBar toolBar = new ToolBar();
