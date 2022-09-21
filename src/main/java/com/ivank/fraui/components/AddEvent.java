@@ -1,9 +1,12 @@
 package com.ivank.fraui.components;
 
+import com.ivank.fraui.MyWindowApp;
 import com.ivank.fraui.db.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Base64;
 
 public class AddEvent extends JPanel {
@@ -16,6 +19,12 @@ public class AddEvent extends JPanel {
         JButton button = new JButton(new ImageIcon(byteImageBase64));
         button.setPreferredSize(new Dimension(30, 30));
 
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new MyWindowApp();
+            }
+        });
+
         this.add(button);
 
         return button;
@@ -25,6 +34,12 @@ public class AddEvent extends JPanel {
         byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getButtonAllImgEvents());
         JButton button = new JButton(new ImageIcon(byteImageBase64));
         button.setPreferredSize(new Dimension(50, 50));
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new MyWindowApp();
+            }
+        });
 
         this.add(button);
 
