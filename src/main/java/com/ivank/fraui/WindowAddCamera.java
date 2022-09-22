@@ -57,7 +57,7 @@ public class WindowAddCamera extends JFrame {
                     );
 
                     //сохранение списка выбранных камер в файл настроек
-                    AppConfig.getInstance().setCamerasView(listChckBxIsSlctName);
+                    AppConfig.getInstance().setCamerasIsSlct(listChckBxIsSlctName);
                     AppConfig.saveConfig();
 
                     //при нажатии на кнопку "Ок" закроется не только диалоговое окно, но и окно выбора камер

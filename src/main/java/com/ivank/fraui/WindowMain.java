@@ -40,7 +40,7 @@ public class WindowMain extends JFrame {
 
 
     public WindowMain() {
-        super("Главное окно");
+        super("Диспетчер событий");
         instance = this;
         //temporary
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

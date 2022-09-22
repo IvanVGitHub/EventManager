@@ -13,29 +13,29 @@ import java.util.ArrayList;
 public class AppConfig {
     private static String configFile = "src/main/resources/config.json";
 
+    private static AppConfig instance;
     public static AppConfig getInstance() {
         if (instance == null)
             loadConfig();
         return instance;
     }
-    private static AppConfig instance;
 
     //fields
-    private ArrayList<CameraSettings> camera = new ArrayList<>();
     private ArrayList<String> camerasIsSlct = new ArrayList<>();
+    private ArrayList<CameraSettings> camera = new ArrayList<>();
     private ConnectionSettings connection = new ConnectionSettings();
     private int eventLimit;
 
-    public ArrayList<CameraSettings> getCamera() {
+    public ArrayList<String> getCamerasIsSlct() {
+        return camerasIsSlct;
+    }
+    public ArrayList<CameraSettings> getCameraSettings() {
         return camera;
     }
     public ConnectionSettings getConnection() {
         return connection;
     }
-    public ArrayList<String> getCamerasView() {
-        return camerasIsSlct;
-    }
-    public void setCamerasView(ArrayList<String> camerasIsSlct) {
+    public void setCamerasIsSlct(ArrayList<String> camerasIsSlct) {
         this.camerasIsSlct = camerasIsSlct;
     }
     public int getEventLimit() {
@@ -44,7 +44,7 @@ public class AppConfig {
     public void setEventLimit(int eventLimit) {
         this.eventLimit = eventLimit;
     }
-    ///end of fields
+    //end of fields
 
     public static AppConfig loadConfig() {
         return loadConfig(true);

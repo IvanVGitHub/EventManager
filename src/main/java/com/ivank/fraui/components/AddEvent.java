@@ -1,49 +1,15 @@
 package com.ivank.fraui.components;
 
-import com.ivank.fraui.MyWindowApp;
-import com.ivank.fraui.db.Settings;
+import com.ivank.fraui.WindowSetMediaCurrentEvent;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Base64;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AddEvent extends JPanel {
     public AddEvent() {
         super(new FlowLayout(FlowLayout.LEFT));
-    }
-
-    public JComponent createButtonOptions() {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getLabelOptions());
-        JButton button = new JButton(new ImageIcon(byteImageBase64));
-        button.setPreferredSize(new Dimension(30, 30));
-
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new MyWindowApp();
-            }
-        });
-
-        this.add(button);
-
-        return button;
-    }
-
-    public JComponent createButtonAllImgEvents() {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getButtonAllImgEvents());
-        JButton button = new JButton(new ImageIcon(byteImageBase64));
-        button.setPreferredSize(new Dimension(50, 50));
-
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new MyWindowApp();
-            }
-        });
-
-        this.add(button);
-
-        return button;
     }
 
     public JComponent createLabelEvent(String name, Dimension labelSize, Color color, ImageIcon icon) {
@@ -55,6 +21,14 @@ public class AddEvent extends JPanel {
 
         label.setBorder(BorderFactory.createLineBorder(color, 5));
         this.add(label);
+
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new WindowSetMediaCurrentEvent();
+            }
+
+        });
 
         return label;
     }

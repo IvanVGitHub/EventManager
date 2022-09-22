@@ -12,10 +12,12 @@ public class ToolBar extends JPanel {
         JPanel panelMain = new JPanel();
         this.setBackground(Color.ORANGE);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        JButton buttonAdd = new JButton("+");
+        JButton buttonAdd = new JButton("Сколько камер?");
         buttonAdd.setFocusable(false);
-        JButton buttonRem = new JButton("-");
+        JButton buttonRem = new JButton("заглушка");
         buttonRem.setFocusable(false);
+        //кнопка не активна
+        buttonRem.setEnabled(false);
         panelMain.add(buttonAdd);
         panelMain.add(buttonRem);
         this.add(panelMain);
@@ -23,7 +25,7 @@ public class ToolBar extends JPanel {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonAdd.setText(String.valueOf("Камер: " + QueryCameras.getListCameras().size()));
+                buttonAdd.setText(String.valueOf("Отслеживается камер: " + QueryCameras.getListCameras().size()));
             }
         });
     }

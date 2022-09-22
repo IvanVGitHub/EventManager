@@ -2,14 +2,16 @@ package com.ivank.fraui.components;
 
 import com.bedivierre.eloquent.ResultSet;
 import com.ivank.fraui.AppConfig;
-import com.ivank.fraui.db.ModelEvent;
-import com.ivank.fraui.db.QueryCameras;
-import com.ivank.fraui.db.CalculationEventColor;
-import com.ivank.fraui.db.QueryEventsCamera;
+import com.ivank.fraui.WindowCameraSettings;
+import com.ivank.fraui.WindowAllEventsCamera;
+import com.ivank.fraui.db.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class Content extends JPanel {
     public static JPanel externalPanel = new JPanel();
@@ -119,7 +121,7 @@ public class Content extends JPanel {
             Color color;
 
             //add buttons "options"
-            addEvent.createButtonOptions();
+            addEvent.add(createButtonOptions());
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
                 //проверка, если в БД нет события, соответственно, нет привязки к цвету события
@@ -129,12 +131,42 @@ public class Content extends JPanel {
                 addEvent.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
             }
             //add buttons "all img events this camera"
-            addEvent.createButtonAllImgEvents();
+            addEvent.add(createButtonAllImgEvents());
 
             internalPanel.add(addEvent);
         }
 
         internalPanel.revalidate();
         internalPanel.repaint();
+    }
+
+    public JComponent createButtonOptions() {
+        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getLabelOptions());
+        JButton button = new JButton(new ImageIcon(byteImageBase64));
+        button.setPreferredSize(new Dimension(30, 30));
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new WindowCameraSettings();
+            }
+        });
+
+        return button;
+    }
+
+    public JComponent createButtonAllImgEvents() {
+        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getButtonAllImgEvents());
+        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
+        //подгоним картинку под нужный размер
+        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
+        button.setPreferredSize(new Dimension(50, 50));
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new WindowAllEventsCamera();
+            }
+        });
+
+        return button;
     }
 }

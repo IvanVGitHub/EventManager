@@ -1,14 +1,20 @@
 {
-  "camera": [
-    {
-      "name": "qwerty"
-    }
-  ],
   "camerasIsSlct": [
     "Camera43",
     "Camera234",
+    "Camera584",
+    "Camera12",
     "Camera1232",
     "Camera2"
+  ],
+  "camera": [
+    {
+      "name": "qwerty",
+      "plugins": [
+        "",
+        ""
+      ]
+    }
   ],
   "connection": {
     "host": "172.20.3.221",

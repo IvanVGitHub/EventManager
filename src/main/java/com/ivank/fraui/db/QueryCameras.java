@@ -32,7 +32,7 @@ public class QueryCameras {
 
         try {
             //query to MYSQL
-            ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasView();
+            ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasIsSlct();
             for (String event : camerasIsSlct)
             {
                 ResultSet<ModelCamera> result = MyDB.cameraQuery("camera_name", event).get();
@@ -82,18 +82,18 @@ public class QueryCameras {
     }
 
     public static Boolean statusChBx(String nameChbx) {
-        Boolean result = false;
+        Boolean boolResult = false;
 
         try {
             for (String event : getListCameraName()) {
                 if (event.equals(nameChbx)) {
-                    result = true;
+                    boolResult = true;
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return result;
+        return boolResult;
     }
 }
