@@ -5,6 +5,7 @@ import com.ivank.fraui.AppConfig;
 import com.ivank.fraui.WindowCameraSettings;
 import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.db.*;
+import com.ivank.fraui.utils.CalculationEventColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -121,13 +122,13 @@ public class Content extends JPanel {
             Color color;
 
             //add buttons "options"
-            addEvent.add(createButtonOptions());
+            addEvent.add(createButtonOptions(QueryCameras.getListCameras().get(i).camera_name));
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
                 //проверка, если в БД нет события, соответственно, нет привязки к цвету события
                 if (resultQueryEventsCamera.size() == 0)
                     color = Color.WHITE;
-                else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).color);
+                else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).plugin_color_event);
                 addEvent.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
             }
             //add buttons "all img events this camera"
@@ -140,14 +141,14 @@ public class Content extends JPanel {
         internalPanel.repaint();
     }
 
-    public JComponent createButtonOptions() {
+    public JComponent createButtonOptions(String cameraName) {
         byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getLabelOptions());
         JButton button = new JButton(new ImageIcon(byteImageBase64));
         button.setPreferredSize(new Dimension(30, 30));
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new WindowCameraSettings();
+                new WindowCameraSettings(cameraName);
             }
         });
 

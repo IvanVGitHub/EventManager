@@ -24,7 +24,8 @@ public class WindowAddCamera extends JFrame {
 
         JPanel panelMain = new JPanel();
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
-        ArrayList<JCheckBox> checkboxes = new ArrayList<>();
+
+        ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
         for (String element : listCameraNameALL) {
             JCheckBox box = new JCheckBox(element);
@@ -32,7 +33,7 @@ public class WindowAddCamera extends JFrame {
             //если камера уже есть в списке отображаемых, то помечается "галочкой"
             box.setSelected(QueryCameras.statusChBx(element));
 
-            checkboxes.add(box);
+            checkBoxes.add(box);
             panelMain.add(box);
         }
 
@@ -44,13 +45,17 @@ public class WindowAddCamera extends JFrame {
                 try {
                     int countTEST = 0;
                     listChckBxIsSlctName.clear();
-                    for (JCheckBox element : checkboxes) {
+
+                    //считаем количество отмеченных чекбоксов/камер, создаём список из отмеченных камер
+                    for (JCheckBox element : checkBoxes) {
                         if (element.isSelected()) {
                             countTEST += 1;
 
                             listChckBxIsSlctName.add(element.getText());
                         }
                     }
+
+                    //Информационное сообщение для ТЕСТА
                     JOptionPane.showMessageDialog(
                             null,
                             "Выбрано камер: " + String.valueOf(countTEST) + " " + listChckBxIsSlctName
@@ -65,7 +70,7 @@ public class WindowAddCamera extends JFrame {
                         setVisible(false);
                     }
 
-                    //перерисовываем Content JPanel основном окне
+                    //перерисовываем Content (JPanel) в основном окне (WindowMain)
                     Application.windowMain().getContent().setCameraView();
                 } catch (Exception ex) {
                     ex.printStackTrace();

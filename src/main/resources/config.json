@@ -5,14 +5,19 @@
     "Camera584",
     "Camera12",
     "Camera1232",
-    "Camera2"
+    "Camera1232"
   ],
   "camera": [
     {
-      "name": "qwerty",
+      "name": "Camera43(для плагинов)",
+      "name": "Camera234(для плагинов)",
+      "name": "Camera584(для плагинов)",
+      "name": "Camera12(для плагинов)",
+      "name": "Camera1232(для плагинов)",
+      "name": "Camera1232(для плагинов)",
       "plugins": [
-        "",
-        ""
+        "1",
+        "2"
       ]
     }
   ],

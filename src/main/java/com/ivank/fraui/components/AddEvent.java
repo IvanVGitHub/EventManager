@@ -22,12 +22,12 @@ public class AddEvent extends JPanel {
         label.setBorder(BorderFactory.createLineBorder(color, 5));
         this.add(label);
 
+        //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new WindowSetMediaCurrentEvent();
             }
-
         });
 
         return label;

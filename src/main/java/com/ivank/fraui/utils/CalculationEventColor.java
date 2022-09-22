@@ -1,4 +1,4 @@
-package com.ivank.fraui.db;
+package com.ivank.fraui.utils;
 
 import java.awt.*;
 
@@ -6,13 +6,13 @@ public class CalculationEventColor {
     public static Color eventColor(String str) {
         try {
             switch (str) {
-                case  ("black"):
+                case  ("blacklist"):
                     return Color.BLACK;
-                case  ("yellow"):
+                case  ("whitelist"):
                     return Color.YELLOW;
-                case  ("green"):
+                case  ("motion"):
                     return Color.GREEN;
-                case  ("red"):
+                case  ("nalogovaya"):
                     return Color.RED;
                 default:
                     return Color.BLACK;
