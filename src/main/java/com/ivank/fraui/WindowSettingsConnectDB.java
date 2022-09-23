@@ -16,6 +16,7 @@ public class WindowSettingsConnectDB extends JFrame {
 
     public WindowSettingsConnectDB() {
         super("Подключение к БД");
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         textFieldHost.setText(AppConfig.getInstance().getConnection().host);
         textFieldDatabase.setText(AppConfig.getInstance().getConnection().database);
@@ -56,7 +57,5 @@ public class WindowSettingsConnectDB extends JFrame {
         setVisible(true);
         pack();//окно создаётся по размерам внутренних элементов, а не [0;0] px
         setLocationRelativeTo(null);
-
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
 }

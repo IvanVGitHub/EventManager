@@ -2,18 +2,17 @@ package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.model.DBModel;
 
-public class ModelEvent extends DBModel {
-    public int id;
-    public String uuid;
+public class ModelCameraPlugins extends DBModel {
+    public String id;
     public String camera_id;
-    public String photo;
     public String plugin_id;
+    public String params;
 
     @Override
     public String getTable() {
-        return "event";
+        return "cameraPlugins";
     }
 
-    public ModelEvent() {
+    public ModelCameraPlugins() {
     }
 }

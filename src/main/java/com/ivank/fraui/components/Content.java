@@ -114,7 +114,7 @@ public class Content extends JPanel {
 //        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         */
         //отрисовывать группы событий в цикле неопределённое количество раз
-        for (int i = 0; i < QueryCameras.getListCameras().size(); i++) {
+        for (int i = 0; i < QueryCameras.getListMdlCameras().size(); i++) {
             AddEvent addEvent = new AddEvent();
 
             ArrayList<ImageIcon> listImage = QueryEventsCamera.getListImageIcon(i);
@@ -122,14 +122,14 @@ public class Content extends JPanel {
             Color color;
 
             //add buttons "options"
-            addEvent.add(createButtonOptions(QueryCameras.getListCameras().get(i).camera_name));
+            addEvent.add(createButtonOptions(QueryCameras.getListMdlCameras().get(i).id));
             //add event to group event
             for(int a = 0; a < listImage.size(); a++) {
                 //проверка, если в БД нет события, соответственно, нет привязки к цвету события
                 if (resultQueryEventsCamera.size() == 0)
                     color = Color.WHITE;
-                else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).plugin_color_event);
-                addEvent.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListCameras().get(i).camera_name), labelSize, color, listImage.get(a));
+                else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).plugin_id);
+                addEvent.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListMdlCameras().get(i).camera_name), labelSize, color, listImage.get(a));
             }
             //add buttons "all img events this camera"
             addEvent.add(createButtonAllImgEvents());
@@ -141,14 +141,14 @@ public class Content extends JPanel {
         internalPanel.repaint();
     }
 
-    public JComponent createButtonOptions(String cameraName) {
+    public JComponent createButtonOptions(int idCamera) {
         byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getLabelOptions());
         JButton button = new JButton(new ImageIcon(byteImageBase64));
         button.setPreferredSize(new Dimension(30, 30));
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new WindowCameraSettings(cameraName);
+                new WindowCameraSettings(idCamera);
             }
         });
 

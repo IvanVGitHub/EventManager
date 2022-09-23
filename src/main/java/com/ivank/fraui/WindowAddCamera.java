@@ -11,21 +11,22 @@ import java.util.ArrayList;
 
 public class WindowAddCamera extends JFrame {
     private static ArrayList<String> listChckBxIsSlctName = new ArrayList<>();
+    //получаем список имён всех камер
+    private static ArrayList<String> listCameraNameALL = new ArrayList<>();
+    private static ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
     public WindowAddCamera() {
         super("Список камер");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-        //получаем список имён всех камер
-        ArrayList<String> listCameraNameALL = new ArrayList<>();
-        for (ModelCamera event : QueryCameras.getListCamerasALL()) {
-            listCameraNameALL.add(String.valueOf(event.camera_name));
-        }
+        setMinimumSize(new Dimension(250, 100));
 
         JPanel panelMain = new JPanel();
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
+        for (ModelCamera event : QueryCameras.getListMdlCamerasALL()) {
+            listCameraNameALL.add(String.valueOf(event.camera_name));
+        }
 
         for (String element : listCameraNameALL) {
             JCheckBox box = new JCheckBox(element);
@@ -38,7 +39,6 @@ public class WindowAddCamera extends JFrame {
         }
 
         JButton buttonAddCameras = new JButton("Сохранить");
-        buttonAddCameras.setBounds(100,200,100,30);
         buttonAddCameras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +77,7 @@ public class WindowAddCamera extends JFrame {
                 }
             }
         });
+
         add(panelMain, BorderLayout.CENTER);
         add(buttonAddCameras, BorderLayout.SOUTH);
 

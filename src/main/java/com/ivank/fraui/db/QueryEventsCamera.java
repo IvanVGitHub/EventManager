@@ -21,7 +21,7 @@ public class QueryEventsCamera {
 
         try {
             //query to MYSQL
-            ModelCamera camera = QueryCameras.getListCameras().get(i);
+            ModelCamera camera = QueryCameras.getListMdlCameras().get(i);
             QueryBuilder<ModelEvent> query = ConnectDB.getConnector().query(ModelEvent.class);
             query.where(
                     "camera_id",
@@ -46,7 +46,7 @@ public class QueryEventsCamera {
 
         try {
             //query to MYSQL
-            ModelCamera camera = QueryCameras.getListCameras().get(i);
+            ModelCamera camera = QueryCameras.getListMdlCameras().get(i);
             QueryBuilder<ModelEvent> query = ConnectDB.getConnector().query(ModelEvent.class);
             query.where(
                     "camera_id",

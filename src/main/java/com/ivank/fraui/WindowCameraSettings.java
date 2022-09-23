@@ -13,19 +13,21 @@ import java.util.ArrayList;
 
 public class WindowCameraSettings extends JFrame {
     private static ArrayList<String> listChckBxIsSlctName = new ArrayList<>();
+    //получаем список плагинов (временно имён камер)
+    private static ArrayList<String> listCameraNameALL = new ArrayList<>();
+    private static ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
-    public WindowCameraSettings(String cameraName) {
+    public WindowCameraSettings(int idCamera) {
         super("Настройки камеры");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-        //получаем список плагинов (временно имён камер)
-        ArrayList<String> listCameraNameALL = new ArrayList<>(QueryPlugins.getListPlaginId());
+        setMinimumSize(new Dimension(300, 100));
 
         JPanel panelMain = new JPanel();
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
-
+        listCameraNameALL.clear();
+        listCameraNameALL = QueryPlugins.getListPlaginsOfCamera(idCamera);
         for (String element : listCameraNameALL) {
             JCheckBox box = new JCheckBox(element);
 
@@ -37,7 +39,6 @@ public class WindowCameraSettings extends JFrame {
         }
 
         JButton buttonAddCameras = new JButton("Сохранить");
-        buttonAddCameras.setBounds(100,200,100,30);
         buttonAddCameras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +58,7 @@ public class WindowCameraSettings extends JFrame {
                     //Информационное сообщение для ТЕСТА
                     JOptionPane.showMessageDialog(
                             null,
-                            "Выбрано камер: " + String.valueOf(countTEST) + " " + listChckBxIsSlctName
+                            "Выбрано плагинов: " + String.valueOf(countTEST) + " " + listChckBxIsSlctName
                     );
 
                     //при нажатии на кнопку "Ок" закроется не только диалоговое окно, но и окно выбора камер
@@ -69,6 +70,7 @@ public class WindowCameraSettings extends JFrame {
                 }
             }
         });
+
         add(panelMain, BorderLayout.CENTER);
         add(buttonAddCameras, BorderLayout.SOUTH);
 
