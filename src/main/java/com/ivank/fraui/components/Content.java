@@ -1,10 +1,11 @@
 package com.ivank.fraui.components;
 
 import com.bedivierre.eloquent.ResultSet;
-import com.ivank.fraui.AppConfig;
-import com.ivank.fraui.WindowCameraSettings;
+import com.ivank.fraui.settings.AppConfig;
+import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.db.*;
+import com.ivank.fraui.settings.Settings;
 import com.ivank.fraui.utils.CalculationEventColor;
 
 import javax.swing.*;
@@ -148,7 +149,7 @@ public class Content extends JPanel {
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new WindowCameraSettings(idCamera);
+                new WindowSettingsCamera(idCamera);
             }
         });
 

@@ -1,6 +1,6 @@
 package com.ivank.fraui.settings;
 
-public class ConnectionSettings {
+public class SettingsConnection {
     public String host;
     public String database;
     public String username;

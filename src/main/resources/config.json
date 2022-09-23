@@ -1,18 +1,56 @@
 {
+  "pluginsIsSlct": [],
   "camerasIsSlct": [
-    "Camera43",
     "Camera234",
-    "Camera584",
     "Camera12",
     "Camera1232"
   ],
-  "camera": [
+  "cameras": [
     {
-      "name": "Camera1232(для плагинов)",
+      "id": 1,
+      "name": "Camera43",
       "plugins": [
-        "1",
-        "2"
+        "whitelist",
+        "blacklist",
+        "motion",
+        "nalogovaya"
       ]
+    },
+    {
+      "id": 2,
+      "name": "Camera234",
+      "plugins": [
+        "motion",
+        "blacklist",
+        "whitelist",
+        "nalogovaya"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Camera584",
+      "plugins": [
+        "nalogovaya",
+        "blacklist",
+        "motion"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Camera12",
+      "plugins": [
+        "whitelist"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Camera1232",
+      "plugins": []
+    },
+    {
+      "id": 6,
+      "name": "Camera2",
+      "plugins": []
     }
   ],
   "connection": {

@@ -4,6 +4,7 @@ import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 import com.bedivierre.eloquent.expr.DBWhereOp;
 import com.ivank.fraui.components.Content;
+import com.ivank.fraui.settings.Settings;
 
 import javax.swing.*;
 import java.util.ArrayList;

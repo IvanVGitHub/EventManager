@@ -1,6 +1,7 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.settings.ConnectionSettings;
+import com.ivank.fraui.settings.AppConfig;
+import com.ivank.fraui.settings.SettingsConnection;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,7 +29,7 @@ public class WindowSettingsConnectDB extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     //сохранение настроек подключения к БД в файл настроек
-                    ConnectionSettings conn = AppConfig.getInstance().getConnection();
+                    SettingsConnection conn = AppConfig.getInstance().getConnection();
                     conn.host = textFieldHost.getText();
                     conn.database = textFieldDatabase.getText();
                     conn.username = textFieldUsername.getText();

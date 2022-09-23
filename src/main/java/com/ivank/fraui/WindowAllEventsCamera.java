@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class WindowAllEventsCamera extends JFrame {
     public WindowAllEventsCamera() {
-        super("Окно заглушка");
+        super("Все события камеры");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         JPanel panelMain = new JPanel();

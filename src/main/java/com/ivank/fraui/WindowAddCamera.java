@@ -2,6 +2,8 @@ package com.ivank.fraui;
 
 import com.ivank.fraui.db.ModelCamera;
 import com.ivank.fraui.db.QueryCameras;
+import com.ivank.fraui.settings.AppConfig;
+import com.ivank.fraui.settings.SettingsCamera;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +27,9 @@ public class WindowAddCamera extends JFrame {
         panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         for (ModelCamera event : QueryCameras.getListMdlCamerasALL()) {
+            SettingsCamera sc = AppConfig.getInstance().getCameraByName(event.camera_name);
+            if(sc != null)
+                sc.id = event.id;
             listCameraNameALL.add(String.valueOf(event.camera_name));
         }
 
@@ -38,8 +43,8 @@ public class WindowAddCamera extends JFrame {
             panelMain.add(box);
         }
 
-        JButton buttonAddCameras = new JButton("Сохранить");
-        buttonAddCameras.addActionListener(new ActionListener() {
+        JButton buttonSave = new JButton("Сохранить");
+        buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -61,14 +66,14 @@ public class WindowAddCamera extends JFrame {
                             "Выбрано камер: " + String.valueOf(countTEST) + " " + listChckBxIsSlctName
                     );
 
-                    //сохранение списка выбранных камер в файл настроек
-                    AppConfig.getInstance().setCamerasIsSlct(listChckBxIsSlctName);
-                    AppConfig.saveConfig();
-
                     //при нажатии на кнопку "Ок" закроется не только диалоговое окно, но и окно выбора камер
                     if (JOptionPane.OK_OPTION == 0) {
                         setVisible(false);
                     }
+
+                    //сохранение списка выбранных камер в файл настроек
+                    AppConfig.getInstance().setCamerasIsSlct(listChckBxIsSlctName);
+                    AppConfig.saveConfig();
 
                     //перерисовываем Content (JPanel) в основном окне (WindowMain)
                     Application.windowMain().getContent().setCameraView();
@@ -79,7 +84,7 @@ public class WindowAddCamera extends JFrame {
         });
 
         add(panelMain, BorderLayout.CENTER);
-        add(buttonAddCameras, BorderLayout.SOUTH);
+        add(buttonSave, BorderLayout.SOUTH);
 
         pack();
         setVisible(true);

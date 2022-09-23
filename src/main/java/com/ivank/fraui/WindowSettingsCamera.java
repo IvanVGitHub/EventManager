@@ -1,9 +1,8 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.db.ModelCamera;
 import com.ivank.fraui.db.QueryCameras;
 import com.ivank.fraui.db.QueryPlugins;
-import com.ivank.fraui.settings.CameraSettings;
+import com.ivank.fraui.settings.AppConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,13 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class WindowCameraSettings extends JFrame {
+public class WindowSettingsCamera extends JFrame {
     private static ArrayList<String> listChckBxIsSlctName = new ArrayList<>();
     //получаем список плагинов (временно имён камер)
     private static ArrayList<String> listCameraNameALL = new ArrayList<>();
     private static ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
-    public WindowCameraSettings(int idCamera) {
+    public WindowSettingsCamera(int idCamera) {
         super("Настройки камеры");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setMinimumSize(new Dimension(300, 100));
@@ -26,11 +25,19 @@ public class WindowCameraSettings extends JFrame {
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
         panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
+
         listCameraNameALL.clear();
         listCameraNameALL = QueryPlugins.getListPlaginsOfCamera(idCamera);
-        for (String element : listCameraNameALL) {
-            JCheckBox box = new JCheckBox(element);
+        ArrayList<String> allPlugins = QueryPlugins.getListPlaginId();
+        for (String element : allPlugins) {
 
+            String name = element + " (не подключен)";
+            for (String plugin: listCameraNameALL) {
+                if(element.equals(plugin)) {
+                    name = element;
+                }
+            }
+            JCheckBox box = new JCheckBox(name);
             //если камера уже есть в списке отображаемых, то помечается "галочкой"
             box.setSelected(QueryCameras.statusChBx(element));
 
@@ -38,8 +45,8 @@ public class WindowCameraSettings extends JFrame {
             panelMain.add(box);
         }
 
-        JButton buttonAddCameras = new JButton("Сохранить");
-        buttonAddCameras.addActionListener(new ActionListener() {
+        JButton buttonSave = new JButton("Сохранить");
+        buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -65,6 +72,14 @@ public class WindowCameraSettings extends JFrame {
                     if (JOptionPane.OK_OPTION == 0) {
                         setVisible(false);
                     }
+
+                    //сохранение списка выбранных камер в файл настроек
+                    AppConfig.getInstance().setPluginsIsSlct(idCamera, listChckBxIsSlctName);
+                    AppConfig.saveConfig();
+
+                    //перерисовываем Content (JPanel) в основном окне (WindowMain)
+                    //(можно оптимизировать, перерисовывая только конкретную группу событий)
+                    Application.windowMain().getContent().setCameraView();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -72,7 +87,7 @@ public class WindowCameraSettings extends JFrame {
         });
 
         add(panelMain, BorderLayout.CENTER);
-        add(buttonAddCameras, BorderLayout.SOUTH);
+        add(buttonSave, BorderLayout.SOUTH);
 
         pack();
         setVisible(true);

@@ -1,7 +1,7 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.DB;
-import com.ivank.fraui.AppConfig;
+import com.ivank.fraui.settings.AppConfig;
 
 public class ConnectDB {
     static DB connector;

@@ -1,12 +1,42 @@
 {
+  "camerasIsSlct": [
+    "Camera43",
+    "Camera234",
+    "Camera584",
+    "Camera12",
+    "Camera1232"
+  ],
+  "cameras": [
+    {
+      "name": "Camera43",
+      "plugins": ["whitelist", "blacklist", "motion", "nalogovaya"]
+    },
+    {
+      "name": "Camera234",
+      "plugins": ["motion", "blacklist", "whitelist", "nalogovaya"]
+    },
+    {
+      "name": "Camera584",
+      "plugins": ["nalogovaya", "blacklist", "motion"]
+    },
+    {
+      "name": "Camera12",
+      "plugins": ["blacklist", "whitelist"]
+    },
+    {
+      "name": "Camera1232",
+      "plugins": []
+    },
+    {
+      "name": "Camera2",
+      "plugins": []
+    }
+  ],
   "connection": {
-    "host" : "172.20.3.221",
+    "host": "172.20.3.221",
     "database": "test",
-    "username" : "ivanUser",
+    "username": "ivanUser",
     "password": "Qwerty!@#456"
   },
-  "cameras": {
-
-  },
-  "eventLimit" : 10
+  "eventLimit": 14
 }
