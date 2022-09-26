@@ -1,19 +1,17 @@
 {
   "pluginsIsSlct": [],
   "camerasIsSlct": [
-    "Camera234",
     "Camera12",
-    "Camera1232"
+    "Camera1232",
+    "Camera2"
   ],
   "cameras": [
     {
       "id": 1,
       "name": "Camera43",
       "plugins": [
-        "whitelist",
-        "blacklist",
-        "motion",
-        "nalogovaya"
+        "nalogovaya",
+        "whitelist"
       ]
     },
     {
@@ -39,13 +37,17 @@
       "id": 4,
       "name": "Camera12",
       "plugins": [
+        "blacklist",
+        "motion",
         "whitelist"
       ]
     },
     {
       "id": 5,
       "name": "Camera1232",
-      "plugins": []
+      "plugins": [
+        "blacklist"
+      ]
     },
     {
       "id": 6,

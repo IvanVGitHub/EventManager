@@ -1,8 +1,8 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.db.QueryCameras;
 import com.ivank.fraui.db.QueryPlugins;
 import com.ivank.fraui.settings.AppConfig;
+import com.ivank.fraui.utils.UtilsAny;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class WindowSettingsCamera extends JFrame {
     private static ArrayList<String> listChckBxIsSlctName = new ArrayList<>();
     //получаем список плагинов (временно имён камер)
-    private static ArrayList<String> listCameraNameALL = new ArrayList<>();
-    private static ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
+    private static ArrayList<String> listPluginsOfCamera = new ArrayList<>();
+    private static ArrayList<JCheckBox> listCheckBoxes = new ArrayList<>();
 
     public WindowSettingsCamera(int idCamera) {
         super("Настройки камеры");
@@ -25,24 +25,37 @@ public class WindowSettingsCamera extends JFrame {
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
         panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
+        listChckBxIsSlctName.clear();
+        listPluginsOfCamera.clear();
+        listPluginsOfCamera = QueryPlugins.getListPluginsOfCamera(idCamera);
+        listCheckBoxes.clear();
 
-        listCameraNameALL.clear();
-        listCameraNameALL = QueryPlugins.getListPlaginsOfCamera(idCamera);
-        ArrayList<String> allPlugins = QueryPlugins.getListPlaginId();
-        for (String element : allPlugins) {
+        ArrayList<String> allPlugins = QueryPlugins.getListPluginIdALL();
+        for (String pluginAny : allPlugins) {
 
-            String name = element + " (не подключен)";
-            for (String plugin: listCameraNameALL) {
-                if(element.equals(plugin)) {
-                    name = element;
+
+
+            JCheckBox checkBox = new JCheckBox(pluginAny);
+            checkBox.setForeground(Color.RED);
+            for (String pluginCamera : listPluginsOfCamera) {
+                if (pluginAny.equals(pluginCamera) == true) {
+                    checkBox.setForeground(Color.BLACK);
                 }
             }
-            JCheckBox box = new JCheckBox(name);
-            //если камера уже есть в списке отображаемых, то помечается "галочкой"
-            box.setSelected(QueryCameras.statusChBx(element));
 
-            checkBoxes.add(box);
-            panelMain.add(box);
+            if (AppConfig.getPluginsIsSlct().equals(pluginAny) == true) {
+                checkBox.setSelected(true);
+            } else {
+                checkBox.setSelected(false);
+            }
+
+
+
+            //если камера уже есть в списке отображаемых, то помечается "галочкой"
+//            checkBox.setSelected(UtilsAny.statusChBx(listPluginsOfCamera, pluginAny));
+
+            listCheckBoxes.add(checkBox);
+            panelMain.add(checkBox);
         }
 
         JButton buttonSave = new JButton("Сохранить");
@@ -54,7 +67,7 @@ public class WindowSettingsCamera extends JFrame {
                     listChckBxIsSlctName.clear();
 
                     //считаем количество отмеченных чекбоксов/камер, создаём список из отмеченных камер
-                    for (JCheckBox element : checkBoxes) {
+                    for (JCheckBox element : listCheckBoxes) {
                         if (element.isSelected()) {
                             countTEST += 1;
 

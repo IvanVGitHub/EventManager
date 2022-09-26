@@ -4,6 +4,7 @@ import com.ivank.fraui.db.ModelCamera;
 import com.ivank.fraui.db.QueryCameras;
 import com.ivank.fraui.settings.AppConfig;
 import com.ivank.fraui.settings.SettingsCamera;
+import com.ivank.fraui.utils.UtilsAny;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,21 +27,33 @@ public class WindowAddCamera extends JFrame {
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
         panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        for (ModelCamera event : QueryCameras.getListMdlCamerasALL()) {
-            SettingsCamera sc = AppConfig.getInstance().getCameraByName(event.camera_name);
-            if(sc != null)
-                sc.id = event.id;
-            listCameraNameALL.add(String.valueOf(event.camera_name));
-        }
+        listChckBxIsSlctName.clear();
+        listCameraNameALL.clear();
+        checkBoxes.clear();
+
+
+
+//        for (ModelCamera event : QueryCameras.getListMdlCamerasALL()) {
+//            //дописал Данила, спросить ghj aeyrwbjyfkmyjcnm
+//            SettingsCamera sc = AppConfig.getInstance().getCameraByName(event.camera_name);
+//            if(sc != null)
+//                sc.id = event.id;
+//
+//            listCameraNameALL.add(String.valueOf(event.camera_name));
+//        }
+
+
+
+        listCameraNameALL = QueryCameras.getListCameraNameALL();
 
         for (String element : listCameraNameALL) {
-            JCheckBox box = new JCheckBox(element);
+            JCheckBox chBox = new JCheckBox(element);
 
             //если камера уже есть в списке отображаемых, то помечается "галочкой"
-            box.setSelected(QueryCameras.statusChBx(element));
+            chBox.setSelected(UtilsAny.statusChBx(QueryCameras.getListCameraName(), element));
 
-            checkBoxes.add(box);
-            panelMain.add(box);
+            checkBoxes.add(chBox);
+            panelMain.add(chBox);
         }
 
         JButton buttonSave = new JButton("Сохранить");

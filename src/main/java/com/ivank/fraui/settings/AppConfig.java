@@ -20,40 +20,11 @@ public class AppConfig {
     }
 
     //fields
-    private ArrayList<String> pluginsIsSlct = new ArrayList<>();
+    private static ArrayList<String> pluginsIsSlct = new ArrayList<>();
     private ArrayList<String> camerasIsSlct = new ArrayList<>();
-
-    public ArrayList<SettingsCamera> getCameras() {
-        return cameras;
-    }
-
     private ArrayList<SettingsCamera> cameras = new ArrayList<>();
     private SettingsConnection connection = new SettingsConnection();
     private int eventLimit;
-
-    public SettingsCamera getCameraByName(String name){
-        for (SettingsCamera c: getCameras()) {
-            if(c.name.equals(name))
-                return c;
-        }
-        return null;
-    }
-    public SettingsCamera getCameraById(int id){
-        for (SettingsCamera c: getCameras()) {
-            if(c.id == id)
-                return c;
-        }
-        return null;
-    }
-
-    public ArrayList<String> getPluginsIsSlct() {
-        return pluginsIsSlct;
-    }
-    public void setPluginsIsSlct(int idCamera, ArrayList<String> pluginsIsSlct) {
-        SettingsCamera sc = this.getCameraById(idCamera);
-        if(sc != null)
-            sc.plugins = pluginsIsSlct;
-    }
     public ArrayList<String> getCamerasIsSlct() {
         return camerasIsSlct;
     }
@@ -74,9 +45,41 @@ public class AppConfig {
     }
     //end of fields
 
+    public ArrayList<SettingsCamera> getCameras() {
+        return cameras;
+    }
+
+    public SettingsCamera getCameraByName(String name) {
+        for (SettingsCamera c: getCameras()) {
+            if(c.name.equals(name))
+                return c;
+        }
+
+        return null;
+    }
+
+    public SettingsCamera getCameraById(int id) {
+        for (SettingsCamera c: getCameras()) {
+            if(c.id == id)
+                return c;
+        }
+
+        return null;
+    }
+
+    public static ArrayList<String> getPluginsIsSlct() {
+        return pluginsIsSlct;
+    }
+    public void setPluginsIsSlct(int idCamera, ArrayList<String> pluginsIsSlct) {
+        SettingsCamera sc = this.getCameraById(idCamera);
+        if(sc != null)
+            sc.plugins = pluginsIsSlct;
+    }
+
     public static AppConfig loadConfig() {
         return loadConfig(true);
     }
+
     public static AppConfig loadConfig(boolean reload) {
         try {
             File file = new File(configFile);
@@ -94,6 +97,7 @@ public class AppConfig {
 
         return new AppConfig();
     }
+
     public static void saveConfig() {
         if (instance == null)
             return;

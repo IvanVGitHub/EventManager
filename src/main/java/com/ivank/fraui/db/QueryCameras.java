@@ -11,6 +11,7 @@ public class QueryCameras {
     private static ArrayList<ModelCamera> listCameras = new ArrayList<>();
     private static ArrayList<String> listEventCamera = new ArrayList<>();
     private static ArrayList<String> listCameraName = new ArrayList<>();
+    private static ArrayList<String> listCameraNameALL = new ArrayList<>();
 
     public static ArrayList<ModelCamera> getListMdlCamerasALL() {
         listCameras.clear();
@@ -82,19 +83,17 @@ public class QueryCameras {
         return listCameraName;
     }
 
-    public static Boolean statusChBx(String nameChbx) {
-        Boolean boolResult = false;
+    public static ArrayList<String> getListCameraNameALL() {
+        listCameraNameALL.clear();
 
         try {
-            for (String event : getListCameraName()) {
-                if (event.equals(nameChbx)) {
-                    boolResult = true;
-                }
+            for (ModelCamera event : getListMdlCamerasALL()) {
+                listCameraNameALL.add(String.valueOf(event.camera_name));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return boolResult;
+        return listCameraNameALL;
     }
 }
