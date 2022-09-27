@@ -33,10 +33,10 @@ public class QueryCameras {
         listCameras.clear();
 
         try {
-            //query to MYSQL
             ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasIsSlct();
             for (String event : camerasIsSlct)
             {
+                //query to MYSQL
                 ResultSet<ModelCamera> result = MyDB.cameraQuery("camera_name", event).get();
 
                 listCameras.addAll(result);

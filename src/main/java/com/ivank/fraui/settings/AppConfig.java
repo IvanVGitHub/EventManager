@@ -26,12 +26,14 @@ public class AppConfig {
     private SettingsConnection connection = new SettingsConnection();
     private int eventLimit;
     public ArrayList<String> getCamerasIsSlct() {
+        loadConfig();
         return camerasIsSlct;
     }
     public void setCamerasIsSlct(ArrayList<String> camerasIsSlct) {
         this.camerasIsSlct = camerasIsSlct;
     }
     public ArrayList<SettingsCamera> getCameraSettings() {
+//        loadConfig();
         return cameras;
     }
     public SettingsConnection getConnection() {

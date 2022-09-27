@@ -47,13 +47,13 @@ public class WindowAddCamera extends JFrame {
         listCameraNameALL = QueryCameras.getListCameraNameALL();
 
         for (String element : listCameraNameALL) {
-            JCheckBox chBox = new JCheckBox(element);
+            JCheckBox checkBox = new JCheckBox(element);
 
             //если камера уже есть в списке отображаемых, то помечается "галочкой"
-            chBox.setSelected(UtilsAny.statusChBx(QueryCameras.getListCameraName(), element));
+            checkBox.setSelected(UtilsAny.statusChBx(QueryCameras.getListCameraName(), element));
 
-            checkBoxes.add(chBox);
-            panelMain.add(chBox);
+            checkBoxes.add(checkBox);
+            panelMain.add(checkBox);
         }
 
         JButton buttonSave = new JButton("Сохранить");
