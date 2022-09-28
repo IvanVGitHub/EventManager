@@ -3,7 +3,7 @@ package com.ivank.fraui.settings;
 import com.bedivierre.eloquent.model.DBModel;
 import com.ivank.fraui.db.ConnectDB;
 
-public class Settings extends DBModel {
+public class SettingsDefault extends DBModel {
     public String id;
     public String code;
     public String data;
@@ -13,10 +13,10 @@ public class Settings extends DBModel {
         return "settings";
     }
 
-    public static Settings getByCode(String code) {
+    public static SettingsDefault getByCode(String code) {
         try {
             return ConnectDB.getConnector().where(
-                    Settings.class,
+                    SettingsDefault.class,
                     "code",
                     code
             ).first();
@@ -29,21 +29,21 @@ public class Settings extends DBModel {
 
     //получить настройку по имени image_options
     public static String getLabelOptions() {
-        Settings defaultImage = getByCode("image_options");
+        SettingsDefault defaultImage = getByCode("image_options");
 
         return defaultImage == null ? "" : defaultImage.data;
     }
 
     //получить настройку по имени image_all_img_events
     public static String getButtonAllImgEvents() {
-        Settings defaultImage = getByCode("image_all_img_events");
+        SettingsDefault defaultImage = getByCode("image_all_img_events");
 
         return defaultImage == null ? "" : defaultImage.data;
     }
 
     //получить настройку по имени image_default_event
     public static String getImageDefault() {
-        Settings defaultImage = getByCode("image_default_event");
+        SettingsDefault defaultImage = getByCode("image_default_event");
 
         return defaultImage == null ? "" : defaultImage.data;
     }

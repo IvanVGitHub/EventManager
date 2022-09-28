@@ -3,17 +3,17 @@ package com.ivank.fraui;
 import com.ivank.fraui.db.ConnectDB;
 
 public class Application {
-    private static WindowMain mainWindow;
+    private static WindowMain windowMain;
 
     public static WindowMain windowMain() {
-        return mainWindow;
+        return windowMain;
     }
 
     public static void main(String[] args) {
         //connect to DB
         ConnectDB.init();
 
-        mainWindow = new WindowMain();
+        windowMain = new WindowMain();
         new AppInTray();
     }
 }

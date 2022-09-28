@@ -26,20 +26,24 @@ public class AppConfig {
     private SettingsConnection connection = new SettingsConnection();
     private int eventLimit;
     public ArrayList<String> getCamerasIsSlct() {
+        //загружаем актуальные json данные
         loadConfig();
+
         return camerasIsSlct;
     }
     public void setCamerasIsSlct(ArrayList<String> camerasIsSlct) {
         this.camerasIsSlct = camerasIsSlct;
     }
-    public ArrayList<SettingsCamera> getCameraSettings() {
-//        loadConfig();
-        return cameras;
-    }
     public SettingsConnection getConnection() {
+        //загружаем актуальные json данные
+        loadConfig();
+
         return connection;
     }
     public int getEventLimit() {
+        //загружаем актуальные json данные
+        loadConfig();
+
         return eventLimit;
     }
     public void setEventLimit(int eventLimit) {
@@ -48,6 +52,9 @@ public class AppConfig {
     //end of fields
 
     public ArrayList<SettingsCamera> getCameras() {
+        //загружаем актуальные json данные
+        loadConfig();
+
         return cameras;
     }
 
@@ -69,13 +76,20 @@ public class AppConfig {
         return null;
     }
 
-    public static ArrayList<String> getPluginsIsSlct() {
+    public ArrayList<String> getPluginsIsSlct(int idCamera) {
+        //загружаем актуальные json данные
+        loadConfig();
+
+        SettingsCamera c = this.getCameraById(idCamera);
+        if(c != null)
+            pluginsIsSlct = c.plugins;
+
         return pluginsIsSlct;
     }
     public void setPluginsIsSlct(int idCamera, ArrayList<String> pluginsIsSlct) {
-        SettingsCamera sc = this.getCameraById(idCamera);
-        if(sc != null)
-            sc.plugins = pluginsIsSlct;
+        SettingsCamera c = this.getCameraById(idCamera);
+        if(c != null)
+            c.plugins = pluginsIsSlct;
     }
 
     public static AppConfig loadConfig() {

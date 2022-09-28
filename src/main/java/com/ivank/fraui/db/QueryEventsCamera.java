@@ -4,7 +4,7 @@ import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 import com.bedivierre.eloquent.expr.DBWhereOp;
 import com.ivank.fraui.components.Content;
-import com.ivank.fraui.settings.Settings;
+import com.ivank.fraui.settings.SettingsDefault;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class QueryEventsCamera {
             //проверяем, если событий нет, то добавим одно стандартное событие
             if (listStringBase64.size() == 0) {
                 //image to icon empty event
-                String strImgDflt = Settings.getImageDefault();
+                String strImgDflt = SettingsDefault.getImageDefault();
                 listStringBase64.add(strImgDflt);
             }
 

@@ -5,7 +5,7 @@ import com.ivank.fraui.settings.AppConfig;
 import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.db.*;
-import com.ivank.fraui.settings.Settings;
+import com.ivank.fraui.settings.SettingsDefault;
 import com.ivank.fraui.utils.CalculationEventColor;
 
 import javax.swing.*;
@@ -143,7 +143,7 @@ public class Content extends JPanel {
     }
 
     public JComponent createButtonOptions(int idCamera) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getLabelOptions());
+        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getLabelOptions());
         JButton button = new JButton(new ImageIcon(byteImageBase64));
         button.setPreferredSize(new Dimension(30, 30));
 
@@ -157,7 +157,7 @@ public class Content extends JPanel {
     }
 
     public JComponent createButtonAllImgEvents() {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(Settings.getButtonAllImgEvents());
+        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getButtonAllImgEvents());
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
         JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));

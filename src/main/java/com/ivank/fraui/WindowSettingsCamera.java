@@ -33,26 +33,16 @@ public class WindowSettingsCamera extends JFrame {
         ArrayList<String> allPlugins = QueryPlugins.getListPluginIdALL();
         for (String pluginAny : allPlugins) {
 
-
-
             JCheckBox checkBox = new JCheckBox(pluginAny);
             checkBox.setForeground(Color.RED);
             for (String pluginCamera : listPluginsOfCamera) {
-                if (pluginAny.equals(pluginCamera) == true) {
+                if (pluginAny.equals(pluginCamera)) {
                     checkBox.setForeground(Color.BLACK);
                 }
             }
 
-            if (AppConfig.getPluginsIsSlct().equals(pluginAny) == true) {
-                checkBox.setSelected(true);
-            } else {
-                checkBox.setSelected(false);
-            }
-
-
-
-            //если камера уже есть в списке отображаемых, то помечается "галочкой"
-//            checkBox.setSelected(UtilsAny.statusChBx(listPluginsOfCamera, pluginAny));
+            //если плагин уже есть в списке отображаемых, то помечается "галочкой"
+            checkBox.setSelected(UtilsAny.statusChBx(AppConfig.getInstance().getPluginsIsSlct(idCamera), pluginAny));
 
             listCheckBoxes.add(checkBox);
             panelMain.add(checkBox);
