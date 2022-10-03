@@ -1,6 +1,8 @@
 {
   "pluginsIsSlct": [],
   "camerasIsSlct": [
+    "Camera43",
+    "Camera234",
     "Camera584",
     "Camera12",
     "Camera1232",

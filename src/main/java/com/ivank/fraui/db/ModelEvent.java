@@ -6,7 +6,7 @@ public class ModelEvent extends DBModel {
     public int id;
     public String uuid;
     public String camera_id;
-    public String photo;
+    public String image;
     public String plugin_id;
 
     @Override

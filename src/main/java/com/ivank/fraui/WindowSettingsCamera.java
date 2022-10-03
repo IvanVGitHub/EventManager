@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class WindowSettingsCamera extends JFrame {
+    private JButton buttonApply = new JButton("Применить");
+
     private static ArrayList<String> listChckBxIsSlctName = new ArrayList<>();
     //получаем список плагинов (временно имён камер)
     private static ArrayList<String> listPluginsOfCamera = new ArrayList<>();
@@ -48,8 +50,7 @@ public class WindowSettingsCamera extends JFrame {
             panelMain.add(checkBox);
         }
 
-        JButton buttonSave = new JButton("Сохранить");
-        buttonSave.addActionListener(new ActionListener() {
+        buttonApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -78,6 +79,7 @@ public class WindowSettingsCamera extends JFrame {
 
                     //сохранение списка выбранных камер в файл настроек
                     AppConfig.getInstance().setPluginsIsSlct(idCamera, listChckBxIsSlctName);
+                    //сохранение локальных настроек
                     AppConfig.saveConfig();
 
                     //перерисовываем Content (JPanel) в основном окне (WindowMain)
@@ -90,7 +92,7 @@ public class WindowSettingsCamera extends JFrame {
         });
 
         add(panelMain, BorderLayout.CENTER);
-        add(buttonSave, BorderLayout.SOUTH);
+        add(buttonApply, BorderLayout.SOUTH);
 
         pack();
         setVisible(true);

@@ -15,8 +15,6 @@ public class QueryEventsCamera {
     private static ResultSet<ModelEvent> result = new ResultSet<>();
     private static ArrayList<String> listEventPicture = new ArrayList<>();
 
-
-
     public static ResultSet<ModelEvent> eventColor(int i) {
         result.clear();
 
@@ -55,13 +53,10 @@ public class QueryEventsCamera {
                     camera.id
             ).limit(Content.getLimitEvent());//последние n событий, отсортированных false: от свежих к старым; true: от старых к свежим
 
-            //result to SQL query for test
-            String sql = query.toSql();
-
             ResultSet<ModelEvent> result = query.get();
 
             for (ModelEvent event : result) {
-                listEventPicture.add(event.photo);
+                listEventPicture.add(event.image);
             }
         } catch (Exception ex) {
             //shows line with error in console
