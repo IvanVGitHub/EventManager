@@ -89,6 +89,9 @@ public class WindowMain extends JFrame {
         MenuItem settingsConnection = new MenuItem("Параметры подключения");
         parameters.add(settingsConnection);
 
+        MenuItem anySettings = new MenuItem("Настройки");
+        parameters.add(anySettings);
+
         MenuItem addCameraTEST = new MenuItem("(тестовое окно)");
         parameters.add(addCameraTEST);
 
@@ -98,6 +101,10 @@ public class WindowMain extends JFrame {
 
         settingsConnection.addActionListener(e -> {
             new WindowSettingsConnectDB();
+        });
+
+        anySettings.addActionListener(e -> {
+            new WindowAnySettings();
         });
 
         addCameraTEST.addActionListener(e -> {

@@ -3,8 +3,8 @@ package com.ivank.fraui;
 import javax.swing.*;
 import java.awt.*;
 
-public class WindowSetMediaCurrentEvent extends JFrame {
-    public WindowSetMediaCurrentEvent() {
+public class WindowAllMediaCurrentEvent extends JFrame {
+    public WindowAllMediaCurrentEvent() {
         super("Кадры события");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 

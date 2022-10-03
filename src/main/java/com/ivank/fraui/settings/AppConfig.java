@@ -20,7 +20,7 @@ public class AppConfig {
     }
 
     //fields
-    private static ArrayList<String> pluginsIsSlct = new ArrayList<>();
+    private ArrayList<String> pluginsIsSlct = new ArrayList<>();
     private ArrayList<String> camerasIsSlct = new ArrayList<>();
     private ArrayList<SettingsCamera> cameras = new ArrayList<>();
     private SettingsConnection connection = new SettingsConnection();
@@ -35,9 +35,6 @@ public class AppConfig {
         this.camerasIsSlct = camerasIsSlct;
     }
     public SettingsConnection getConnection() {
-        //загружаем актуальные json данные
-        loadConfig();
-
         return connection;
     }
     public int getEventLimit() {

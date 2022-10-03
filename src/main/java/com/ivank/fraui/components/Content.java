@@ -6,6 +6,7 @@ import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.db.*;
 import com.ivank.fraui.settings.SettingsDefault;
+import com.ivank.fraui.utils.AddEvent;
 import com.ivank.fraui.utils.CalculationEventColor;
 
 import javax.swing.*;
@@ -130,7 +131,12 @@ public class Content extends JPanel {
                 if (resultQueryEventsCamera.size() == 0)
                     color = Color.WHITE;
                 else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(a).plugin_id);
-                addEvent.createLabelEvent("Камера " + String.valueOf(QueryCameras.getListMdlCameras().get(i).camera_name), labelSize, color, listImage.get(a));
+                addEvent.createLabelEvent(
+                        "Камера " + String.valueOf(QueryCameras.getListMdlCameras().get(i).camera_name),
+                        labelSize,
+                        color,
+                        listImage.get(a)
+                );
             }
             //add buttons "all img events this camera"
             addEvent.add(createButtonAllImgEvents());

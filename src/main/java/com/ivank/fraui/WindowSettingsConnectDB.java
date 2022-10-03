@@ -28,12 +28,27 @@ public class WindowSettingsConnectDB extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    AppConfig a = AppConfig.getInstance();
                     //сохранение настроек подключения к БД в файл настроек
                     SettingsConnection conn = AppConfig.getInstance().getConnection();
-                    conn.host = textFieldHost.getText();
-                    conn.database = textFieldDatabase.getText();
-                    conn.username = textFieldUsername.getText();
-                    conn.password = textFieldPassword.getText();
+
+                    //загружаем актуальные json данные
+                    AppConfig.loadConfig();
+
+                    AppConfig.getInstance().getConnection().host = textFieldHost.getText();
+                    AppConfig.getInstance().getConnection().database = textFieldDatabase.getText();
+                    AppConfig.getInstance().getConnection().username = textFieldUsername.getText();
+                    AppConfig.getInstance().getConnection().password = textFieldPassword.getText();
+////                    AppConfig.getInstance().getConnection().host = textFieldHost.getText();
+////                    AppConfig.getInstance().getConnection().database = textFieldDatabase.getText();
+////                    AppConfig.getInstance().getConnection().username = textFieldUsername.getText();
+////                    AppConfig.getInstance().getConnection().password = textFieldPassword.getText();
+//                    conn.host = textFieldHost.getText();
+//                    conn.database = textFieldDatabase.getText();
+//                    conn.username = textFieldUsername.getText();
+//                    conn.password = textFieldPassword.getText();
+//
+//                    AppConfig a2 = AppConfig.getInstance();
                     AppConfig.saveConfig();
 
                     try {

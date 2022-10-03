@@ -1,6 +1,6 @@
-package com.ivank.fraui.components;
+package com.ivank.fraui.utils;
 
-import com.ivank.fraui.WindowSetMediaCurrentEvent;
+import com.ivank.fraui.WindowAllMediaCurrentEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class AddEvent extends JPanel {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new WindowSetMediaCurrentEvent();
+                new WindowAllMediaCurrentEvent();
             }
         });
 

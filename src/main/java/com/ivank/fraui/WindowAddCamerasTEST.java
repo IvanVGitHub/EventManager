@@ -1,6 +1,6 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.components.AddEvent;
+import com.ivank.fraui.utils.AddEvent;
 
 import javax.swing.*;
 import java.awt.*;
