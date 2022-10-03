@@ -57,7 +57,7 @@
     }
   ],
   "connection": {
-    "host": "172.20.3.221",
+    "host": "172.20.3.231",
     "database": "test",
     "username": "ivanUser",
     "password": "Qwerty!@#456"

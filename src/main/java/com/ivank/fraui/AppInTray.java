@@ -57,7 +57,7 @@ public class AppInTray {
                 windowMain.setVisible(true);
             }
         });
-        MenuItem exit = new MenuItem("Exit");
+        MenuItem exit = new MenuItem("Выход");
         exit.addActionListener(e -> {
             try {
                 ConnectDB.getConnector().close();

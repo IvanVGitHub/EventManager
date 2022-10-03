@@ -95,6 +95,12 @@ public class WindowMain extends JFrame {
         MenuItem addCameraTEST = new MenuItem("(тестовое окно)");
         parameters.add(addCameraTEST);
 
+        //оризонтальная черта для визуального разделения
+        parameters.addSeparator();
+
+        MenuItem exit = new MenuItem("Выход");
+        parameters.add(exit);
+
         addCamera.addActionListener(e -> {
             new WindowAddCamera();
         });
@@ -109,6 +115,10 @@ public class WindowMain extends JFrame {
 
         addCameraTEST.addActionListener(e -> {
             new WindowAddCamerasTEST();
+        });
+
+        exit.addActionListener(e -> {
+            System.exit(0);
         });
 
         menuBar.add(parameters);

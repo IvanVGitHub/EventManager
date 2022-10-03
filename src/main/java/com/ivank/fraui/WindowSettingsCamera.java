@@ -43,8 +43,6 @@ public class WindowSettingsCamera extends JFrame {
 
             //если плагин уже есть в списке отображаемых, то помечается "галочкой"
             checkBox.setSelected(UtilsAny.statusChBx(AppConfig.getInstance().getPluginsIsSlct(idCamera), pluginAny));
-            //загружаем актуальные json данные
-            AppConfig.loadConfig();
 
             listCheckBoxes.add(checkBox);
             panelMain.add(checkBox);
