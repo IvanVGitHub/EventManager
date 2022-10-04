@@ -115,31 +115,27 @@ public class Content extends JPanel {
         byte[] byteImageBase64 = Base64.getDecoder().decode(base64string);
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 */
-        //отрисовывать группы событий в цикле неопределённое количество раз
-        for (int countGroups = 0; countGroups < QueryCameras.getListMdlCameras().size(); countGroups++) {
-            AddEvent addEvent = new AddEvent();
 
-            ArrayList<ImageIcon> listImage = QueryEventsCamera.getListImageIcon(countGroups);
-            ResultSet<ModelEvent> resultQueryEventsCamera = QueryEventsCamera.eventColor(countGroups);
-            Color color;
+        //ИСПРАВИТЬ! будут отображаться ВСЕ камеры, которые есть БД, а не только те, что хранятся в настроках приложения
+        ArrayList<ModelCamera> listModelCameras = QueryNEWCamera.getListModelCameras();
+        //отрисовка групп событий
+        for (int countCameras = 0; countCameras < listModelCameras.size(); countCameras++) {
+            AddEvent addEvent = new AddEvent();
+            ArrayList<ModelNEWEvent> listModelEvents = QueryNEWEvent.getModelEventsCamera(listModelCameras.get(countCameras).id);
 
             //add buttons "options"
-            addEvent.add(createButtonOptions(QueryCameras.getListMdlCameras().get(countGroups).id));
+            addEvent.add(createButtonOptions(QueryCameras.getListMdlCameras().get(countCameras).id));
             //add event to group event
-            for(int countEvents = 0; countEvents < listImage.size(); countEvents++) {
-                //проверка, если в БД нет события, соответственно, нет привязки к цвету события
-                if (resultQueryEventsCamera.size() == 0)
-                    color = Color.WHITE;
-                else color = CalculationEventColor.eventColor(resultQueryEventsCamera.get(countEvents).plugin_id);
+            for(int countEvents = 0; countEvents < listModelEvents.size(); countEvents++) {
                 addEvent.createLabelEvent(
-                        "Камера " + String.valueOf(QueryCameras.getListMdlCameras().get(countGroups).camera_name),
+                        "Камера " + String.valueOf(listModelCameras.get(countCameras).camera_name),
                         labelSize,
-                        color,
-                        listImage.get(countEvents)
+                        CalculationEventColor.eventColor(listModelEvents.get(countEvents).plugin_id),
+                        QueryNEWEventImages.getListEventImages(listModelEvents.get(countEvents).id).get(3)
                 );
             }
             //add buttons "all img events this camera"
-            addEvent.add(createButtonAllImgEvents(QueryCameras.getListMdlCameras().get(countGroups).id));
+            addEvent.add(createButtonAllImgEvents(QueryCameras.getListMdlCameras().get(countCameras).id));
 
             internalPanel.add(addEvent);
         }
