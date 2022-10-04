@@ -131,7 +131,7 @@ public class Content extends JPanel {
                         "Камера " + String.valueOf(listModelCameras.get(countCameras).camera_name),
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(countEvents).plugin_id),
-                        QueryNEWEventImages.getListEventImages(listModelEvents.get(countEvents).id).get(3)
+                        QueryNEWEventImages.getListEventImages(listModelEvents.get(countEvents).id).get(3) //выводим 4-ый по счёту кадр из серии
                 );
             }
             //add buttons "all img events this camera"

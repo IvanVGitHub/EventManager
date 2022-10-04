@@ -24,6 +24,16 @@ public class AppConfig {
     private ArrayList<String> camerasIsSlct = new ArrayList<>();
     private ArrayList<SettingsCamera> cameras = new ArrayList<>();
     private SettingsConnection connection = new SettingsConnection();
+    private SettingsLabelSize labelSize = new SettingsLabelSize();
+
+
+    public SettingsLabelSize getLabelSize() {
+        return labelSize;
+    }
+
+    public void setLabelSize(SettingsLabelSize labelSize) {
+        this.labelSize = labelSize;
+    }
     private int eventLimit;
     public ArrayList<String> getCamerasIsSlct() {
         //загружаем актуальные json данные
