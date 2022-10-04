@@ -2,48 +2,37 @@ package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
-import com.ivank.fraui.settings.AppConfig;
-import com.ivank.fraui.utils.MyDB;
 
 import java.util.ArrayList;
 
 public class QueryNEWEvent {
-    private static ArrayList<ModelNEWEvent> listModelEventCamera = new ArrayList<>();
-    private static ArrayList<ModelCamera> listCameras = new ArrayList<>();
+    private static ArrayList<ModelCamera> listModelCameras = new ArrayList<>();
 
+    //список всех камер в таблице camera
     public static ArrayList<ModelCamera> getListModelCameras() {
-        listCameras.clear();
+        listModelCameras.clear();
 
         try {
-            ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasIsSlct();
-            for (String event : camerasIsSlct)
-            {
-                //query to MYSQL
-                ResultSet<ModelCamera> result = MyDB.cameraQuery("camera_name", event).get();
-
-                listCameras.addAll(result);
-            }
+            QueryBuilder<ModelCamera> query = ConnectDB.getConnector().query(ModelCamera.class);
+            listModelCameras = query.get();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return listCameras;
+        return listModelCameras;
     }
 
-    public static ArrayList<ModelNEWEvent> getListModelEventsCamera(int i) {
-        listModelEventCamera.clear();
+    //список моделей конкретной камеры в таблице event
+    public static ResultSet<ModelNEWEvent> getModelEventsCamera(int idCamera) {
+        ResultSet<ModelNEWEvent> result = null;
 
         try {
-            //query to MYSQL
-            ModelCamera camera = getListModelCameras().get(i);
-            QueryBuilder<ModelNEWEvent> query = ConnectDB.getConnector().query(ModelNEWEvent.class);
-            ResultSet<ModelNEWEvent> result = query.get();
-
-            listModelEventCamera.addAll(result);
+            QueryBuilder<ModelNEWEvent> query = ConnectDB.getConnector().query(ModelNEWEvent.class).where("camera_id", idCamera);
+            result = query.get();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return listModelEventCamera;
+        return result;
     }
 }

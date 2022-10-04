@@ -24,7 +24,6 @@ public class AppInTray {
         }
 
         if (SystemTray.isSupported()) {
-            //app will be closed only from tray
             //HIDE_ON_CLOSE - when closing WindowMain and reopening across tray, it opens in its previous state
             WindowMain.getInstance().setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         }
