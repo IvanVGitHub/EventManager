@@ -83,7 +83,7 @@ public class WindowMain extends JFrame {
         MenuBar menuBar = new MenuBar();
         Menu parameters = new Menu("Параметры");
 
-        MenuItem addCamera = new MenuItem("+ камера");
+        MenuItem addCamera = new MenuItem("Список камер");
         parameters.add(addCamera);
 
         MenuItem settingsConnection = new MenuItem("Параметры подключения");
