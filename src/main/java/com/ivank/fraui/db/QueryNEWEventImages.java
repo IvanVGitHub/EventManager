@@ -12,16 +12,15 @@ public class QueryNEWEventImages {
 
     //список моделей конкретного событая в таблице eventImages
     public static ResultSet<ModelNEWEventImages> getListModelEventImages(int event_id) {
-        ResultSet<ModelNEWEventImages> result = null;
-
         try {
             QueryBuilder<ModelNEWEventImages> query = ConnectDB.getConnector().query(ModelNEWEventImages.class).where("event_id", event_id);
-            result = query.get();
+
+            return query.get();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return result;
+        return null;
     }
 
     //список изображений конкретного события

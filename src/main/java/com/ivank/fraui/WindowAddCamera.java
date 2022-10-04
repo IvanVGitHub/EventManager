@@ -28,22 +28,7 @@ public class WindowAddCamera extends JFrame {
         panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         listChckBxIsSlctName.clear();
-        listCameraNameALL.clear();
         checkBoxes.clear();
-
-
-
-//        for (ModelCamera event : QueryCameras.getListMdlCamerasALL()) {
-//            //дописал Данила, спросить ghj aeyrwbjyfkmyjcnm
-//            SettingsCamera sc = AppConfig.getInstance().getCameraByName(event.camera_name);
-//            if(sc != null)
-//                sc.id = event.id;
-//
-//            listCameraNameALL.add(String.valueOf(event.camera_name));
-//        }
-
-
-
         listCameraNameALL = QueryCameras.getListCameraNameALL();
 
         for (String element : listCameraNameALL) {

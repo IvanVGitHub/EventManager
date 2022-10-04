@@ -24,15 +24,14 @@ public class QueryNEWEvent {
 
     //список моделей конкретной камеры в таблице event
     public static ResultSet<ModelNEWEvent> getModelEventsCamera(int idCamera) {
-        ResultSet<ModelNEWEvent> result = null;
-
         try {
             QueryBuilder<ModelNEWEvent> query = ConnectDB.getConnector().query(ModelNEWEvent.class).where("camera_id", idCamera);
-            result = query.get();
+
+            return query.get();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return result;
+        return null;
     }
 }
