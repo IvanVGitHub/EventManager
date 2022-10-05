@@ -6,15 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class AddEvent extends JPanel {
     public AddEvent() {
         super(new FlowLayout(FlowLayout.LEFT));
     }
 
-    public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon icon) {
+    public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id) {
         //paste image with the specific dimensions
-        JLabel label = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(labelSize.width, labelSize.height, java.awt.Image.SCALE_SMOOTH)));
+        JLabel label = new JLabel(new ImageIcon(image.getImage().getScaledInstance(
+                labelSize.width,
+                labelSize.height,
+                java.awt.Image.SCALE_SMOOTH
+        )));
         label.setPreferredSize(labelSize);
         label.setHorizontalAlignment(JLabel.CENTER);
 
@@ -25,7 +30,7 @@ public class AddEvent extends JPanel {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new WindowAllMediaCurrentEvent();
+                new WindowAllMediaCurrentEvent(event_id);
             }
         });
 

@@ -20,7 +20,6 @@ public class AppConfig {
     }
 
     //fields
-    private ArrayList<String> pluginsIsSlct = new ArrayList<>();
     private ArrayList<String> camerasIsSlct = new ArrayList<>();
     private ArrayList<SettingsCamera> cameras = new ArrayList<>();
     private SettingsConnection connection = new SettingsConnection();
@@ -90,14 +89,14 @@ public class AppConfig {
 
         SettingsCamera c = this.getCameraById(idCamera);
         if(c != null)
-            pluginsIsSlct = c.plugins;
-
-        return pluginsIsSlct;
+            return c.plugins;
+        return null;
     }
-    public void setPluginsIsSlct(int idCamera, ArrayList<String> pluginsIsSlct) {
+
+    public void setPluginsIsSlct(int idCamera, ArrayList<String> listPluginsIsSlct) {
         SettingsCamera c = this.getCameraById(idCamera);
         if(c != null)
-            c.plugins = pluginsIsSlct;
+            c.plugins = listPluginsIsSlct;
     }
 
     public static AppConfig loadConfig() {

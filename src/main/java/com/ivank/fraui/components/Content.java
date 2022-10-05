@@ -1,6 +1,5 @@
 package com.ivank.fraui.components;
 
-import com.bedivierre.eloquent.ResultSet;
 import com.ivank.fraui.settings.AppConfig;
 import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.WindowAllEventsCamera;
@@ -18,17 +17,17 @@ import java.util.Base64;
 
 public class Content extends JPanel {
     public static JPanel externalPanel = new JPanel();
-    public static JPanel internalPanel = new PanelFlexContent();
+    public static JPanel internalPanel = new PanelFlex();
     public static JScrollPane scrollPaneGroupEvent = new JScrollPane();
 
     public static int getLimitEvent() {
         return AppConfig.getInstance().getEventLimit();
     }
 
-    public static class PanelFlexContent extends JPanel implements Scrollable {
+    public static class PanelFlex extends JPanel implements Scrollable {
         private static final long serialVersionUID = 1;
 
-        public PanelFlexContent() {
+        public PanelFlex() {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
 
@@ -100,7 +99,6 @@ public class Content extends JPanel {
     public void setCameraView() {
         //очищаем список групп событий
         internalPanel.removeAll();
-
         //size icon event
         Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
 
@@ -132,7 +130,8 @@ public class Content extends JPanel {
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(countEvents).plugin_id),
-                        QueryNEWEventImages.getListEventImages(listModelEvents.get(countEvents).id).get(3) //выводим 4-ый по счёту кадр из серии
+                        QueryNEWEventImages.getEventFirstImage(listModelEvents.get(countEvents).id),
+                        listModelEvents.get(countEvents).id
                 );
             }
             //add buttons "all img events this camera"

@@ -1,6 +1,8 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
+import com.bedivierre.eloquent.ResultSet;
+import com.ivank.fraui.settings.SettingsDefault;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -16,6 +18,24 @@ public class QueryNEWEventImages {
             QueryBuilder<ModelNEWEventImages> query = ConnectDB.getConnector().query(ModelNEWEventImages.class).where("event_id", event_id);
 
             return query.get();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    //первое изображение события
+    public static ImageIcon getEventFirstImage(int event_id) {
+        try {
+            ModelNEWEventImages result = ConnectDB.getConnector().query(ModelNEWEventImages.class).where(
+                    "event_id",
+                    event_id
+            ).first();
+
+            byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
+
+            return new ImageIcon(byteImageBase64);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
