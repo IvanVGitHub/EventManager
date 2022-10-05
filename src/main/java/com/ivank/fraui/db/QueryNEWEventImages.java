@@ -2,6 +2,7 @@ package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
+import com.ivank.fraui.components.Content;
 import com.ivank.fraui.settings.SettingsDefault;
 
 import javax.swing.*;

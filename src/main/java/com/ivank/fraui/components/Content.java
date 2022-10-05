@@ -119,7 +119,7 @@ public class Content extends JPanel {
         //отрисовка групп событий
         for (int countCameras = 0; countCameras < listModelCameras.size(); countCameras++) {
             AddEvent addEvent = new AddEvent();
-            ArrayList<ModelNEWEvent> listModelEvents = QueryNEWEvent.getModelEventsCamera(listModelCameras.get(countCameras).id);
+            ArrayList<ModelNEWEvent> listModelEvents = QueryNEWEvent.getModelEventsCamera(listModelCameras.get(countCameras).id, getLimitEvent());
 
             //add buttons "options"
             addEvent.add(createButtonOptions(QueryCameras.getListMdlCameras().get(countCameras).id));

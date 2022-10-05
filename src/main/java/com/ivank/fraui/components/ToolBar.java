@@ -1,5 +1,6 @@
 package com.ivank.fraui.components;
 
+import com.ivank.fraui.Application;
 import com.ivank.fraui.db.QueryCameras;
 
 import javax.swing.*;
@@ -14,10 +15,10 @@ public class ToolBar extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         JButton buttonAdd = new JButton("Сколько камер?");
         buttonAdd.setFocusable(false);
-        JButton buttonRem = new JButton("заглушка");
+        JButton buttonRem = new JButton("Обновить");
         buttonRem.setFocusable(false);
-        //кнопка не активна
-        buttonRem.setEnabled(false);
+/*        //кнопка не активна
+        buttonRem.setEnabled(false);*/
         panelMain.add(buttonAdd);
         panelMain.add(buttonRem);
         this.add(panelMain);
@@ -26,6 +27,14 @@ public class ToolBar extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonAdd.setText(String.valueOf("Отслеживается камер: " + QueryCameras.getListMdlCameras().size()));
+            }
+        });
+
+        buttonRem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //перерисовываем Content (JPanel) в основном окне (WindowMain)
+                Application.windowMain().getContent().setCameraView();
             }
         });
     }

@@ -1,42 +1,71 @@
 {
   "camerasIsSlct": [
-    "Camera43",
-    "Camera234",
-    "Camera584",
-    "Camera12",
-    "Camera1232"
+    "172.20.13.10",
+    "172.20.7.17",
+    "172.20.7.36",
+    "172.20.7.68",
+    "172.20.7.2",
+    "172.20.7.71"
   ],
   "cameras": [
     {
+      "id": 1,
       "name": "Camera43",
-      "plugins": ["whitelist", "blacklist", "motion", "nalogovaya"]
+      "plugins": [
+        "nalogovaya",
+        "whitelist"
+      ]
     },
     {
+      "id": 2,
       "name": "Camera234",
-      "plugins": ["motion", "blacklist", "whitelist", "nalogovaya"]
+      "plugins": [
+        "motion",
+        "blacklist",
+        "whitelist",
+        "nalogovaya"
+      ]
     },
     {
+      "id": 3,
       "name": "Camera584",
-      "plugins": ["nalogovaya", "blacklist", "motion"]
+      "plugins": [
+        "nalogovaya",
+        "blacklist",
+        "motion"
+      ]
     },
     {
+      "id": 4,
       "name": "Camera12",
-      "plugins": ["blacklist", "whitelist"]
+      "plugins": [
+        "blacklist",
+        "motion",
+        "whitelist"
+      ]
     },
     {
+      "id": 5,
       "name": "Camera1232",
-      "plugins": []
+      "plugins": [
+        "blacklist"
+      ]
     },
     {
+      "id": 6,
       "name": "Camera2",
       "plugins": []
     }
   ],
   "connection": {
-    "host": "172.20.3.221",
+    "host": "172.20.3.231",
     "database": "test",
     "username": "ivanUser",
     "password": "Qwerty!@#456"
   },
-  "eventLimit": 14
+  "labelSize": {
+    "width": 100,
+    "height": 100
+  },
+  "eventLimit": 11
 }

@@ -30,7 +30,11 @@ public class AddEvent extends JPanel {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new WindowAllMediaCurrentEvent(event_id);
+                try {
+                    new WindowAllMediaCurrentEvent(event_id);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
