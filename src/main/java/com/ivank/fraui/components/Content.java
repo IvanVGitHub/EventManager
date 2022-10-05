@@ -125,10 +125,11 @@ public class Content extends JPanel {
 
             //add buttons "options"
             addEvent.add(createButtonOptions(QueryCameras.getListMdlCameras().get(countCameras).id));
+            //создаём рамку группы событий и пишем на ней имя камеры
+            addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(countCameras).camera_name + "\""));
             //add event to group event
             for(int countEvents = 0; countEvents < listModelEvents.size(); countEvents++) {
                 addEvent.createLabelEvent(
-                        "Камера " + String.valueOf(listModelCameras.get(countCameras).camera_name),
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(countEvents).plugin_id),
                         QueryNEWEventImages.getListEventImages(listModelEvents.get(countEvents).id).get(3) //выводим 4-ый по счёту кадр из серии

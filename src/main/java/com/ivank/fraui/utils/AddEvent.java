@@ -12,8 +12,7 @@ public class AddEvent extends JPanel {
         super(new FlowLayout(FlowLayout.LEFT));
     }
 
-    public JComponent createLabelEvent(String name, Dimension labelSize, Color color, ImageIcon icon) {
-        this.setBorder(BorderFactory.createTitledBorder(name));
+    public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon icon) {
         //paste image with the specific dimensions
         JLabel label = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(labelSize.width, labelSize.height, java.awt.Image.SCALE_SMOOTH)));
         label.setPreferredSize(labelSize);
