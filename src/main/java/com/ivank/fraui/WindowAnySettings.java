@@ -27,8 +27,7 @@ public class WindowAnySettings extends JFrame {
                 try {
                     try {
                         //сохранение настроек подключения к БД в файл настроек
-                        AppConfig.getInstance().setEventLimit(Integer.parseInt(textField.getText()));
-                        AppConfig.getInstance().setLabelSize()(Integer.parseInt(textField1.getText()));
+                        AppConfig.getInstance().setLabelSize(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText()));
                         AppConfig.getInstance().setEventLimit(Integer.parseInt(textField2.getText()));
                         AppConfig.saveConfig();
                     } catch (Exception ex) {

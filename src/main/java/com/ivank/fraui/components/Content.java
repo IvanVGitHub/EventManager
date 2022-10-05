@@ -102,7 +102,7 @@ public class Content extends JPanel {
         internalPanel.removeAll();
 
         //size icon event
-        Dimension labelSize = new Dimension(80, 80);
+        Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
 
         //image to icon event for TEST
 /*

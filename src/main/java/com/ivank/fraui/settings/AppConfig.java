@@ -31,8 +31,9 @@ public class AppConfig {
         return labelSize;
     }
 
-    public void setLabelSize(SettingsLabelSize labelSize) {
-        this.labelSize = labelSize;
+    public void setLabelSize(int width, int height) {
+        this.labelSize.width = width;
+        this.labelSize.height = height;
     }
     private int eventLimit;
     public ArrayList<String> getCamerasIsSlct() {

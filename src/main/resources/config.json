@@ -64,5 +64,9 @@
     "username": "ivanUser",
     "password": "Qwerty!@#456"
   },
+  "labelSize": {
+    "width": 100,
+    "height": 100
+  },
   "eventLimit": 14
 }
