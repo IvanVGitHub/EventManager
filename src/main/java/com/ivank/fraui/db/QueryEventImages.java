@@ -1,20 +1,19 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
-import com.bedivierre.eloquent.ResultSet;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Base64;
 
-public class QueryNEWEventImages {
+public class QueryEventImages {
     //список изображений события (event)
     private static ArrayList<ImageIcon> listEventImages = new ArrayList<>();
 
     //список моделей конкретного событая в таблице eventImages
-    public static ArrayList<ModelNEWEventImages> getListModelEventImages(int event_id) {
+    public static ArrayList<ModelEventImages> getListModelEventImages(int event_id) {
         try {
-            QueryBuilder<ModelNEWEventImages> query = ConnectDB.getConnector().query(ModelNEWEventImages.class).where("event_id", event_id);
+            QueryBuilder<ModelEventImages> query = ConnectDB.getConnector().query(ModelEventImages.class).where("event_id", event_id);
 
             return query.get();
         } catch (Exception ex) {
@@ -27,7 +26,7 @@ public class QueryNEWEventImages {
     //первое изображение события
     public static ImageIcon getEventFirstImage(int event_id) {
         try {
-            ModelNEWEventImages result = ConnectDB.getConnector().query(ModelNEWEventImages.class).where(
+            ModelEventImages result = ConnectDB.getConnector().query(ModelEventImages.class).where(
                     "event_id",
                     event_id
             ).first();
@@ -47,7 +46,7 @@ public class QueryNEWEventImages {
     public static ArrayList<ImageIcon> getListEventImages(int event_id) {
         listEventImages.clear();
 
-        for (ModelNEWEventImages event : getListModelEventImages(event_id)) {
+        for (ModelEventImages event : getListModelEventImages(event_id)) {
             byte[] byteImageBase64 = Base64.getDecoder().decode(event.image);
             listEventImages.add(new ImageIcon(byteImageBase64));
         }

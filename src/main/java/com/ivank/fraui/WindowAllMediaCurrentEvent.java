@@ -1,7 +1,7 @@
 package com.ivank.fraui;
 
 import com.ivank.fraui.components.Content;
-import com.ivank.fraui.db.QueryNEWEventImages;
+import com.ivank.fraui.db.QueryEventImages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class WindowAllMediaCurrentEvent extends JFrame {
         JPanel panelMain = new Content.PanelFlex();
         panelMain.setPreferredSize(new Dimension(800, 600));
 
-        listImage = QueryNEWEventImages.getListEventImages(event_id);
+        listImage = QueryEventImages.getListEventImages(event_id);
 
         JLabel label = new JLabel();
         panelMain.add(label);

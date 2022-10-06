@@ -7,7 +7,7 @@ import com.ivank.fraui.utils.MyDB;
 
 import java.util.ArrayList;
 
-public class QueryNEWCamera {
+public class QueryCamera {
     //список моделей всех камер
     private static ArrayList<ModelCamera> listModelCameras = new ArrayList<>();
     //список моделей камер, сохранённых в локальных настроках приложения, т. е. их выбрали для отслеживания событий

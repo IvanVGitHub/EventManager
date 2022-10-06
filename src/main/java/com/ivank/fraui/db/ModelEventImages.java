@@ -2,7 +2,7 @@ package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.model.DBModel;
 
-public class ModelNEWEventImages extends DBModel {
+public class ModelEventImages extends DBModel {
     public int id;
     public String uuid;
     public int event_id;
@@ -13,6 +13,6 @@ public class ModelNEWEventImages extends DBModel {
         return "NEWeventImages";
     }
 
-    public ModelNEWEventImages() {
+    public ModelEventImages() {
     }
 }

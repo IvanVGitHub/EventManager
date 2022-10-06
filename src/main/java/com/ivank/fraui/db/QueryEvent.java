@@ -1,15 +1,14 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
-import com.bedivierre.eloquent.ResultSet;
 
 import java.util.ArrayList;
 
-public class QueryNEWEvent {
+public class QueryEvent {
     //список моделей конкретной камеры в таблице event
-    public static ArrayList<ModelNEWEvent> getModelEventsCamera(int idCamera, int value) {
+    public static ArrayList<ModelEvent> getModelEventsCamera(int idCamera, int value) {
         try {
-            QueryBuilder<ModelNEWEvent> query = ConnectDB.getConnector().query(ModelNEWEvent.class)
+            QueryBuilder<ModelEvent> query = ConnectDB.getConnector().query(ModelEvent.class)
                     .where("camera_id", idCamera)
                     .orderBy(false, "time")
                     .limit(value);

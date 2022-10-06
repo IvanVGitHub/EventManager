@@ -1,8 +1,7 @@
 package com.ivank.fraui.components;
 
 import com.ivank.fraui.Application;
-import com.ivank.fraui.db.QueryCameras;
-import com.ivank.fraui.db.QueryNEWCamera;
+import com.ivank.fraui.db.QueryCamera;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +26,7 @@ public class ToolBar extends JPanel {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonAdd.setText(String.valueOf("Отслеживается камер: " + QueryNEWCamera.getListModelCamerasIsSelect().size()));
+                buttonAdd.setText(String.valueOf("Отслеживается камер: " + QueryCamera.getListModelCamerasIsSelect().size()));
             }
         });
 
