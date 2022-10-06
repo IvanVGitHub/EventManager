@@ -32,6 +32,11 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="bedivierre.maven" />
+      <option name="name" value="bedivierre.maven" />
+      <option name="url" value="https://maven.bedivierre.com/repository" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="bediviere.maven" />
       <option name="name" value="bediviere.maven" />
       <option name="url" value="ftp://ftp.bedivierre.com" />

@@ -115,14 +115,14 @@ public class Content extends JPanel {
 */
 
         //ИСПРАВИТЬ! будут отображаться ВСЕ камеры, которые есть БД, а не только те, что хранятся в настроках приложения
-        ArrayList<ModelCamera> listModelCameras = QueryNEWCamera.getListModelCameras();
+        ArrayList<ModelCamera> listModelCameras = QueryNEWCamera.getListModelCamerasIsSelect();
         //отрисовка групп событий
         for (int countCameras = 0; countCameras < listModelCameras.size(); countCameras++) {
             AddEvent addEvent = new AddEvent();
             ArrayList<ModelNEWEvent> listModelEvents = QueryNEWEvent.getModelEventsCamera(listModelCameras.get(countCameras).id, getLimitEvent());
 
             //add buttons "options"
-            addEvent.add(createButtonOptions(QueryCameras.getListMdlCameras().get(countCameras).id));
+            addEvent.add(createButtonOptions(QueryNEWCamera.getListModelCamerasIsSelect().get(countCameras).id));
             //создаём рамку группы событий и пишем на ней имя камеры
             addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(countCameras).camera_name + "\""));
             //add event to group event
@@ -130,6 +130,7 @@ public class Content extends JPanel {
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(countEvents).plugin_id),
+//                        QueryTEST.getEventFirstImage(listModelEvents.get(countEvents).id),
                         QueryNEWEventImages.getEventFirstImage(listModelEvents.get(countEvents).id),
                         listModelEvents.get(countEvents).id
                 );

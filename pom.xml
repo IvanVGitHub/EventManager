@@ -31,17 +31,6 @@
         </repository>
     </repositories>
 
-    <distributionManagement>
-        <repository>
-            <id>bedivierre.maven</id>
-            <url>ftp://ftp.bedivierre.com</url>
-        </repository>
-        <site>
-            <id>bedivierre.maven</id>
-            <url>ftp://ftp.bedivierre.com</url>
-        </site>
-    </distributionManagement>
-
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>

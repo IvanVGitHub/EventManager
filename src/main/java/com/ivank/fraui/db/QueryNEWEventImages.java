@@ -33,8 +33,9 @@ public class QueryNEWEventImages {
             ).first();
 
             byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
+            ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 
-            return new ImageIcon(byteImageBase64);
+            return imageIcon;
         } catch (Exception ex) {
             ex.printStackTrace();
         }

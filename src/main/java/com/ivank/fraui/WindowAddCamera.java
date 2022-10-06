@@ -1,9 +1,7 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.db.ModelCamera;
-import com.ivank.fraui.db.QueryCameras;
+import com.ivank.fraui.db.QueryNEWCamera;
 import com.ivank.fraui.settings.AppConfig;
-import com.ivank.fraui.settings.SettingsCamera;
 import com.ivank.fraui.utils.UtilsAny;
 
 import javax.swing.*;
@@ -29,13 +27,13 @@ public class WindowAddCamera extends JFrame {
 
         listChckBxIsSlctName.clear();
         checkBoxes.clear();
-        listCameraNameALL = QueryCameras.getListCameraNameALL();
+        listCameraNameALL = QueryNEWCamera.getListCameraName();
 
         for (String element : listCameraNameALL) {
             JCheckBox checkBox = new JCheckBox(element);
 
             //если камера уже есть в списке отображаемых, то помечается "галочкой"
-            checkBox.setSelected(UtilsAny.statusChBx(QueryCameras.getListCameraName(), element));
+            checkBox.setSelected(UtilsAny.statusChBx(QueryNEWCamera.getListCameraNameIsSelect(), element));
 
             checkBoxes.add(checkBox);
             panelMain.add(checkBox);

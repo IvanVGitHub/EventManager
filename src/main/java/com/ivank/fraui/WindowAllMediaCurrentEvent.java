@@ -53,17 +53,5 @@ public class WindowAllMediaCurrentEvent extends JFrame {
             panelMain.repaint();
         });
         timer.start();
-//        for (ImageIcon event : listImage) {
-//            label.setIcon(new ImageIcon(event.getImage().getScaledInstance(
-//                    800,
-//                    600,
-//                    java.awt.Image.SCALE_SMOOTH
-//            )));
-//
-//            panelMain.revalidate();
-//            panelMain.repaint();
-//
-//            sleep(1000);
-//        }
     }
 }
