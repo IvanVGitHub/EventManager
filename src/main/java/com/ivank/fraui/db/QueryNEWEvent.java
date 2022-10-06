@@ -9,9 +9,12 @@ public class QueryNEWEvent {
     //список моделей конкретной камеры в таблице event
     public static ArrayList<ModelNEWEvent> getModelEventsCamera(int idCamera, int value) {
         try {
-            QueryBuilder<ModelNEWEvent> query = ConnectDB.getConnector().query(ModelNEWEvent.class).where("camera_id", idCamera);
+            QueryBuilder<ModelNEWEvent> query = ConnectDB.getConnector().query(ModelNEWEvent.class)
+                    .where("camera_id", idCamera)
+                    .orderBy(false, "time")
+                    .limit(value);
 
-            return query.limit(value).get();
+            return query.get();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

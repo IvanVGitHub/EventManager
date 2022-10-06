@@ -7,6 +7,13 @@ public class ConnectDB {
     static DB connector;
 
     public static DB getConnector() {
+        if(connector == null)
+            init();
+        try{
+            if(!connector.isConnected())
+                connector.connect();
+        } catch (Exception ex) {ex.printStackTrace();}
+
         return connector;
     }
 

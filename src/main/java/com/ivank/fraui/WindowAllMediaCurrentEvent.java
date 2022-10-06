@@ -5,19 +5,29 @@ import com.ivank.fraui.db.QueryNEWEventImages;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import static java.lang.Thread.sleep;
-
 public class WindowAllMediaCurrentEvent extends JFrame {
+    Timer timer;
+    ArrayList<ImageIcon> listImage;
+
     public WindowAllMediaCurrentEvent(int event_id) throws InterruptedException {
         super("Кадры события");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        //действия при нажатии кнопки закрытия
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                timer.stop();
+                listImage.clear();
+            }
+        });
 
         JPanel panelMain = new Content.PanelFlex();
         panelMain.setPreferredSize(new Dimension(800, 600));
 
-        ArrayList<ImageIcon> listImage = QueryNEWEventImages.getListEventImages(event_id);
+        listImage = QueryNEWEventImages.getListEventImages(event_id);
 
         JLabel label = new JLabel();
         panelMain.add(label);
@@ -28,9 +38,7 @@ public class WindowAllMediaCurrentEvent extends JFrame {
         setLocationRelativeTo(null);
 
         final int[] index = {0};
-        Timer timer = null;
-        Timer finalTimer = timer;
-        timer = new Timer(200, (evt)->{
+        timer = new Timer(200, (evt)-> {
             if(index[0] >= listImage.size())
                 index[0] = 0;
             ImageIcon event = listImage.get(index[0]);
