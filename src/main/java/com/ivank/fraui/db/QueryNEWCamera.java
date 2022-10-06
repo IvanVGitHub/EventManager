@@ -69,7 +69,7 @@ public class QueryNEWCamera {
         listCameraNameIsSelect.clear();
 
         try {
-            for (ModelCamera event : getListModelCameras()) {
+            for (ModelCamera event : getListModelCamerasIsSelect()) {
                 listCameraNameIsSelect.add(String.valueOf(event.camera_name));
             }
         } catch (Exception ex) {
