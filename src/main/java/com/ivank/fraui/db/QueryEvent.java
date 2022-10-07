@@ -20,4 +20,19 @@ public class QueryEvent {
 
         return null;
     }
+
+    //последний добавленный id события
+    public static int lastAddIdEvent() {
+        try {
+            ModelEvent result = ConnectDB.getConnector().query(ModelEvent.class)
+                    .orderBy(false, "id")
+                    .first();
+
+            return result.id;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return 0;
+    }
 }

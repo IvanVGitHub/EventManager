@@ -10,7 +10,7 @@ public class ModelEventImages extends DBModel {
 
     @Override
     public String getTable() {
-        return "NEWeventImages";
+        return "eventImages";
     }
 
     public ModelEventImages() {

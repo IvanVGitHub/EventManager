@@ -13,7 +13,7 @@ public class ModelEvent extends DBModel {
 
     @Override
     public String getTable() {
-        return "NEWevent";
+        return "event";
     }
 
     public ModelEvent() {

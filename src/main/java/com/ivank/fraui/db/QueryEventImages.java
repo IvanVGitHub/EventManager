@@ -13,7 +13,8 @@ public class QueryEventImages {
     //список моделей конкретного событая в таблице eventImages
     public static ArrayList<ModelEventImages> getListModelEventImages(int event_id) {
         try {
-            QueryBuilder<ModelEventImages> query = ConnectDB.getConnector().query(ModelEventImages.class).where("event_id", event_id);
+            QueryBuilder<ModelEventImages> query = ConnectDB.getConnector().query(ModelEventImages.class)
+                    .where("event_id", event_id);
 
             return query.get();
         } catch (Exception ex) {
@@ -26,10 +27,9 @@ public class QueryEventImages {
     //первое изображение события
     public static ImageIcon getEventFirstImage(int event_id) {
         try {
-            ModelEventImages result = ConnectDB.getConnector().query(ModelEventImages.class).where(
-                    "event_id",
-                    event_id
-            ).first();
+            ModelEventImages result = ConnectDB.getConnector().query(ModelEventImages.class)
+                    .where("event_id", event_id)
+                    .first();
 
             byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
             ImageIcon imageIcon = new ImageIcon(byteImageBase64);
