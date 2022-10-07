@@ -36,7 +36,7 @@ public class WindowAnySettings extends JFrame {
                         //должен быть ERROR_MESSAGE), зато теперь доступен повторный ввод в textField
                         JOptionPane.showMessageDialog(null, "", "", JOptionPane.ERROR);
                     }
-                    //перерисовываем Content (JPanel) в основном окне (WindowMain)
+                    //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain)
                     Application.windowMain().getContent().setCameraView();
 
                     setVisible(false);

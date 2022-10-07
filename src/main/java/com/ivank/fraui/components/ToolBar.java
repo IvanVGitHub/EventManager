@@ -33,7 +33,7 @@ public class ToolBar extends JPanel {
         buttonRem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //перерисовываем Content (JPanel) в основном окне (WindowMain)
+                //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain)
                 Application.windowMain().getContent().setCameraView();
             }
         });

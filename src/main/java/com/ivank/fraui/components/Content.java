@@ -114,7 +114,6 @@ public class Content extends JPanel {
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 */
 
-        //ИСПРАВИТЬ! будут отображаться ВСЕ камеры, которые есть БД, а не только те, что хранятся в настроках приложения
         ArrayList<ModelCamera> listModelCameras = QueryCamera.getListModelCamerasIsSelect();
         //отрисовка групп событий
         for (int countCameras = 0; countCameras < listModelCameras.size(); countCameras++) {

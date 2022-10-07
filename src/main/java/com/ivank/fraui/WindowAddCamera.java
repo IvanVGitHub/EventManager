@@ -71,7 +71,7 @@ public class WindowAddCamera extends JFrame {
                     AppConfig.getInstance().setCamerasIsSlct(listChckBxIsSlctName);
                     AppConfig.saveConfig();
 
-                    //перерисовываем Content (JPanel) в основном окне (WindowMain)
+                    //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain)
                     Application.windowMain().getContent().setCameraView();
                 } catch (Exception ex) {
                     ex.printStackTrace();

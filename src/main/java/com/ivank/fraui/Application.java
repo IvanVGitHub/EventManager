@@ -1,6 +1,7 @@
 package com.ivank.fraui;
 
 import com.ivank.fraui.db.ConnectDB;
+import com.ivank.fraui.utils.UpdateOnTimer;
 
 public class Application {
     private static WindowMain windowMain;
@@ -15,5 +16,8 @@ public class Application {
 
         windowMain = new WindowMain();
         new AppInTray();
+
+        //update Content
+        UpdateOnTimer.updateContent();
     }
 }
