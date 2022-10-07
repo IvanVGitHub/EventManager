@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.Base64;
 
 public class QueryTEST {
-    //первое изображение события
+    //первое изображение события при помощи "чистого" SQL запроса
     public static ImageIcon getEventFirstImage(int event_id) {
         String connectionUrl = "jdbc:mysql://172.20.3.231:3306/test";
         ResultSet resultSet = null;
@@ -24,6 +24,7 @@ public class QueryTEST {
             String stringSql = String.valueOf(sb);
             resultSet = statement.executeQuery(stringSql);
             String stringImage = "";
+            //обязательный цикл, чтобы получить результаты из запроса и присвоить их переменным
             while (resultSet.next()) {
                 stringImage = resultSet.getString("image");
             }

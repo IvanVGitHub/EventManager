@@ -7,12 +7,12 @@ import javax.swing.*;
 
 public class UpdateOnTimer {
     static Timer timer;
-    static int oldIdEvent = 0;
+    public static int oldIdEvent = 0;
     static int newIdEvent = 0;
 
     //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain) каждые 60 секунд
     public static void updateContent() {
-        timer = new Timer(10000, (evt)-> {
+        timer = new Timer(60000, (evt)-> {
             newIdEvent = QueryEvent.lastAddIdEvent();
 
             if (oldIdEvent != QueryEvent.lastAddIdEvent()) {

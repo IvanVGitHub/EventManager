@@ -7,6 +7,7 @@ import com.ivank.fraui.db.*;
 import com.ivank.fraui.settings.SettingsDefault;
 import com.ivank.fraui.utils.AddEvent;
 import com.ivank.fraui.utils.CalculationEventColor;
+import com.ivank.fraui.utils.UpdateOnTimer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -101,6 +102,8 @@ public class Content extends JPanel {
         internalPanel.removeAll();
         //size icon event
         Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
+        //фиксируем в переменную послений добавленный id события (event)
+        UpdateOnTimer.oldIdEvent = QueryEvent.lastAddIdEvent();
 
         //image to icon event for TEST
 /*
@@ -129,8 +132,8 @@ public class Content extends JPanel {
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(countEvents).plugin_id),
-//                        QueryTEST.getEventFirstImage(listModelEvents.get(countEvents).id),
-                        QueryEventImages.getEventFirstImage(listModelEvents.get(countEvents).id),
+//                        QueryTEST.getEventFirstImage(listModelEvents.get(countEvents).id), //получаем первый кадр чистым SQL запросом
+                        QueryEventImages.getEventFirstImage(listModelEvents.get(countEvents).id), //получаем первый кадр при помощи библиотеки
                         listModelEvents.get(countEvents).id
                 );
             }
