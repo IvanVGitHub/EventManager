@@ -93,6 +93,8 @@ public class WindowMain extends JFrame {
         parameters.add(anySettings);
 
         MenuItem addCameraTEST = new MenuItem("(тестовое окно)");
+        //делаем кнопку неактивной, потому что блок не для использования
+        addCameraTEST.setEnabled(false);
         parameters.add(addCameraTEST);
 
         //оризонтальная черта для визуального разделения

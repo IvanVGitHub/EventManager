@@ -10,6 +10,7 @@ import com.ivank.fraui.utils.CalculationEventColor;
 import com.ivank.fraui.utils.UpdateOnTimer;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -123,21 +124,24 @@ public class Content extends JPanel {
             AddEvent addEvent = new AddEvent();
             ArrayList<ModelEvent> listModelEvents = QueryEvent.getModelEventsCamera(listModelCameras.get(countCameras).id, getLimitEvent());
 
-
+            //обавляем кнопки взаимодействия с камерой/группой событий
             createControlsForCamera(addEvent, countCameras);
-
-
 
             //создаём рамку группы событий и пишем на ней имя камеры
             addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(countCameras).camera_name + "\""));
             //add event to group event
             for(int countEvents = 0; countEvents < listModelEvents.size(); countEvents++) {
+                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(countEvents).id);
+                //если в БД отстутсвуют кадры события, то не отрисовываем это событие
+                if(image == null)
+                    continue;
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(countEvents).plugin_id),
 //                        QueryTEST.getEventFirstImage(listModelEvents.get(countEvents).id), //получаем первый кадр чистым SQL запросом
-                        QueryEventImages.getEventFirstImage(listModelEvents.get(countEvents).id), //получаем первый кадр при помощи библиотеки
-                        listModelEvents.get(countEvents).id
+                        image, //получаем первый кадр при помощи библиотеки
+                        listModelEvents.get(countEvents).id,
+                        listModelEvents.get(countEvents)
                 );
             }
 
@@ -166,8 +170,8 @@ public class Content extends JPanel {
         byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getButtonAllImgEvents());
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
-        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
-        button.setPreferredSize(new Dimension(30, 30));
+        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
+        button.setPreferredSize(new Dimension(40, 40));
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

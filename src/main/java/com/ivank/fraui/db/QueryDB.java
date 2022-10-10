@@ -11,24 +11,29 @@ public class QueryDB {
         if(trayIcon == null)
             return;
         try {
-            //query to MYSQL
-            QueryBuilder<ModelTest001> query = ConnectDB.getConnector().query(ModelTest001.class);
-            query.where(
-                    "name",
-                    DBWhereOp.LIKE,
-                    "%i%"
-            );
-            ResultSet<ModelTest001> result = query.get();
-
-            //create string from query result
-            StringBuilder sb = new StringBuilder();
-            for (ModelTest001 t : result) {
-                sb.append(t.name).append(", ");
-            }
+//            //query to MYSQL
+//            QueryBuilder<ModelTest001> query = ConnectDB.getConnector().query(ModelTest001.class);
+//            query.where(
+//                    "name",
+//                    DBWhereOp.LIKE,
+//                    "%i%"
+//            );
+//            ResultSet<ModelTest001> result = query.get();
+//
+//            //create string from query result
+//            StringBuilder sb = new StringBuilder();
+//            for (ModelTest001 t : result) {
+//                sb.append(t.name).append(", ");
+//            }
+//            trayIcon.displayMessage(
+//                    "DB Connection successful!",
+//                    "Есть контакт: " + sb,
+//                    TrayIcon.MessageType.INFO
+//            );
             trayIcon.displayMessage(
-                    "DB Connection successful!",
-                    "Есть контакт: " + sb,
-                    TrayIcon.MessageType.INFO
+            "DB Connection successful!",
+            "Есть контакт!",
+            TrayIcon.MessageType.INFO
             );
         } catch (Exception ex) {
             trayIcon.displayMessage(

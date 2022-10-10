@@ -104,7 +104,7 @@ public class WindowAddCamerasTEST extends JFrame {
                 for(int a = 0; a < 20; a++) {
                     //random color border event for TEST
                     Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-                    eventAdd.createLabelEvent(labelSize, randomColor, image, 0);
+                    eventAdd.createLabelEvent(labelSize, randomColor, image, 0, null);
                 }
 
                 labels.add(eventAdd);

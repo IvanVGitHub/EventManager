@@ -9,7 +9,7 @@ public class ModelEvent extends DBModel {
     public String camera_id;
     public String plugin_id;
     public String data;
-    public Timestamp time;
+    public String time;
 
     @Override
     public String getTable() {

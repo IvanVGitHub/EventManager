@@ -31,10 +31,14 @@ public class QueryEventImages {
                     .where("event_id", event_id)
                     .first();
 
-            byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
-            ImageIcon imageIcon = new ImageIcon(byteImageBase64);
+            if(result != null) {
+                byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
+                ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 
-            return imageIcon;
+                return imageIcon;
+            } else {
+                return null;
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

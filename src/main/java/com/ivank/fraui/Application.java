@@ -15,6 +15,7 @@ public class Application {
         ConnectDB.init();
 
         windowMain = new WindowMain();
+        //приложение запускается с блоком в трее
 //        new AppInTray();
 
         //update Content

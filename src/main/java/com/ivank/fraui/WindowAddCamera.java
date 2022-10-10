@@ -59,7 +59,9 @@ public class WindowAddCamera extends JFrame {
                     //Информационное сообщение для ТЕСТА
                     JOptionPane.showMessageDialog(
                             null,
-                            "Выбрано камер: " + String.valueOf(countTEST) + " " + listChckBxIsSlctName
+                            "Выбрано камер: " + String.valueOf(countTEST) + " " + listChckBxIsSlctName,
+                            "Информационное окно",
+                            JOptionPane.INFORMATION_MESSAGE
                     );
 
                     //при нажатии на кнопку "Ок" закроется не только диалоговое окно, но и окно выбора камер

@@ -1,6 +1,7 @@
 package com.ivank.fraui.utils;
 
 import com.ivank.fraui.WindowAllMediaCurrentEvent;
+import com.ivank.fraui.db.ModelEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +14,12 @@ public class AddEvent extends JPanel {
         super(new FlowLayout(FlowLayout.LEFT));
     }
 
-    public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id) {
+    public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id,
+                ModelEvent ev) {
         JPanel p = new JPanel();
         p.setLayout (new BoxLayout (p, BoxLayout.Y_AXIS));
         JLabel text = new JLabel();
-        text.setText("qwerty qwe qwessssda ");
+        text.setText(ev.time.toString());
         p.add(text);
 
         //paste image with the specific dimensions
