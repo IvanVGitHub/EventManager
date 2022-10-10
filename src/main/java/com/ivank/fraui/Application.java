@@ -15,7 +15,7 @@ public class Application {
         ConnectDB.init();
 
         windowMain = new WindowMain();
-        new AppInTray();
+//        new AppInTray();
 
         //update Content
         UpdateOnTimer.updateContent();

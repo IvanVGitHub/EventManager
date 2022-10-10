@@ -12,10 +12,12 @@ import java.util.ArrayList;
 public class WindowAllMediaCurrentEvent extends JFrame {
     Timer timer;
     ArrayList<ImageIcon> listImage;
+    JPanel panelMain;
 
     public WindowAllMediaCurrentEvent(int event_id) throws InterruptedException {
         super("Кадры события");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
         //действия при нажатии кнопки закрытия
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -24,7 +26,7 @@ public class WindowAllMediaCurrentEvent extends JFrame {
             }
         });
 
-        JPanel panelMain = new Content.PanelFlex();
+        panelMain = new Content.PanelFlex();
         panelMain.setPreferredSize(new Dimension(800, 600));
 
         listImage = QueryEventImages.getListEventImages(event_id);
@@ -39,16 +41,17 @@ public class WindowAllMediaCurrentEvent extends JFrame {
 
         final int[] index = {0};
         timer = new Timer(200, (evt)-> {
-            if(index[0] >= listImage.size())
-                index[0] = 0;
-            ImageIcon event = listImage.get(index[0]);
-            index[0]++;
-            label.setIcon(new ImageIcon(event.getImage().getScaledInstance(
-                    800,
-                    600,
-                    java.awt.Image.SCALE_SMOOTH
-            )));
-
+            if(listImage.size() > 0) {
+                if (index[0] >= listImage.size())
+                    index[0] = 0;
+                ImageIcon event = listImage.get(index[0]);
+                index[0]++;
+                label.setIcon(new ImageIcon(event.getImage().getScaledInstance(
+                        800,
+                        600,
+                        java.awt.Image.SCALE_SMOOTH
+                )));
+            }
             panelMain.revalidate();
             panelMain.repaint();
         });

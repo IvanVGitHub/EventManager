@@ -14,6 +14,12 @@ public class AddEvent extends JPanel {
     }
 
     public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id) {
+        JPanel p = new JPanel();
+        p.setLayout (new BoxLayout (p, BoxLayout.Y_AXIS));
+        JLabel text = new JLabel();
+        text.setText("qwerty qwe qwessssda ");
+        p.add(text);
+
         //paste image with the specific dimensions
         JLabel label = new JLabel(new ImageIcon(image.getImage().getScaledInstance(
                 labelSize.width,
@@ -24,7 +30,6 @@ public class AddEvent extends JPanel {
         label.setHorizontalAlignment(JLabel.CENTER);
 
         label.setBorder(BorderFactory.createLineBorder(color, 5));
-        this.add(label);
 
         //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
         label.addMouseListener(new MouseAdapter() {
@@ -38,6 +43,11 @@ public class AddEvent extends JPanel {
             }
         });
 
-        return label;
+        p.add( label);
+        p.setSize(labelSize.width,labelSize.height + 40);
+//        p.setVisible(true);
+        this.add(p);
+        return p;
+//        return label;
     }
 }

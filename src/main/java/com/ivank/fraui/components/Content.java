@@ -123,8 +123,11 @@ public class Content extends JPanel {
             AddEvent addEvent = new AddEvent();
             ArrayList<ModelEvent> listModelEvents = QueryEvent.getModelEventsCamera(listModelCameras.get(countCameras).id, getLimitEvent());
 
-            //add buttons "options"
-            addEvent.add(createButtonOptions(QueryCamera.getListModelCamerasIsSelect().get(countCameras).id));
+
+            createControlsForCamera(addEvent, countCameras);
+
+
+
             //создаём рамку группы событий и пишем на ней имя камеры
             addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(countCameras).camera_name + "\""));
             //add event to group event
@@ -137,8 +140,6 @@ public class Content extends JPanel {
                         listModelEvents.get(countEvents).id
                 );
             }
-            //add buttons "all img events this camera"
-            addEvent.add(createButtonAllImgEvents(QueryCamera.getListModelCamerasIsSelect().get(countCameras).id));
 
             internalPanel.add(addEvent);
         }
@@ -166,7 +167,7 @@ public class Content extends JPanel {
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
         JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
-        button.setPreferredSize(new Dimension(50, 50));
+        button.setPreferredSize(new Dimension(30, 30));
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -175,5 +176,14 @@ public class Content extends JPanel {
         });
 
         return button;
+    }
+    public void createControlsForCamera(AddEvent eventPanel, int index){
+        JPanel p = new JPanel();
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        //add buttons "options"
+        p.add(createButtonOptions(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        //add buttons "all img events this camera"
+        p.add(createButtonAllImgEvents(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        eventPanel.add(p);
     }
 }

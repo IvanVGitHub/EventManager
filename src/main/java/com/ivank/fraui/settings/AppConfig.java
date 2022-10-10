@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class AppConfig {
-    private static String configFile = "src/main/resources/config.json";
+    private static String configFile = "config.json";
     private static AppConfig instance;
 
     public static AppConfig getInstance() {
