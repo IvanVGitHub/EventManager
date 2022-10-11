@@ -183,12 +183,18 @@ public class Content extends JPanel {
     }
 
     public void createControlsForCamera(AddEvent eventPanel, int index) {
-        JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        JPanel panel = new JPanel();
+        JPanel panelBut1 = new JPanel();
+        JPanel panelBut2 = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panelBut1.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        panelBut2.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         //add buttons "options"
-        p.add(createButtonOptions(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        panelBut1.add(createButtonOptions(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        panel.add(panelBut1);
         //add buttons "all img events this camera"
-        p.add(createButtonAllImgEvents(QueryCamera.getListModelCamerasIsSelect().get(index).id));
-        eventPanel.add(p);
+        panelBut2.add(createButtonAllImgEvents(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        panel.add(panelBut2);
+        eventPanel.add(panel);
     }
 }
