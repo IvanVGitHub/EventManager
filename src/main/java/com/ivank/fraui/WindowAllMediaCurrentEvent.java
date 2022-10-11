@@ -13,6 +13,8 @@ public class WindowAllMediaCurrentEvent extends JFrame {
     Timer timer;
     ArrayList<ImageIcon> listImage;
     JPanel panelMain;
+    int width = 800;
+    int height = 600;
 
     public WindowAllMediaCurrentEvent(int event_id) throws InterruptedException {
         super("Кадры события");
@@ -27,7 +29,7 @@ public class WindowAllMediaCurrentEvent extends JFrame {
         });
 
         panelMain = new Content.PanelFlex();
-        panelMain.setPreferredSize(new Dimension(800, 600));
+        panelMain.setPreferredSize(new Dimension(width, height));
 
         listImage = QueryEventImages.getListEventImages(event_id);
 
@@ -47,8 +49,8 @@ public class WindowAllMediaCurrentEvent extends JFrame {
                 ImageIcon event = listImage.get(index[0]);
                 index[0]++;
                 label.setIcon(new ImageIcon(event.getImage().getScaledInstance(
-                        800,
-                        600,
+                        width,
+                        height,
                         java.awt.Image.SCALE_SMOOTH
                 )));
             }
