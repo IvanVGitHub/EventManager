@@ -24,9 +24,7 @@ public class QueryCamera {
         try {
             QueryBuilder<ModelCamera> query = ConnectDB.getConnector().query(ModelCamera.class);
             listModelCameras = query.get();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return listModelCameras;
     }
@@ -36,15 +34,13 @@ public class QueryCamera {
 
         try {
             ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasIsSlct();
-            for (String event : camerasIsSlct) {
+            for (String unit : camerasIsSlct) {
                 //query to MYSQL
-                ResultSet<ModelCamera> result = MyDB.cameraQuery("camera_name", event).get();
+                ResultSet<ModelCamera> result = MyDB.cameraQuery("camera_name", unit).get();
 
                 listModelCamerasIsSelect.addAll(result);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return listModelCamerasIsSelect;
     }
@@ -54,12 +50,10 @@ public class QueryCamera {
         listCameraName.clear();
 
         try {
-            for (ModelCamera event : getListModelCameras()) {
-                listCameraName.add(String.valueOf(event.camera_name));
+            for (ModelCamera unit : getListModelCameras()) {
+                listCameraName.add(String.valueOf(unit.camera_name));
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return listCameraName;
     }
@@ -69,12 +63,10 @@ public class QueryCamera {
         listCameraNameIsSelect.clear();
 
         try {
-            for (ModelCamera event : getListModelCamerasIsSelect()) {
-                listCameraNameIsSelect.add(String.valueOf(event.camera_name));
+            for (ModelCamera unit : getListModelCamerasIsSelect()) {
+                listCameraNameIsSelect.add(String.valueOf(unit.camera_name));
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return listCameraNameIsSelect;
     }

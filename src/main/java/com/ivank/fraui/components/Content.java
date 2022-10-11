@@ -10,7 +10,6 @@ import com.ivank.fraui.utils.CalculationEventColor;
 import com.ivank.fraui.utils.UpdateOnTimer;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -104,7 +103,7 @@ public class Content extends JPanel {
         //size icon event
         Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
         //фиксируем в переменную послений добавленный id события (event)
-        UpdateOnTimer.oldIdEvent = QueryEvent.lastAddIdEvent();
+        UpdateOnTimer.oldIdEvent = QueryEvent.getLastAddIdEvent();
 
         //image to icon event for TEST
 /*
@@ -122,7 +121,7 @@ public class Content extends JPanel {
         //отрисовка групп событий
         for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
             AddEvent addEvent = new AddEvent();
-            ArrayList<ModelEvent> listModelEvents = QueryEvent.getModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
+            ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
             //обавляем кнопки взаимодействия с камерой/группой событий
             createControlsForCamera(addEvent, indexCameras);

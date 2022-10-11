@@ -13,9 +13,9 @@ public class UpdateOnTimer {
     //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain) каждые 60 секунд
     public static void updateContent() {
         timer = new Timer(60000, (evt)-> {
-            newIdEvent = QueryEvent.lastAddIdEvent();
+            newIdEvent = QueryEvent.getLastAddIdEvent();
 
-            if (oldIdEvent != QueryEvent.lastAddIdEvent()) {
+            if (oldIdEvent != QueryEvent.getLastAddIdEvent()) {
                 oldIdEvent = newIdEvent;
                 //перерисовываем -//-
                 Application.windowMain().getContent().setCameraView();

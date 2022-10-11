@@ -34,9 +34,7 @@ public class QueryTEST {
 
             return imageIcon;
         }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+        catch (SQLException e) {e.printStackTrace();}
 
         return null;
     }

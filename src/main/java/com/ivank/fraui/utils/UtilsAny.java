@@ -10,8 +10,8 @@ public class UtilsAny {
         }
 
         try {
-            for (String event : list) {
-                if (event.equals(sample)) {
+            for (String unit : list) {
+                if (unit.equals(sample)) {
                     boolResult = true;
                 }
             }

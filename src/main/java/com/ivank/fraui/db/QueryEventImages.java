@@ -17,9 +17,7 @@ public class QueryEventImages {
                     .where("event_id", event_id);
 
             return query.get();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return null;
     }
@@ -39,9 +37,7 @@ public class QueryEventImages {
             } else {
                 return null;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return null;
     }
@@ -50,10 +46,12 @@ public class QueryEventImages {
     public static ArrayList<ImageIcon> getListEventImages(int event_id) {
         listEventImages.clear();
 
-        for (ModelEventImages event : getListModelEventImages(event_id)) {
-            byte[] byteImageBase64 = Base64.getDecoder().decode(event.image);
-            listEventImages.add(new ImageIcon(byteImageBase64));
-        }
+        try {
+            for (ModelEventImages unit : getListModelEventImages(event_id)) {
+                byte[] byteImageBase64 = Base64.getDecoder().decode(unit.image);
+                listEventImages.add(new ImageIcon(byteImageBase64));
+            }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return listEventImages;
     }
