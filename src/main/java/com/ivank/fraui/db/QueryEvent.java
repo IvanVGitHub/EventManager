@@ -24,7 +24,7 @@ public class QueryEvent {
     }
 
     //список записей дат создания событий (только событий, имеющих запись в графе image)
-        public static ArrayList<String> getListTimeStampEvents(int camera_id) {
+    public static ArrayList<String> getListTimeStampEvents(int camera_id) {
         listTimeStampEvents.clear();
 
         try {

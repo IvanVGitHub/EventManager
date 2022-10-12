@@ -1,5 +1,7 @@
 package com.ivank.fraui.db;
 
+import com.ivank.fraui.settings.AppConfig;
+
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,17 +13,36 @@ import java.util.Base64;
 
 //запросы ан "чистом" SQL
 public class QueryTEST {
+    private static Connection getConnectorClearSQL() {
+        StringBuilder connectionUrl;
+        Connection connection = null;
+
+        try {
+            connectionUrl = new StringBuilder(
+                    "jdbc:mysql://" +
+                            AppConfig.getInstance().getConnection().host +
+                            ":3306/" +
+                            AppConfig.getInstance().getConnection().database
+            );
+            connection = DriverManager.getConnection(
+                    String.valueOf(connectionUrl),
+                    AppConfig.getInstance().getConnection().username,
+                    AppConfig.getInstance().getConnection().password
+            );
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return connection;
+    }
+
     //список записей времени создания события
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
     //проверка наличия хотя бы одной записи image у события
     public static ArrayList<String> getListTimeStampEvents(int camera_id) {
-        String connectionUrl = "jdbc:mysql://172.20.3.231:3306/test";
         ResultSet resultSet = null;
         listTimeStampEvents.clear();
 
-        try (Connection connection = DriverManager.getConnection(connectionUrl, "ivanUser", "Qwerty!@#456");
-             Statement statement = connection.createStatement();) {
+        try (Statement statement = getConnectorClearSQL().createStatement()) {
 
             // Create and execute a SELECT SQL statement.
             StringBuilder sb = new StringBuilder();
@@ -34,18 +55,17 @@ public class QueryTEST {
             }
 
             return listTimeStampEvents;
-        } catch (SQLException e) {e.printStackTrace();}
+        } catch (SQLException ex) {ex.printStackTrace();}
 
         return listTimeStampEvents;
     }
 
     //первое изображение события при помощи "чистого" SQL запроса
     public static ImageIcon getEventFirstImage(int event_id) {
-        String connectionUrl = "jdbc:mysql://172.20.3.231:3306/test";
         ResultSet resultSet = null;
 
-        try (Connection connection = DriverManager.getConnection(connectionUrl, "ivanUser", "Qwerty!@#456");
-             Statement statement = connection.createStatement();) {
+        try (Statement statement = getConnectorClearSQL().createStatement()) {
+
 //            ConnectDB.getConnector().executeRaw("SELECT * FROM table");
 
             // Create and execute a SELECT SQL statement.
@@ -63,7 +83,7 @@ public class QueryTEST {
             ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 
             return imageIcon;
-        } catch (SQLException e) {e.printStackTrace();}
+        } catch (SQLException ex) {ex.printStackTrace();}
 
         return null;
     }

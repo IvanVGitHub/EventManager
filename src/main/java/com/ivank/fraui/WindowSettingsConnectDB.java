@@ -60,7 +60,7 @@ public class WindowSettingsConnectDB extends JFrame {
 
         setContentPane(panelMain);
         setVisible(true);
-        pack();//окно создаётся по размерам внутренних элементов, а не [0;0] px
+        pack();
         setLocationRelativeTo(null);
     }
 }

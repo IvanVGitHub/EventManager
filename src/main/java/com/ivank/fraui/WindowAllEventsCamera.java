@@ -1,31 +1,38 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.components.Content;
-import com.ivank.fraui.db.QueryEvent;
 import com.ivank.fraui.db.QueryTEST;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class WindowAllEventsCamera extends JFrame {
+    private static ArrayList<JLabel> labels = new ArrayList<>();
+
     public WindowAllEventsCamera(int idCamera) {
         super("Все события камеры");
+        setPreferredSize(new Dimension(300, 300));
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         JPanel panelMain = new JPanel();
+//        panelMain.setPreferredSize(new Dimension(300, 300));
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
-        panelMain.setPreferredSize(new Dimension(300, 300));
 
-        JLabel label = new JLabel();
-        label.setText("<html><h1>Coming soon...</h1></html>");
-        label.setBounds(0, 20, 200, 50);
-        panelMain.add(label);
+        JScrollPane scrollPane = new JScrollPane(
+                panelMain,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
 
         ArrayList<String> listTimeStampEvents = QueryTEST.getListTimeStampEvents(idCamera);
         int index = listTimeStampEvents.size();
+
+        for (String element : listTimeStampEvents) {
+            JLabel labelEvent = new JLabel(element);
+
+            labels.add(labelEvent);
+            panelMain.add(labelEvent);
+        }
 
         //TODO: testing threads
 /*        JLabel label2 = new JLabel();
@@ -40,7 +47,7 @@ public class WindowAllEventsCamera extends JFrame {
             } catch (Exception ex){ex.printStackTrace();}
         })).start();*/
 
-        add(panelMain);
+        getContentPane().add(scrollPane);
 
         pack();
         setVisible(true);
