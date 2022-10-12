@@ -22,6 +22,20 @@ public class QueryEventImages {
         return null;
     }
 
+    //проверка наличия хотя бы одной записи image у события
+    public static boolean getBoolEventHaveImage(int event_id) {
+        boolean bool = false;
+
+        try {
+            bool = ConnectDB.getConnector().query(ModelEventImages.class)
+                    .where("event_id", event_id)
+                    .whereIsNotNull("image")
+                    .exists();
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return bool;
+    }
+
     //первое изображение события
     public static ImageIcon getEventFirstImage(int event_id) {
         try {
@@ -29,7 +43,7 @@ public class QueryEventImages {
                     .where("event_id", event_id)
                     .first();
 
-            if(result != null) {
+            if (result != null) {
                 byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
                 ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 

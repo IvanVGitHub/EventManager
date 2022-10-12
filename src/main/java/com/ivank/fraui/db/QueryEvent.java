@@ -3,8 +3,6 @@ package com.ivank.fraui.db;
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class QueryEvent {
@@ -25,8 +23,8 @@ public class QueryEvent {
         return null;
     }
 
-    //список записей времени создания события
-    public static ArrayList<String> getListTimeStampEvents(int camera_id) {
+    //список записей дат создания событий (только событий, имеющих запись в графе image)
+        public static ArrayList<String> getListTimeStampEvents(int camera_id) {
         listTimeStampEvents.clear();
 
         try {
@@ -37,7 +35,10 @@ public class QueryEvent {
 
             for (ModelEvent unit : result)
             {
-                listTimeStampEvents.add(unit.time);
+//                listTimeStampEvents.add(unit.time);
+                if (QueryEventImages.getBoolEventHaveImage(unit.id))
+//                if (QueryTEST.getBoolEventHaveImage(unit.id))
+                    listTimeStampEvents.add(unit.time);
             }
         } catch (Exception ex) {ex.printStackTrace();}
 

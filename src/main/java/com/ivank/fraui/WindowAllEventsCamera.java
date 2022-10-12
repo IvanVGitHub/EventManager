@@ -2,6 +2,7 @@ package com.ivank.fraui;
 
 import com.ivank.fraui.components.Content;
 import com.ivank.fraui.db.QueryEvent;
+import com.ivank.fraui.db.QueryTEST;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class WindowAllEventsCamera extends JFrame {
         label.setBounds(0, 20, 200, 50);
         panelMain.add(label);
 
-        ArrayList<String> listTimeStampEvents = QueryEvent.getListTimeStampEvents(idCamera);
+        ArrayList<String> listTimeStampEvents = QueryTEST.getListTimeStampEvents(idCamera);
         int index = listTimeStampEvents.size();
 
         //TODO: testing threads
