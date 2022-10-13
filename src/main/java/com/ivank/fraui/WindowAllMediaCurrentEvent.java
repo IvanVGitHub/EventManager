@@ -16,8 +16,8 @@ public class WindowAllMediaCurrentEvent extends JFrame {
     int width = 800;
     int height = 600;
 
-    public WindowAllMediaCurrentEvent(int event_id) throws InterruptedException {
-        super("Кадры события");
+    public WindowAllMediaCurrentEvent(int event_id, String time) throws InterruptedException {
+        super(time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         //действия при нажатии кнопки закрытия

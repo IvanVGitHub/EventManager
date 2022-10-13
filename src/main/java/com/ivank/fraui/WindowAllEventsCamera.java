@@ -1,5 +1,6 @@
 package com.ivank.fraui;
 
+import com.ivank.fraui.db.QueryEvent;
 import com.ivank.fraui.db.QueryTEST;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class WindowAllEventsCamera extends JFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
 
-        ArrayList<String> listTimeStampEvents = QueryTEST.getListTimeStampEvents(idCamera);
+        ArrayList<String> listTimeStampEvents = QueryEvent.getListTimeStampEvents(idCamera);
         int index = listTimeStampEvents.size();
 
         for (String element : listTimeStampEvents) {
