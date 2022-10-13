@@ -35,9 +35,9 @@ public class QueryCamera {
         try {
             ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasIsSlct();
             for (String unit : camerasIsSlct) {
-                //query to MYSQL
-                ResultSet<ModelCamera> result = MyDB.cameraQuery("camera_name", unit).get();
-
+                ResultSet<ModelCamera> result = ConnectDB.getConnector().query(ModelCamera.class)
+                        .where("camera_name", unit)
+                        .get();
                 listModelCamerasIsSelect.addAll(result);
             }
         } catch (Exception ex) {ex.printStackTrace();}

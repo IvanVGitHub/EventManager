@@ -14,11 +14,11 @@ public class AddEvent extends JPanel {
         super(new FlowLayout(FlowLayout.LEFT));
     }
 
-    public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, ModelEvent ev) {
+    public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
         JPanel p = new JPanel();
         p.setLayout (new BoxLayout (p, BoxLayout.Y_AXIS));
         JLabel text = new JLabel();
-        text.setText(ev.time);
+        text.setText(time);
         p.add(text);
 
         //paste image with the specific dimensions
@@ -37,7 +37,7 @@ public class AddEvent extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    new WindowAllMediaCurrentEvent(event_id, ev.time);
+                    new WindowAllMediaCurrentEvent(event_id, time);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }

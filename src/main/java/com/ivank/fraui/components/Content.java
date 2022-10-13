@@ -123,6 +123,14 @@ public class Content extends JPanel {
             AddEvent addEvent = new AddEvent();
             ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
+            ///
+            ArrayList<Integer> listIndexEventsId = new ArrayList<>();
+            for (ModelEvent unit : listModelEvents) {
+                listIndexEventsId.add(unit.id);
+            }
+            ArrayList<ImageIcon> listEventImages = QueryEventImages.getListEventImages(listIndexEventsId);
+            ///
+
             //обавляем кнопки взаимодействия с камерой/группой событий
             createControlsForCamera(addEvent, indexCameras);
 
@@ -130,17 +138,17 @@ public class Content extends JPanel {
             addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));
             //add event to group event
             for(int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
-                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(indexEvents).id);
+//                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(indexEvents).id);
                 //если в БД отстутсвуют кадры события, то не отрисовываем это событие
-                if(image == null)
+                if(listEventImages.get(indexEvents) == null)
                     continue;
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
 //                        QueryTEST.getEventFirstImage(listModelEvents.get(indexEvents).id), //получаем первый кадр чистым SQL запросом
-                        image, //получаем первый кадр при помощи библиотеки
+                        listEventImages.get(indexEvents), //получаем первый кадр при помощи библиотеки
                         listModelEvents.get(indexEvents).id,
-                        listModelEvents.get(indexEvents)
+                        listModelEvents.get(indexEvents).time
                 );
             }
 

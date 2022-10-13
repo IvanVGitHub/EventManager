@@ -69,4 +69,26 @@ public class QueryEventImages {
 
         return listEventImages;
     }
+
+    //список изображений из нескольких событий
+    public static ArrayList<ImageIcon> getListEventImages(ArrayList<Integer> listIndexEventsId) {
+        listEventImages.clear();
+        ModelEventImages result;
+
+        try {
+            for (int i = 0; i > listIndexEventsId.size(); i++) {
+                result = ConnectDB.getConnector().query(ModelEventImages.class)
+                        .where("event_id", listIndexEventsId.get(i))
+                        .first();
+                if (result != null) {
+                    byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
+                    listEventImages.add(new ImageIcon(byteImageBase64));
+                } else {
+                    listEventImages.add(null);
+                }
+            }
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return listEventImages;
+    }
 }

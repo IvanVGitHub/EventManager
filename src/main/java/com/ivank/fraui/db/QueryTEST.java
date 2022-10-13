@@ -19,6 +19,7 @@ public class QueryTEST {
 //            ConnectDB.getConnector().executeRaw("SELECT * FROM table");
 
             // Create and execute a SELECT SQL statement.
+
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT image from eventImages WHERE event_id = ").append(event_id).append(" LIMIT 1;");
             String stringSql = String.valueOf(sb);
