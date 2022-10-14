@@ -3,7 +3,6 @@ package com.ivank.fraui.db;
 import com.bedivierre.eloquent.QueryBuilder;
 import com.bedivierre.eloquent.ResultSet;
 import com.ivank.fraui.settings.AppConfig;
-import com.ivank.fraui.utils.MyDB;
 
 import java.util.ArrayList;
 

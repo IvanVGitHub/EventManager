@@ -128,7 +128,7 @@ public class Content extends JPanel {
             for (ModelEvent unit : listModelEvents) {
                 listIndexEventsId.add(unit.id);
             }
-            ArrayList<ImageIcon> listEventImages = QueryEventImages.getListEventImages(listIndexEventsId);
+            ArrayList<ImageIcon> listEventImages = QueryEventImages.getListEventImagesSQL(listIndexEventsId);
             ///
 
             //обавляем кнопки взаимодействия с камерой/группой событий

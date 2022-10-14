@@ -1,8 +1,11 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
+import com.bedivierre.eloquent.ResultSet;
 
 import javax.swing.*;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -70,18 +73,29 @@ public class QueryEventImages {
         return listEventImages;
     }
 
-    //список изображений из нескольких событий
-    public static ArrayList<ImageIcon> getListEventImages(ArrayList<Integer> listIndexEventsId) {
+    //список изображений из нескольких событий на чистом SQL
+    public static ArrayList<ImageIcon> getListEventImagesSQL(ArrayList<Integer> listIndexEventsId) {
+        java.sql.ResultSet resultSet = null;
         listEventImages.clear();
-        ModelEventImages result;
+        StringBuilder sb = new StringBuilder();
 
-        try {
-            for (int i = 0; i > listIndexEventsId.size(); i++) {
-                result = ConnectDB.getConnector().query(ModelEventImages.class)
-                        .where("event_id", listIndexEventsId.get(i))
-                        .first();
-                if (result != null) {
-                    byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
+        try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
+            for (int i = 0; i < listIndexEventsId.size(); i++) {
+                //проходим по списку с первого до предпоследнего значения
+                if (i < listIndexEventsId.size() - 1) {
+                    sb.append("SELECT image FROM eventImages WHERE event_id = ").append(listIndexEventsId.get(i)).append(" UNION ALL ");
+                } else { //заходим в последний элемент списка
+                    sb.append("SELECT image FROM eventImages WHERE event_id = ").append(listIndexEventsId.get(i)).append(";");
+                }
+            }
+
+            // Create and execute a SELECT SQL statement.
+            String stringSql = String.valueOf(sb);
+            resultSet = statement.executeQuery(stringSql);
+            //обязательный цикл, чтобы получить результаты из запроса и присвоить их переменным
+            while (resultSet.next()) {
+                if (resultSet.getString("image") != null) {
+                    byte[] byteImageBase64 = Base64.getDecoder().decode(resultSet.getString("image"));
                     listEventImages.add(new ImageIcon(byteImageBase64));
                 } else {
                     listEventImages.add(null);
@@ -91,4 +105,25 @@ public class QueryEventImages {
 
         return listEventImages;
     }
+
+    //список изображений из нескольких событий
+    /*public static ArrayList<ImageIcon> getListEventImages(ArrayList<Integer> listIndexEventsId) {
+        listEventImages.clear();
+        QueryBuilder<ModelEventImages> query;
+
+        try {
+            for (int i = 0; i < listIndexEventsId.size(); i++) {
+                query = ConnectDB.getConnector().query(ModelEventImages.class)...
+                result = query.get();
+                if (result.image != null) {
+                    byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
+                    listEventImages.add(new ImageIcon(byteImageBase64));
+                } else {
+                    listEventImages.add(null);
+                }
+            }
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return listEventImages;
+    }*/
 }

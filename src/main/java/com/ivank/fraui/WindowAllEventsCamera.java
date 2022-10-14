@@ -5,6 +5,8 @@ import com.ivank.fraui.db.QueryTEST;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class WindowAllEventsCamera extends JFrame {
@@ -30,6 +32,18 @@ public class WindowAllEventsCamera extends JFrame {
 
         for (String element : listTimeStampEvents) {
             JLabel labelEvent = new JLabel(element);
+
+/*            //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        new WindowAllMediaCurrentEvent(event_id, time);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });*/
 
             labels.add(labelEvent);
             panelMain.add(labelEvent);

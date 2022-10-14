@@ -1,11 +1,9 @@
 package com.ivank.fraui.db;
 
-
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Base64;
 
 //запросы на чистом SQL
@@ -15,11 +13,7 @@ public class QueryTEST {
         ResultSet resultSet = null;
 
         try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
-
-//            ConnectDB.getConnector().executeRaw("SELECT * FROM table");
-
             // Create and execute a SELECT SQL statement.
-
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT image from eventImages WHERE event_id = ").append(event_id).append(" LIMIT 1;");
             String stringSql = String.valueOf(sb);

@@ -27,11 +27,10 @@ public class QueryEvent {
 
     //список записей дат создания событий (только событий, имеющих запись в графе image) на чистом SQL
     public static ArrayList<String> getListTimeStampEvents(int camera_id) {
-        ResultSet resultSet = null;
+        java.sql.ResultSet resultSet = null;
         listTimeStampEvents.clear();
 
         try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
-
             // Create and execute a SELECT SQL statement.
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT time FROM event WHERE EXISTS(SELECT * FROM eventImages WHERE event.id = eventImages.event_id AND image IS NOT NULL) AND camera_id = ").append(camera_id).append(" ORDER BY time DESC;");
