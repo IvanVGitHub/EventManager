@@ -1,12 +1,9 @@
 package com.ivank.fraui;
 
 import com.ivank.fraui.db.QueryEvent;
-import com.ivank.fraui.db.QueryTEST;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class WindowAllEventsCamera extends JFrame {
@@ -27,7 +24,7 @@ public class WindowAllEventsCamera extends JFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
 
-        ArrayList<String> listTimeStampEvents = QueryEvent.getListTimeStampEvents(idCamera);
+        ArrayList<String> listTimeStampEvents = QueryEvent.getListTimeStampEventsSQL(idCamera);
         int index = listTimeStampEvents.size();
 
         for (String element : listTimeStampEvents) {

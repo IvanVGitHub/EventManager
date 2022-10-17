@@ -2,7 +2,6 @@ package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class QueryEvent {
     }
 
     //список записей дат создания событий (только событий, имеющих запись в графе image) на чистом SQL
-    public static ArrayList<String> getListTimeStampEvents(int camera_id) {
+    public static ArrayList<String> getListTimeStampEventsSQL(int camera_id) {
         java.sql.ResultSet resultSet = null;
         listTimeStampEvents.clear();
 

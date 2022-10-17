@@ -118,18 +118,10 @@ public class Content extends JPanel {
 */
 
         ArrayList<ModelCamera> listModelCameras = QueryCamera.getListModelCamerasIsSelect();
-        //отрисовка групп событий
+        //отрисовка групп событий (много запросов)
         for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
             AddEvent addEvent = new AddEvent();
             ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
-
-            ///
-            ArrayList<Integer> listIndexEventsId = new ArrayList<>();
-            for (ModelEvent unit : listModelEvents) {
-                listIndexEventsId.add(unit.id);
-            }
-            ArrayList<ImageIcon> listEventImages = QueryEventImages.getListEventImagesSQL(listIndexEventsId);
-            ///
 
             //обавляем кнопки взаимодействия с камерой/группой событий
             createControlsForCamera(addEvent, indexCameras);
@@ -137,16 +129,17 @@ public class Content extends JPanel {
             //создаём рамку группы событий и пишем на ней имя камеры
             addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));
             //add event to group event
-            for(int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
-//                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(indexEvents).id);
+            for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
+                //получаем первый кадр при помощи библиотеки
+                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(indexEvents).id);
                 //если в БД отстутсвуют кадры события, то не отрисовываем это событие
-                if(listEventImages.get(indexEvents) == null)
+                if (image == null)
                     continue;
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
 //                        QueryTEST.getEventFirstImage(listModelEvents.get(indexEvents).id), //получаем первый кадр чистым SQL запросом
-                        listEventImages.get(indexEvents), //получаем первый кадр при помощи библиотеки
+                        image,
                         listModelEvents.get(indexEvents).id,
                         listModelEvents.get(indexEvents).time
                 );
@@ -154,6 +147,51 @@ public class Content extends JPanel {
 
             internalPanel.add(addEvent);
         }
+
+        //отрисовка групп событий (один большой запрос)
+/*        for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
+            AddEvent addEvent = new AddEvent();
+            ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
+
+            //////
+            ArrayList<Integer> listIndexEventsId = new ArrayList<>();
+            for (ModelEvent unit : listModelEvents) {
+                listIndexEventsId.add(unit.id);
+            }
+            ArrayList<ImageIcon> listEventImages = QueryEventImages.getListEventImagesSQL(listIndexEventsId);
+            //////
+
+            //обавляем кнопки взаимодействия с камерой/группой событий
+            createControlsForCamera(addEvent, indexCameras);
+
+            //создаём рамку группы событий и пишем на ней имя камеры
+            addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));
+            //add event to group event
+            for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
+                //////
+                //если в БД отстутсвуют кадры события, то не отрисовываем это событие
+                if(listEventImages.get(indexEvents) == null)
+                    continue;
+                //////
+                //получаем первый кадр при помощи библиотеки
+                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(indexEvents).id);
+                //если в БД отстутсвуют кадры события, то не отрисовываем это событие
+                if (image == null)
+                    continue;
+                addEvent.createLabelEvent(
+                        labelSize,
+                        CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
+//                        QueryTEST.getEventFirstImage(listModelEvents.get(indexEvents).id), //получаем первый кадр чистым SQL запросом
+//////
+                        listEventImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
+//////
+                        listModelEvents.get(indexEvents).id,
+                        listModelEvents.get(indexEvents).time
+                );
+            }
+
+            internalPanel.add(addEvent);
+        }*/
 
         internalPanel.revalidate();
         internalPanel.repaint();

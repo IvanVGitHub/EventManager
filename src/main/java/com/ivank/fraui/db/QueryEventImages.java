@@ -1,13 +1,12 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
-import com.bedivierre.eloquent.ResultSet;
 
 import javax.swing.*;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.StringJoiner;
 
 public class QueryEventImages {
     //список изображений события (event)
@@ -73,21 +72,25 @@ public class QueryEventImages {
         return listEventImages;
     }
 
-    //список изображений из нескольких событий на чистом SQL
+    //список первых изображений из списка id событий (event_id) на чистом SQL
     public static ArrayList<ImageIcon> getListEventImagesSQL(ArrayList<Integer> listIndexEventsId) {
         java.sql.ResultSet resultSet = null;
         listEventImages.clear();
         StringBuilder sb = new StringBuilder();
 
         try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
-            for (int i = 0; i < listIndexEventsId.size(); i++) {
-                //проходим по списку с первого до предпоследнего значения
-                if (i < listIndexEventsId.size() - 1) {
-                    sb.append("SELECT image FROM eventImages WHERE event_id = ").append(listIndexEventsId.get(i)).append(" UNION ALL ");
-                } else { //заходим в последний элемент списка
-                    sb.append("SELECT image FROM eventImages WHERE event_id = ").append(listIndexEventsId.get(i)).append(";");
-                }
-            }
+            StringJoiner joiner = new StringJoiner(", ");
+            for (int i : listIndexEventsId)
+                joiner.add(Integer.toString(i));
+            String result = joiner.toString();
+            sb.append("SELECT image\n" +
+                    "FROM eventImages\n" +
+                    "WHERE id IN (\n" +
+                    "    SELECT MIN(id)\n" +
+                    "    FROM eventImages WHERE event_id IN (").append(result).append(")\n" +
+                    "    GROUP BY event_id\n" +
+                    ")\n" +
+                    "ORDER BY event_id DESC;");
 
             // Create and execute a SELECT SQL statement.
             String stringSql = String.valueOf(sb);
