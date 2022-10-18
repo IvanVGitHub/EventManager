@@ -79,22 +79,29 @@ public class QueryEventImages {
         StringBuilder sb = new StringBuilder();
 
         try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
+            //создаём особым образом отформатированную строку из списка
             StringJoiner joiner = new StringJoiner(", ");
             for (int i : listIndexEventsId)
                 joiner.add(Integer.toString(i));
-            String result = joiner.toString();
-            sb.append("SELECT image\n" +
+            String value = joiner.toString();
+
+            sb.append("SELECT eventImages.id, event_id, image\n" +
                     "FROM eventImages\n" +
-                    "WHERE id IN (\n" +
+                    "    INNER JOIN (\n" +
                     "    SELECT MIN(id)\n" +
-                    "    FROM eventImages WHERE event_id IN (").append(result).append(")\n" +
-                    "    GROUP BY event_id\n" +
-                    ")\n" +
-                    "ORDER BY event_id DESC;");
+                    "        AS id\n" +
+                    "    FROM eventImages\n" +
+                    "    WHERE event_id IN (")
+                    .append(value)
+                    .append(")\n" +
+                            "    GROUP BY event_id\n" +
+                            "    ) subquery\n" +
+                            "        ON eventImages.id = subquery.id\n" +
+                            "ORDER BY event_id DESC;");
 
             // Create and execute a SELECT SQL statement.
-            String stringSql = String.valueOf(sb);
-            resultSet = statement.executeQuery(stringSql);
+            String stringSQL = String.valueOf(sb);
+            resultSet = statement.executeQuery(stringSQL);
             //обязательный цикл, чтобы получить результаты из запроса и присвоить их переменным
             while (resultSet.next()) {
                 if (resultSet.getString("image") != null) {
@@ -108,25 +115,4 @@ public class QueryEventImages {
 
         return listEventImages;
     }
-
-    //список изображений из нескольких событий
-    /*public static ArrayList<ImageIcon> getListEventImages(ArrayList<Integer> listIndexEventsId) {
-        listEventImages.clear();
-        QueryBuilder<ModelEventImages> query;
-
-        try {
-            for (int i = 0; i < listIndexEventsId.size(); i++) {
-                query = ConnectDB.getConnector().query(ModelEventImages.class)...
-                result = query.get();
-                if (result.image != null) {
-                    byte[] byteImageBase64 = Base64.getDecoder().decode(result.image);
-                    listEventImages.add(new ImageIcon(byteImageBase64));
-                } else {
-                    listEventImages.add(null);
-                }
-            }
-        } catch (Exception ex) {ex.printStackTrace();}
-
-        return listEventImages;
-    }*/
 }

@@ -119,7 +119,7 @@ public class Content extends JPanel {
 
         ArrayList<ModelCamera> listModelCameras = QueryCamera.getListModelCamerasIsSelect();
         //отрисовка групп событий (много запросов)
-        for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
+/*        for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
             AddEvent addEvent = new AddEvent();
             ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
@@ -146,10 +146,10 @@ public class Content extends JPanel {
             }
 
             internalPanel.add(addEvent);
-        }
+        }*/
 
         //отрисовка групп событий (один большой запрос)
-/*        for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
+        for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
             AddEvent addEvent = new AddEvent();
             ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
@@ -171,13 +171,8 @@ public class Content extends JPanel {
                 //////
                 //если в БД отстутсвуют кадры события, то не отрисовываем это событие
                 if(listEventImages.get(indexEvents) == null)
-                    continue;
+                    return;
                 //////
-                //получаем первый кадр при помощи библиотеки
-                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(indexEvents).id);
-                //если в БД отстутсвуют кадры события, то не отрисовываем это событие
-                if (image == null)
-                    continue;
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
@@ -191,7 +186,7 @@ public class Content extends JPanel {
             }
 
             internalPanel.add(addEvent);
-        }*/
+        }
 
         internalPanel.revalidate();
         internalPanel.repaint();
