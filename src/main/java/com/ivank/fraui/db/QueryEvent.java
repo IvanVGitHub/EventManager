@@ -2,6 +2,7 @@ package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -10,15 +11,34 @@ public class QueryEvent {
     //список записей времени создания события
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
-    //список моделей конкретной камеры в таблице event
+    //список моделей событий конкретной камеры в таблице event
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int value) {
         try {
-            QueryBuilder<ModelEvent> query = ConnectDB.getConnector().query(ModelEvent.class)
-                    .where("camera_id", camera_id)
-                    .orderBy(false, "time")
-                    .limit(value);
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT * FROM event ")
+                    .append("WHERE EXISTS (")
+                    .append("SELECT event_id ")
+                    .append("FROM eventImages ")
+                    .append("WHERE event_id = event.id) ")
+                    .append("AND camera_id = ").append(camera_id).append(" ")
+                    .append("ORDER BY id DESC ")
+                    .append("LIMIT ").append(value).append(";");
+            String stringSql = sb.toString();
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
 
-            return query.get();
+            ArrayList<ModelEvent> events = new ArrayList<>();
+            while (result.next()) {
+                ModelEvent ev = new ModelEvent();
+                ev.id = result.getInt("id");
+                ev.uuid = result.getString("uuid");
+                ev.camera_id = result.getInt("camera_id");
+                ev.plugin_id = result.getString("plugin_id");
+                ev.data = result.getString("data");
+                ev.time = result.getString("time");
+                events.add(ev);
+            }
+
+            return events;
         } catch (Exception ex) {ex.printStackTrace();}
 
         return null;
@@ -26,22 +46,26 @@ public class QueryEvent {
 
     //список записей дат создания событий (только событий, имеющих запись в графе image) на чистом SQL
     public static ArrayList<String> getListTimeStampEventsSQL(int camera_id) {
-        java.sql.ResultSet resultSet = null;
         listTimeStampEvents.clear();
 
-        try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
-            // Create and execute a SELECT SQL statement.
+        try {
             StringBuilder sb = new StringBuilder();
-            sb.append("SELECT time FROM event WHERE EXISTS(SELECT * FROM eventImages WHERE event.id = eventImages.event_id AND image IS NOT NULL) AND camera_id = ").append(camera_id).append(" ORDER BY time DESC;");
+            sb.append("SELECT time ")
+                    .append("FROM event ")
+                    .append("WHERE EXISTS (")
+                    .append("SELECT * FROM eventImages ")
+                    .append("WHERE event.id = eventImages.event_id ")
+                    .append("AND image IS NOT NULL) ")
+                    .append("AND camera_id = ").append(camera_id)
+                    .append("ORDER BY time DESC;");
             String stringSql = String.valueOf(sb);
-            resultSet = statement.executeQuery(stringSql);
-            //обязательный цикл, чтобы получить результаты из запроса и присвоить их переменным
-            while (resultSet.next()) {
-                listTimeStampEvents.add(resultSet.getString("time"));
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
+            while (result.next()) {
+                listTimeStampEvents.add(result.getString("time"));
             }
 
             return listTimeStampEvents;
-        } catch (SQLException ex) {ex.printStackTrace();}
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return listTimeStampEvents;
     }

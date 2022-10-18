@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 public class ModelEvent extends DBModel {
     public int id;
     public String uuid;
-    public String camera_id;
+    public int camera_id;
     public String plugin_id;
     public String data;
     public String time;

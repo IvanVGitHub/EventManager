@@ -1,8 +1,10 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
+import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -74,38 +76,26 @@ public class QueryEventImages {
 
     //список первых изображений из списка id событий (event_id) на чистом SQL
     public static ArrayList<ImageIcon> getListEventImagesSQL(ArrayList<Integer> listIndexEventsId) {
-        java.sql.ResultSet resultSet = null;
         listEventImages.clear();
-        StringBuilder sb = new StringBuilder();
 
         try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
             //создаём особым образом отформатированную строку из списка
-            StringJoiner joiner = new StringJoiner(", ");
-            for (int i : listIndexEventsId)
-                joiner.add(Integer.toString(i));
-            String value = joiner.toString();
+            String values = StringUtils.join(listIndexEventsId.toArray(), ", ");
 
-            sb.append("SELECT eventImages.id, event_id, image\n" +
-                    "FROM eventImages\n" +
-                    "    INNER JOIN (\n" +
-                    "    SELECT MIN(id)\n" +
-                    "        AS id\n" +
-                    "    FROM eventImages\n" +
-                    "    WHERE event_id IN (")
-                    .append(value)
-                    .append(")\n" +
-                            "    GROUP BY event_id\n" +
-                            "    ) subquery\n" +
-                            "        ON eventImages.id = subquery.id\n" +
-                            "ORDER BY event_id DESC;");
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT image FROM eventImages ")
+                    .append("INNER JOIN (")
+                    .append("SELECT MIN(id) AS id FROM eventImages ")
+                    .append("WHERE event_id IN (").append(values).append(") ")
+                    .append("GROUP BY event_id) subquery ")
+                    .append("ON eventImages.id = subquery.id ")
+                    .append("ORDER BY event_id DESC;");
 
-            // Create and execute a SELECT SQL statement.
-            String stringSQL = String.valueOf(sb);
-            resultSet = statement.executeQuery(stringSQL);
-            //обязательный цикл, чтобы получить результаты из запроса и присвоить их переменным
-            while (resultSet.next()) {
-                if (resultSet.getString("image") != null) {
-                    byte[] byteImageBase64 = Base64.getDecoder().decode(resultSet.getString("image"));
+            String stringSQL = sb.toString();
+            ResultSet result = statement.executeQuery(stringSQL);
+            while (result.next()) {
+                if (result.getString("image") != null) {
+                    byte[] byteImageBase64 = Base64.getDecoder().decode(result.getString("image"));
                     listEventImages.add(new ImageIcon(byteImageBase64));
                 } else {
                     listEventImages.add(null);
