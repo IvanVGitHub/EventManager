@@ -14,7 +14,7 @@ public class QueryEventImages {
     //список изображений события (event)
     private static ArrayList<ImageIcon> listEventImages = new ArrayList<>();
 
-    //список моделей конкретного событая в таблице eventImages
+    //список моделей конкретного событая
     public static ArrayList<ModelEventImages> getListModelEventImages(int event_id) {
         try {
             QueryBuilder<ModelEventImages> query = ConnectDB.getConnector().query(ModelEventImages.class)
@@ -74,12 +74,11 @@ public class QueryEventImages {
         return listEventImages;
     }
 
-    //список первых изображений из списка id событий (event_id) на чистом SQL
+    //список первых изображений из списка event_id (id событий)
     public static ArrayList<ImageIcon> getListEventImagesSQL(ArrayList<Integer> listIndexEventsId) {
         listEventImages.clear();
 
-        try (Statement statement = ConnectDB.getConnectorClearSQL().createStatement()) {
-            //создаём особым образом отформатированную строку из списка
+        try {
             String values = StringUtils.join(listIndexEventsId.toArray(), ", ");
 
             StringBuilder sb = new StringBuilder();
@@ -92,7 +91,8 @@ public class QueryEventImages {
                     .append("ORDER BY event_id DESC;");
 
             String stringSQL = sb.toString();
-            ResultSet result = statement.executeQuery(stringSQL);
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
+
             while (result.next()) {
                 if (result.getString("image") != null) {
                     byte[] byteImageBase64 = Base64.getDecoder().decode(result.getString("image"));

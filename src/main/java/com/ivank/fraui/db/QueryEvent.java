@@ -11,7 +11,7 @@ public class QueryEvent {
     //список записей времени создания события
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
-    //список моделей событий конкретной камеры в таблице event
+    //список моделей событий, имеющих image, конкретной камеры
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int value) {
         try {
             StringBuilder sb = new StringBuilder();
@@ -44,7 +44,7 @@ public class QueryEvent {
         return null;
     }
 
-    //список записей дат создания событий (только событий, имеющих запись в графе image) на чистом SQL
+    //список дат событий, имеющих image
     public static ArrayList<String> getListTimeStampEventsSQL(int camera_id) {
         listTimeStampEvents.clear();
 
@@ -53,18 +53,17 @@ public class QueryEvent {
             sb.append("SELECT time ")
                     .append("FROM event ")
                     .append("WHERE EXISTS (")
-                    .append("SELECT * FROM eventImages ")
-                    .append("WHERE event.id = eventImages.event_id ")
+                    .append("SELECT event_id FROM eventImages ")
+                    .append("WHERE event_id = event.id ")
                     .append("AND image IS NOT NULL) ")
-                    .append("AND camera_id = ").append(camera_id)
-                    .append("ORDER BY time DESC;");
+                    .append("AND camera_id = ").append(camera_id).append(" ")
+                    .append("ORDER BY id DESC;");
             String stringSql = String.valueOf(sb);
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
+
             while (result.next()) {
                 listTimeStampEvents.add(result.getString("time"));
             }
-
-            return listTimeStampEvents;
         } catch (Exception ex) {ex.printStackTrace();}
 
         return listTimeStampEvents;
