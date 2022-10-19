@@ -54,8 +54,7 @@ public class QueryEvent {
                     .append("FROM event ")
                     .append("WHERE EXISTS (")
                     .append("SELECT event_id FROM eventImages ")
-                    .append("WHERE event_id = event.id ")
-                    .append("AND image IS NOT NULL) ")
+                    .append("WHERE event_id = event.id) ")
                     .append("AND camera_id = ").append(camera_id).append(" ")
                     .append("ORDER BY id DESC;");
             String stringSql = String.valueOf(sb);
