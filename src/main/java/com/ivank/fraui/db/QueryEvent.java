@@ -17,8 +17,7 @@ public class QueryEvent {
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT * FROM event ")
                     .append("WHERE EXISTS (")
-                    .append("SELECT event_id ")
-                    .append("FROM eventImages ")
+                    .append("SELECT event_id FROM eventImages ")
                     .append("WHERE event_id = event.id) ")
                     .append("AND camera_id = ").append(camera_id).append(" ")
                     .append("ORDER BY id DESC ")
@@ -50,8 +49,7 @@ public class QueryEvent {
 
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append("SELECT time ")
-                    .append("FROM event ")
+            sb.append("SELECT time FROM event ")
                     .append("WHERE EXISTS (")
                     .append("SELECT event_id FROM eventImages ")
                     .append("WHERE event_id = event.id) ")

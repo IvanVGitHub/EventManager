@@ -65,8 +65,17 @@ public class QueryEventImages {
         listEventImages.clear();
 
         try {
-            for (ModelEventImages unit : getListModelEventImages(event_id)) {
-                byte[] byteImageBase64 = Base64.getDecoder().decode(unit.image);
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT image FROM eventImages ")
+                    .append("WHERE id IN (")
+                    .append("SELECT id FROM eventImages ")
+                    .append("WHERE event_id = ").append(event_id).append(");");
+
+            String stringSQL = sb.toString();
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
+
+            while (result.next()) {
+                byte[] byteImageBase64 = Base64.getDecoder().decode(result.getString("image"));
                 listEventImages.add(new ImageIcon(byteImageBase64));
             }
         } catch (Exception ex) {ex.printStackTrace();}
@@ -88,8 +97,8 @@ public class QueryEventImages {
                     .append("INNER JOIN (")
                     .append("SELECT MIN(id) AS id FROM eventImages ")
                     .append("WHERE event_id IN (").append(values).append(") ")
-                    .append("GROUP BY event_id) subquery ")
-                    .append("ON eventImages.id = subquery.id ")
+                    .append("GROUP BY event_id) ")
+                    .append("subquery ON eventImages.id = subquery.id ")
                     .append("ORDER BY event_id DESC;");
 
             String stringSQL = sb.toString();
