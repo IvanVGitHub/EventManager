@@ -77,6 +77,8 @@ public class QueryEventImages {
     //список первых изображений из списка event_id (id событий)
     public static ArrayList<ImageIcon> getListEventImagesSQL(ArrayList<Integer> listIndexEventsId) {
         listEventImages.clear();
+        if (listIndexEventsId.isEmpty())
+            return listEventImages;
 
         try {
             String values = StringUtils.join(listIndexEventsId.toArray(), ", ");
