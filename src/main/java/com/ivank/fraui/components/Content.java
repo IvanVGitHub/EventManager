@@ -117,69 +117,36 @@ public class Content extends JPanel {
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 */
 
+        //список моделей камер
         ArrayList<ModelCamera> listModelCameras = QueryCamera.getListModelCamerasIsSelect();
-        //отрисовка групп событий (много запросов)
-/*        for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
-            AddEvent addEvent = new AddEvent();
-            ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
-
-            //обавляем кнопки взаимодействия с камерой/группой событий
-            createControlsForCamera(addEvent, indexCameras);
-
-            //создаём рамку группы событий и пишем на ней имя камеры
-            addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));
-            //add event to group event
-            for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
-                //получаем первый кадр при помощи библиотеки
-                ImageIcon image = QueryEventImages.getEventFirstImage(listModelEvents.get(indexEvents).id);
-                //если в БД отстутсвуют кадры события, то не отрисовываем это событие
-                if (image == null)
-                    continue;
-                addEvent.createLabelEvent(
-                        labelSize,
-                        CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
-//                        QueryTEST.getEventFirstImage(listModelEvents.get(indexEvents).id), //получаем первый кадр чистым SQL запросом
-                        image,
-                        listModelEvents.get(indexEvents).id,
-                        listModelEvents.get(indexEvents).time
-                );
-            }
-
-            internalPanel.add(addEvent);
-        }*/
-
-        //отрисовка групп событий (один большой запрос)
+        //отрисовка групп событий (одна группа событий - это одна камера с набором плагинов)
         for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
             AddEvent addEvent = new AddEvent();
+            //список ограниченного количества моделей событий
             ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
-            //////
+            //список id событий из списка моделей
             ArrayList<Integer> listIndexEventsId = new ArrayList<>();
             for (ModelEvent unit : listModelEvents) {
                 listIndexEventsId.add(unit.id);
             }
-            ArrayList<ImageIcon> listEventImages = QueryEventImages.getListEventImagesSQL(listIndexEventsId);
-            //////
+            //список из первых кадров событий одной камеры
+            ArrayList<ImageIcon> listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
 
-            //обавляем кнопки взаимодействия с камерой/группой событий
+            //добавляем кнопки взаимодействия с камерой/группой событий
             createControlsForCamera(addEvent, indexCameras);
 
             //создаём рамку группы событий и пишем на ней имя камеры
             addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));
             //add event to group event
             for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
-                //////
                 //если в БД отстутсвуют кадры события, то не отрисовываем это событие
-                if(listEventImages.isEmpty() || listEventImages.get(indexEvents) == null)
+                if(listEventFirstImages.isEmpty())
                     continue;
-                //////
                 addEvent.createLabelEvent(
                         labelSize,
                         CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
-//                        QueryTEST.getEventFirstImage(listModelEvents.get(indexEvents).id), //получаем первый кадр чистым SQL запросом
-//////
-                        listEventImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
-//////
+                        listEventFirstImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
                         listModelEvents.get(indexEvents).id,
                         listModelEvents.get(indexEvents).time
                 );

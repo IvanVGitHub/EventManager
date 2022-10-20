@@ -9,14 +9,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-public class WindowAllMediaCurrentEvent extends JFrame {
+public class WindowAllImageCurrentEvent extends JFrame {
     Timer timer;
     ArrayList<ImageIcon> listImage;
     JPanel panelMain;
     int width = 800;
     int height = 600;
 
-    public WindowAllMediaCurrentEvent(int event_id, String time) throws InterruptedException {
+    public WindowAllImageCurrentEvent(int event_id, String time) throws InterruptedException {
         super(time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 

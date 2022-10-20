@@ -12,7 +12,7 @@ public class QueryEvent {
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
     //список моделей событий, имеющих image, конкретной камеры
-    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int value) {
+    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int limit) {
         try {
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT * FROM event ")
@@ -21,7 +21,36 @@ public class QueryEvent {
                     .append("WHERE event_id = event.id) ")
                     .append("AND camera_id = ").append(camera_id).append(" ")
                     .append("ORDER BY id DESC ")
-                    .append("LIMIT ").append(value).append(";");
+                    .append("LIMIT ").append(limit).append(";");
+            String stringSql = sb.toString();
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
+
+            ArrayList<ModelEvent> events = new ArrayList<>();
+            while (result.next()) {
+                ModelEvent ev = new ModelEvent();
+                ev.id = result.getInt("id");
+                ev.uuid = result.getString("uuid");
+                ev.camera_id = result.getInt("camera_id");
+                ev.plugin_id = result.getString("plugin_id");
+                ev.data = result.getString("data");
+                ev.time = result.getString("time");
+                events.add(ev);
+            }
+
+            return events;
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return null;
+    }
+    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT * FROM event ")
+                    .append("WHERE EXISTS (")
+                    .append("SELECT event_id FROM eventImages ")
+                    .append("WHERE event_id = event.id) ")
+                    .append("AND camera_id = ").append(camera_id).append(" ")
+                    .append("ORDER BY id DESC;");
             String stringSql = sb.toString();
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
 
@@ -44,7 +73,7 @@ public class QueryEvent {
     }
 
     //список дат событий, имеющих image
-    public static ArrayList<String> getListTimeStampEventsSQL(int camera_id) {
+    public static ArrayList<String> getListTimeStampEvents(int camera_id) {
         listTimeStampEvents.clear();
 
         try {

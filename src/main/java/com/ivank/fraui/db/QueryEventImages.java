@@ -5,10 +5,8 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.StringJoiner;
 
 public class QueryEventImages {
     //список изображений события (event)
@@ -84,7 +82,7 @@ public class QueryEventImages {
     }
 
     //список первых изображений из списка event_id (id событий)
-    public static ArrayList<ImageIcon> getListEventImagesSQL(ArrayList<Integer> listIndexEventsId) {
+    public static ArrayList<ImageIcon> getListEventFirstImages(ArrayList<Integer> listIndexEventsId) {
         listEventImages.clear();
         if (listIndexEventsId.isEmpty())
             return listEventImages;

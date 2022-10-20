@@ -1,9 +1,13 @@
 package com.ivank.fraui;
 
+import com.ivank.fraui.db.ModelEvent;
 import com.ivank.fraui.db.QueryEvent;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class WindowAllEventsCamera extends JFrame {
@@ -17,6 +21,7 @@ public class WindowAllEventsCamera extends JFrame {
         JPanel panelMain = new JPanel();
 //        panelMain.setPreferredSize(new Dimension(300, 300));
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        panelMain.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         JScrollPane scrollPane = new JScrollPane(
                 panelMain,
@@ -24,23 +29,28 @@ public class WindowAllEventsCamera extends JFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
 
-        ArrayList<String> listTimeStampEvents = QueryEvent.getListTimeStampEventsSQL(idCamera);
-        int index = listTimeStampEvents.size();
+        //стилизация текстовых полей с датами
+        CompoundBorder inner = new CompoundBorder(new EmptyBorder(5, 5, 5, 5), new EtchedBorder());
+        CompoundBorder outer = new CompoundBorder(inner, new EmptyBorder(5, 5, 5, 5));
 
-        for (String element : listTimeStampEvents) {
-            JLabel labelEvent = new JLabel(element);
+        //создаём список из текстовых клакабельных элементов
+        for (ModelEvent element : QueryEvent.getListModelEventsCamera(idCamera)) {
+            JLabel labelEvent = new JLabel(element.time);
+            labelEvent.setBorder(outer);
 
-/*            //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
-            label.addMouseListener(new MouseAdapter() {
+            //При нажатии на дату открывается окно со всеми медиа, относящимися к этому Событию
+            labelEvent.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    try {
-                        new WindowAllMediaCurrentEvent(event_id, time);
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
+                    //двойной клик
+                    if (e.getClickCount() == 2 && !e.isConsumed()) {
+                        e.consume();
+                         try {
+                             new WindowAllImageCurrentEvent(element.id, element.time);
+                         } catch (InterruptedException ex) {throw new RuntimeException(ex);}
                     }
                 }
-            });*/
+            });
 
             labels.add(labelEvent);
             panelMain.add(labelEvent);

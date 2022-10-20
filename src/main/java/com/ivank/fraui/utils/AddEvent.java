@@ -1,13 +1,11 @@
 package com.ivank.fraui.utils;
 
-import com.ivank.fraui.WindowAllMediaCurrentEvent;
-import com.ivank.fraui.db.ModelEvent;
+import com.ivank.fraui.WindowAllImageCurrentEvent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 public class AddEvent extends JPanel {
     public AddEvent() {
@@ -37,7 +35,7 @@ public class AddEvent extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    new WindowAllMediaCurrentEvent(event_id, time);
+                    new WindowAllImageCurrentEvent(event_id, time);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
