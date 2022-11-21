@@ -1,5 +1,6 @@
 package com.ivank.fraui.components;
 
+import com.ivank.fraui.WindowCameraLiveView;
 import com.ivank.fraui.settings.AppConfig;
 import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.WindowAllEventsCamera;
@@ -182,7 +183,7 @@ public class Content extends JPanel {
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                new WindowCameraLiveView(idCamera, getScale());
             }
         });
 
