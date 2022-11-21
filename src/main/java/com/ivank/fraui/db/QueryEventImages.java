@@ -104,8 +104,8 @@ public class QueryEventImages {
 
             while (result.next()) {
                 if (result.getString("image") != null) {
-                    byte[] byteImageBase64 = Base64.getDecoder().decode(result.getString("image"));
-                    listEventImages.add(new ImageIcon(byteImageBase64));
+                    byte[] byteImage = Base64.getDecoder().decode(result.getString("image"));
+                    listEventImages.add(new ImageIcon(byteImage));
                 } else {
                     listEventImages.add(null);
                 }

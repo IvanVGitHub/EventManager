@@ -26,7 +26,7 @@ public class ToolBar extends JPanel {
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonAdd.setText(String.valueOf("Отслеживается камер: " + QueryCamera.getListModelCamerasIsSelect().size()));
+                buttonAdd.setText("Отслеживается камер: " + QueryCamera.getListModelCamerasIsSelect().size());
             }
         });
 

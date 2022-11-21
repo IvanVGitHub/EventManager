@@ -6,11 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WindowMain extends JFrame {
+    private static WindowMain instance;
     public static WindowMain getInstance() {
         return instance;
     }
-
-    private static WindowMain instance;
 
     public Content getContent() {
         return content;
@@ -42,7 +41,8 @@ public class WindowMain extends JFrame {
     public WindowMain() {
         super("Диспетчер событий");
         instance = this;
-        //temporary
+        //TODO: при добавлении функций трея - установить
+//        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new BorderLayout());
 
@@ -51,7 +51,7 @@ public class WindowMain extends JFrame {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle desktopBounds = ge.getMaximumWindowBounds();
 /*
-        //view screen sizes
+        //view display sizes
         System.out.println(desktopBounds);
 */
         //size window in "small" mode
@@ -97,7 +97,7 @@ public class WindowMain extends JFrame {
         addCameraTEST.setEnabled(false);
         parameters.add(addCameraTEST);
 
-        //оризонтальная черта для визуального разделения
+        //горизонтальная черта для визуального разделения
         parameters.addSeparator();
 
         MenuItem exit = new MenuItem("Выход");

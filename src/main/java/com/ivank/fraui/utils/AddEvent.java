@@ -27,7 +27,6 @@ public class AddEvent extends JPanel {
         )));
         label.setPreferredSize(labelSize);
         label.setHorizontalAlignment(JLabel.CENTER);
-
         label.setBorder(BorderFactory.createLineBorder(color, 5));
 
         //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
@@ -36,17 +35,14 @@ public class AddEvent extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 try {
                     new WindowAllImageCurrentEvent(event_id, time);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
+                } catch (InterruptedException ex) {throw new RuntimeException(ex);}
             }
         });
 
-        p.add( label);
+        p.add(label);
         p.setSize(labelSize.width,labelSize.height + 40);
-//        p.setVisible(true);
         this.add(p);
+
         return p;
-//        return label;
     }
 }

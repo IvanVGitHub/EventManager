@@ -11,7 +11,7 @@ public class QueryEvent {
     //список записей времени создания события
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
-    //список моделей событий, имеющих image, конкретной камеры
+    //список моделей событий конкретной камеры, имеющих image
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int limit) {
         try {
             StringBuilder sb = new StringBuilder();
@@ -22,8 +22,8 @@ public class QueryEvent {
                     .append("AND camera_id = ").append(camera_id).append(" ")
                     .append("ORDER BY id DESC ")
                     .append("LIMIT ").append(limit).append(";");
-            String stringSql = sb.toString();
-            ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
+            String stringSQL = sb.toString();
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             ArrayList<ModelEvent> events = new ArrayList<>();
             while (result.next()) {
@@ -51,8 +51,8 @@ public class QueryEvent {
                     .append("WHERE event_id = event.id) ")
                     .append("AND camera_id = ").append(camera_id).append(" ")
                     .append("ORDER BY id DESC;");
-            String stringSql = sb.toString();
-            ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
+            String stringSQL = sb.toString();
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             ArrayList<ModelEvent> events = new ArrayList<>();
             while (result.next()) {
@@ -84,8 +84,8 @@ public class QueryEvent {
                     .append("WHERE event_id = event.id) ")
                     .append("AND camera_id = ").append(camera_id).append(" ")
                     .append("ORDER BY id DESC;");
-            String stringSql = String.valueOf(sb);
-            ResultSet result = ConnectDB.getConnector().executeRaw(stringSql);
+            String stringSQL = String.valueOf(sb);
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             while (result.next()) {
                 listTimeStampEvents.add(result.getString("time"));

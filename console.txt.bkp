@@ -1,0 +1,64 @@
+
+
+# Список изображений конкретного события
+# SELECT image FROM eventImages
+# WHERE id IN (
+#     SELECT id FROM eventImages
+#         WHERE event_id = 11);
+
+# Получаем список событий, имеющих картинки
+# SELECT * FROM event
+# WHERE EXISTS (
+#     SELECT event_id FROM eventImages
+#     WHERE event_id = event.id)
+#   AND camera_id = 6
+# ORDER BY id DESC;
+
+# Получаем последние 10 событий, имеющих картинки
+# SELECT *
+# FROM event
+# WHERE EXISTS(
+#     SELECT event_id
+#     FROM eventImages
+#     WHERE event_id = event.id)
+#   AND camera_id = 7
+# ORDER BY id DESC
+# LIMIT 10;
+
+# Получаем 50 картинок или ~10 MB за 1 секунду
+# SELECT image FROM `eventImages`
+# WHERE `id` BETWEEN 10000 AND 10050;
+
+# ItsWORK! 10 картинок за 0,3 секунды
+# получаем список первых image по каждому совпадению с event_id
+# SELECT eventImages.id, event_id, image FROM eventImages
+#     INNER JOIN (
+#     SELECT MIN(id) AS id FROM eventImages
+#     WHERE event_id IN (4610, 4609, 4608, 4607, 4606, 4605, 4604, 4603, 4602, 4601)
+#     GROUP BY event_id)
+#     subquery ON eventImages.id = subquery.id
+# ORDER BY event_id DESC;
+
+# ItsWORK! 10 картинок за 30 секунд
+# получаем список первых image по каждому совпадению с event_id
+# SELECT id, event_id, image FROM eventImages
+# WHERE id IN (
+#     SELECT MIN(id) FROM eventImages
+#     WHERE event_id IN (4610, 4609, 4608, 4607, 4606, 4605, 4604, 4603, 4602, 4601)
+#     GROUP BY event_id
+# )
+# ORDER BY event_id DESC;
+
+# Получаем список из первых uuid по каждому совпадению со списком event_id
+# SELECT uuid FROM eventImages
+# WHERE id IN (
+#     SELECT MIN(id) FROM eventImages
+#     WHERE event_id IN (4610, 4609, 4608, 4607, 4606, 4605, 4604, 4603, 4602, 4601)
+#     GROUP BY event_id
+# )
+# ORDER BY event_id DESC;
+
+# Получаем количество изображений по каждому id события (event_id)
+# SELECT COUNT(uuid), event_id FROM eventImages
+# WHERE event_id IN (4610, 4609, 4608, 4607, 4606, 4605, 4604, 4603, 4602, 4601)
+# GROUP BY event_id ORDER BY event_id DESC;

@@ -47,4 +47,11 @@ public class SettingsDefault extends DBModel {
 
         return defaultImage == null ? "" : defaultImage.data;
     }
+
+    //получить настройку по имени image_default_event
+    public static String getImageLiveView() {
+        SettingsDefault defaultImage = getByCode("image_live_view");
+
+        return defaultImage == null ? "" : defaultImage.data;
+    }
 }

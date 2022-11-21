@@ -6,13 +6,13 @@ public class CalculationEventColor {
     public static Color eventColor(String str) {
         try {
             switch (str) {
-                case  ("blacklist"):
+                case ("blacklist"):
                     return Color.BLACK;
-                case  ("whitelist"):
+                case ("whitelist"):
                     return Color.YELLOW;
-                case  ("motion"):
+                case ("motion"):
                     return Color.GREEN;
-                case  ("nalogovaya"):
+                case ("nalogovaya"):
                     return Color.RED;
                 default:
                     return Color.BLACK;

@@ -16,6 +16,8 @@ public class Application {
 
         windowMain = new WindowMain();
         //приложение запускается с блоком в трее
+
+        //TODO: при добавлении функций трея - установить
 //        new AppInTray();
 
         //update Content

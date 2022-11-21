@@ -3,12 +3,17 @@ package com.ivank.fraui.settings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class AppConfig {
+    //приложение было разработано под разрешение 1366*768, поэтому под другие разрешения подстраиваем в коэффициенте
+    private static double scale = Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 768;
+    public static double getScale() {return scale;}
+
     private static String configFile = "config.json";
     private static AppConfig instance;
 
@@ -24,7 +29,6 @@ public class AppConfig {
     private ArrayList<SettingsCamera> cameras = new ArrayList<>();
     private SettingsConnection connection = new SettingsConnection();
     private SettingsLabelSize labelSize = new SettingsLabelSize();
-
 
     public SettingsLabelSize getLabelSize() {
         return labelSize;

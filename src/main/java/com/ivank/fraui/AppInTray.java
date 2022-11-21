@@ -11,7 +11,6 @@ public class AppInTray {
     WindowMain windowMain;
 
     public AppInTray() {
-
         windowMain = WindowMain.getInstance();
         SystemTray systemTray = SystemTray.getSystemTray();
 

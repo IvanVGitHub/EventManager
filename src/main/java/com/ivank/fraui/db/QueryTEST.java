@@ -13,8 +13,8 @@ public class QueryTEST {
         ImageIcon imageIcon = null;
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append("SELECT image from eventImages ")
-                    .append("WHERE event_id = ").append(event_id).append(" ")
+            sb.append("SELECT image FROM eventImages ")
+                    .append("WHERE event_id = " + event_id + " ")
                     .append("LIMIT 1;");
             String stringSQL = sb.toString();
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);

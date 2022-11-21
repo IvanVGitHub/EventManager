@@ -16,14 +16,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Base64;
 
+import static com.ivank.fraui.settings.AppConfig.getScale;
+
 public class Content extends JPanel {
     public static JPanel externalPanel = new JPanel();
     public static JPanel internalPanel = new PanelFlex();
     public static JScrollPane scrollPaneGroupEvent = new JScrollPane();
 
-    public static int getLimitEvent() {
-        return AppConfig.getInstance().getEventLimit();
-    }
+    public static int getLimitEvent() {return AppConfig.getInstance().getEventLimit();}
 
     public static class PanelFlex extends JPanel implements Scrollable {
         private static final long serialVersionUID = 1;
@@ -119,19 +119,25 @@ public class Content extends JPanel {
 
         //список моделей камер
         ArrayList<ModelCamera> listModelCameras = QueryCamera.getListModelCamerasIsSelect();
+        //список ограниченного количества моделей событий
+        ArrayList<ModelEvent> listModelEvents;
+        //список id событий из списка моделей
+        ArrayList<Integer> listIndexEventsId = new ArrayList<>();
+        //список из первых кадров событий одной камеры
+        ArrayList<ImageIcon> listEventFirstImages;
+
         //отрисовка групп событий (одна группа событий - это одна камера с набором плагинов)
         for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
             AddEvent addEvent = new AddEvent();
             //список ограниченного количества моделей событий
-            ArrayList<ModelEvent> listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
+            listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
             //список id событий из списка моделей
-            ArrayList<Integer> listIndexEventsId = new ArrayList<>();
             for (ModelEvent unit : listModelEvents) {
                 listIndexEventsId.add(unit.id);
             }
             //список из первых кадров событий одной камеры
-            ArrayList<ImageIcon> listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
+            listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
 
             //добавляем кнопки взаимодействия с камерой/группой событий
             createControlsForCamera(addEvent, indexCameras);
@@ -151,34 +157,45 @@ public class Content extends JPanel {
                         listModelEvents.get(indexEvents).time
                 );
             }
+            //очищаем память
+            listModelEvents.clear();
+            listIndexEventsId.clear();
+            listEventFirstImages.clear();
 
             internalPanel.add(addEvent);
         }
+        //очищаем память
+        listModelCameras.clear();
 
         internalPanel.revalidate();
         internalPanel.repaint();
     }
 
-    public JComponent createButtonOptions(int idCamera) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getLabelOptions());
-        JButton button = new JButton(new ImageIcon(byteImageBase64));
-        button.setPreferredSize(new Dimension(30, 30));
+    //кнопка просмотра прямого эфира скамеры
+    //TODO: если камера онлайн, то делаем зелёный бордер и кнопку активной, в противной случае бордер красный и кнопка не активна
+    public JComponent createButtonLiveView(int idCamera) {
+        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageLiveView());
+        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
+        //подгоним картинку под нужный размер
+        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new WindowSettingsCamera(idCamera);
+
             }
         });
 
         return button;
     }
 
+    //кнопка просмотра всех событий камеры
     public JComponent createButtonAllImgEvents(int idCamera) {
         byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getButtonAllImgEvents());
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
-        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
-        button.setPreferredSize(new Dimension(40, 40));
+        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -189,19 +206,43 @@ public class Content extends JPanel {
         return button;
     }
 
+    //кнопка выбора плагинов камеры
+    public JComponent createButtonOptions(int idCamera) {
+        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getLabelOptions());
+        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
+        //подгоним картинку под нужный размер
+        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new WindowSettingsCamera(idCamera);
+            }
+        });
+
+        return button;
+    }
+
     public void createControlsForCamera(AddEvent eventPanel, int index) {
         JPanel panel = new JPanel();
+
         JPanel panelBut1 = new JPanel();
         JPanel panelBut2 = new JPanel();
+        JPanel panelBut3 = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panelBut1.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         panelBut2.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-        //add buttons "options"
-        panelBut1.add(createButtonOptions(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        panelBut3.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        //add buttons "live view"
+        panelBut1.add(createButtonLiveView(QueryCamera.getListModelCamerasIsSelect().get(index).id));
         panel.add(panelBut1);
         //add buttons "all img events this camera"
         panelBut2.add(createButtonAllImgEvents(QueryCamera.getListModelCamerasIsSelect().get(index).id));
         panel.add(panelBut2);
+        //add buttons "options"
+        panelBut3.add(createButtonOptions(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        panel.add(panelBut3);
+
         eventPanel.add(panel);
     }
 }
