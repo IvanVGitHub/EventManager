@@ -11,7 +11,7 @@ import static com.ivank.fraui.settings.AppConfig.getScale;
 import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_QUIET;
 import static org.bytedeco.ffmpeg.global.avutil.av_log_set_level;
 
-public class WindowCameraLiveView extends CanvasFrame implements Runnable{
+public class WindowCameraLiveView extends CanvasFrame implements Runnable {
     volatile boolean running;
     volatile CamData cd;
 
@@ -30,7 +30,7 @@ public class WindowCameraLiveView extends CanvasFrame implements Runnable{
         }
     }
 
-    public void run(){
+    public void run() {
         running = true;
 
         FFmpegFrameGrabber grabber = getGrabber(cd);
@@ -45,20 +45,18 @@ public class WindowCameraLiveView extends CanvasFrame implements Runnable{
         } catch (java.lang.Exception ex) {ex.printStackTrace();}
         finally {
             try {
-                if(grabber != null)
+                if (grabber != null)
                     grabber.close();
-                if(frame != null)
+                if (frame != null)
                     frame.close();
-            } catch (FrameGrabber.Exception e) {
-                throw new RuntimeException(e);
-            }
+            } catch (FrameGrabber.Exception e) {throw new RuntimeException(e);}
         }
     }
 
-    public WindowCameraLiveView(int idCamera, double scale) {
+    public WindowCameraLiveView(int idCamera) {
         super("4 сыра общий план");
         CamData cd = new CamData("172.20.13.10", "/", "admin", "WRPas7dZ5!", "4 сыра общий план");
-        init(cd, (int)(scale * 640), (int)(scale * 360));
+        init(cd, (int)(getScale() * 640), (int)(getScale() * 360));
     }
 
     public WindowCameraLiveView(CamData cd) {
@@ -71,14 +69,13 @@ public class WindowCameraLiveView extends CanvasFrame implements Runnable{
         init(cd, w, h);
     }
 
-    void init(CamData cd, int w, int h){
-
+    void init(CamData cd, int w, int h) {
         //отключаем вывод в консоли ошибки:
         //"[swscaler @ 00000000728a90c0] deprecated pixel format used, make sure you did set range correctly"
         //НЕИЗВЕСТНО, отключает ли это все остальные ошибки и предупреждения!
         av_log_set_level(AV_LOG_QUIET);
 
-        setTitle(cd.cameraName);
+        this.setTitle(cd.cameraName);
         System.out.println(cd.cameraName + " init");
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setPreferredSize (new Dimension(w, h));
@@ -98,14 +95,15 @@ public class WindowCameraLiveView extends CanvasFrame implements Runnable{
         stop();
     }
 
-    public void start(CamData cd){
+    public void start(CamData cd) {
         if(running)
             return;
         this.cd = cd;
         Thread t = new Thread(this);
         t.start();
     }
-    public void stop(){
+
+    public void stop() {
         running = false;
     }
 }

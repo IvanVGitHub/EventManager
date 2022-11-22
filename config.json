@@ -1,6 +1,8 @@
 {
   "camerasIsSlct": [
     "4 сыра общий план",
+    "вход Сампо",
+    "Тестовая Б-15",
     "4 сыра тамбур"
   ],
   "cameras": [
@@ -60,8 +62,8 @@
     "password": "Qwerty!@#456"
   },
   "labelSize": {
-    "width": 220,
-    "height": 220
+    "width": 110,
+    "height": 110
   },
-  "eventLimit": 38
+  "eventLimit": 10
 }

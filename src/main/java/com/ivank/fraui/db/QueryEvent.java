@@ -14,15 +14,13 @@ public class QueryEvent {
     //список моделей событий конкретной камеры, имеющих image
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int limit) {
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append("SELECT * FROM event ")
-                    .append("WHERE EXISTS (")
-                    .append("SELECT event_id FROM eventImages ")
-                    .append("WHERE event_id = event.id) ")
-                    .append("AND camera_id = ").append(camera_id).append(" ")
-                    .append("ORDER BY id DESC ")
-                    .append("LIMIT ").append(limit).append(";");
-            String stringSQL = sb.toString();
+            String stringSQL = "SELECT * FROM event " +
+                    "WHERE EXISTS (" +
+                    "SELECT event_id FROM eventImages " +
+                    "WHERE event_id = event.id) " +
+                    "AND camera_id = " + camera_id + " " +
+                    "ORDER BY id DESC " +
+                    "LIMIT " + limit + ";";
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             ArrayList<ModelEvent> events = new ArrayList<>();
@@ -42,6 +40,7 @@ public class QueryEvent {
 
         return null;
     }
+
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id) {
         try {
             StringBuilder sb = new StringBuilder();

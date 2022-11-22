@@ -8,7 +8,9 @@ import com.ivank.fraui.db.*;
 import com.ivank.fraui.settings.SettingsDefault;
 import com.ivank.fraui.utils.AddEvent;
 import com.ivank.fraui.utils.CalculationEventColor;
+import com.ivank.fraui.utils.CamData;
 import com.ivank.fraui.utils.UpdateOnTimer;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
 
 import javax.swing.*;
 import java.awt.*;
@@ -103,7 +105,7 @@ public class Content extends JPanel {
         internalPanel.removeAll();
         //size icon event
         Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
-        //фиксируем в переменную послений добавленный id события (event)
+        //фиксируем в переменную последний добавленный id события (event)
         UpdateOnTimer.oldIdEvent = QueryEvent.getLastAddIdEvent();
 
         //image to icon event for TEST
@@ -141,13 +143,13 @@ public class Content extends JPanel {
             listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
 
             //добавляем кнопки взаимодействия с камерой/группой событий
-            createControlsForCamera(addEvent, indexCameras);
+            createControlsForCamera(addEvent, (QueryCamera.getListModelCamerasIsSelect().get(indexCameras).id));
 
             //создаём рамку группы событий и пишем на ней имя камеры
             addEvent.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));
             //add event to group event
             for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
-                //если в БД отстутсвуют кадры события, то не отрисовываем это событие
+                //если в БД отсутствуют кадры события, то не отрисовываем это событие
                 if(listEventFirstImages.isEmpty())
                     continue;
                 addEvent.createLabelEvent(
@@ -172,18 +174,34 @@ public class Content extends JPanel {
         internalPanel.repaint();
     }
 
-    //кнопка просмотра прямого эфира скамеры
+    //кнопка просмотра прямого эфира камеры
     //TODO: если камера онлайн, то делаем зелёный бордер и кнопку активной, в противной случае бордер красный и кнопка не активна
-    public JComponent createButtonLiveView(int idCamera) {
+    public JComponent createButtonLiveView(CamData cd) {
         byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageLiveView());
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
         JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
         button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
 
+        try {
+            //TODO: на камере, которая выключена, всё стопорится
+            FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
+            streamGrabber.setOption("rw_timeout" , "1");
+            streamGrabber.start();
+            if (streamGrabber.hasVideo())
+                button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+            else
+                button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+            streamGrabber.stop();
+            streamGrabber.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
+
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new WindowCameraLiveView(idCamera, getScale());
+                new WindowCameraLiveView(cd);
             }
         });
 
@@ -224,7 +242,7 @@ public class Content extends JPanel {
         return button;
     }
 
-    public void createControlsForCamera(AddEvent eventPanel, int index) {
+    public void createControlsForCamera(AddEvent eventPanel, int idCamera) {
         JPanel panel = new JPanel();
 
         JPanel panelBut1 = new JPanel();
@@ -234,14 +252,14 @@ public class Content extends JPanel {
         panelBut1.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         panelBut2.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         panelBut3.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-        //add buttons "live view"
-        panelBut1.add(createButtonLiveView(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        //добавить кнопку "прямой эфир"
+        panelBut1.add(createButtonLiveView(CamData.getCamDataFromId(idCamera)));
         panel.add(panelBut1);
-        //add buttons "all img events this camera"
-        panelBut2.add(createButtonAllImgEvents(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        //добавить кнопку "все события текущей камеры"
+        panelBut2.add(createButtonAllImgEvents(idCamera));
         panel.add(panelBut2);
-        //add buttons "options"
-        panelBut3.add(createButtonOptions(QueryCamera.getListModelCamerasIsSelect().get(index).id));
+        //добавить кнопку "опции камеры"
+        panelBut3.add(createButtonOptions(idCamera));
         panel.add(panelBut3);
 
         eventPanel.add(panel);

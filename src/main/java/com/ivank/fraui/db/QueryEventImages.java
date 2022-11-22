@@ -12,7 +12,7 @@ public class QueryEventImages {
     //список изображений события (event)
     private static ArrayList<ImageIcon> listEventImages = new ArrayList<>();
 
-    //список моделей конкретного событая
+    //список моделей конкретного события
     public static ArrayList<ModelEventImages> getListModelEventImages(int event_id) {
         try {
             QueryBuilder<ModelEventImages> query = ConnectDB.getConnector().query(ModelEventImages.class)
@@ -63,13 +63,11 @@ public class QueryEventImages {
         listEventImages.clear();
 
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append("SELECT image FROM eventImages ")
-                    .append("WHERE id IN (")
-                    .append("SELECT id FROM eventImages ")
-                    .append("WHERE event_id = ").append(event_id).append(");");
+            String stringSQL = "SELECT image FROM eventImages " +
+                    "WHERE id IN (" +
+                    "SELECT id FROM eventImages " +
+                    "WHERE event_id = " + event_id + ");";
 
-            String stringSQL = sb.toString();
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             while (result.next()) {
@@ -90,16 +88,14 @@ public class QueryEventImages {
         try {
             String values = StringUtils.join(listIndexEventsId.toArray(), ", ");
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("SELECT image FROM eventImages ")
-                    .append("INNER JOIN (")
-                    .append("SELECT MIN(id) AS id FROM eventImages ")
-                    .append("WHERE event_id IN (").append(values).append(") ")
-                    .append("GROUP BY event_id) ")
-                    .append("subquery ON eventImages.id = subquery.id ")
-                    .append("ORDER BY event_id DESC;");
+            String stringSQL = "SELECT image FROM eventImages " +
+                    "INNER JOIN (" +
+                    "SELECT MIN(id) AS id FROM eventImages " +
+                    "WHERE event_id IN (" + values + ") " +
+                    "GROUP BY event_id) " +
+                    "subquery ON eventImages.id = subquery.id " +
+                    "ORDER BY event_id DESC;";
 
-            String stringSQL = sb.toString();
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             while (result.next()) {

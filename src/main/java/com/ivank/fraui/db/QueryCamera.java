@@ -13,10 +13,10 @@ public class QueryCamera {
     private static ArrayList<ModelCamera> listModelCamerasIsSelect = new ArrayList<>();
     //список имён всех камер
     private static ArrayList<String> listCameraName = new ArrayList<>();
-    //список имён камер, сохранённых в локальных настроках приложения, т. е. их выбрали для отслеживания событий
+    //список имён камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания событий
     private static ArrayList<String> listCameraNameIsSelect = new ArrayList<>();
 
-    //список всех камер в таблице camera
+    //список моделей всех камер в таблице camera
     public static ArrayList<ModelCamera> getListModelCameras() {
         listModelCameras.clear();
 
@@ -28,6 +28,7 @@ public class QueryCamera {
         return listModelCameras;
     }
 
+    //список моделей камер, которые пометили для отслеживания
     public static ArrayList<ModelCamera> getListModelCamerasIsSelect() {
         listModelCamerasIsSelect.clear();
 
@@ -57,7 +58,7 @@ public class QueryCamera {
         return listCameraName;
     }
 
-    //список имён камер, сохранённых в локальных настроках приложения, т. е. их выбрали для отслеживания событий
+    //список имён камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания событий
     public static ArrayList<String> getListCameraNameIsSelect() {
         listCameraNameIsSelect.clear();
 

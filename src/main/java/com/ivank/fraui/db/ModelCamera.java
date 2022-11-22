@@ -4,10 +4,14 @@ import com.bedivierre.eloquent.model.DBModel;
 
 public class ModelCamera extends DBModel {
     public int id;
-    public String camera_name;
-    public String address;
+    public String host;
+    public String path;
+    public String username;
+    public String password;
     public int width;
     public int height;
+    public int framerate;
+    public String camera_name;
 
     @Override
     public String getTable() {
