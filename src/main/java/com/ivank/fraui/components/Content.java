@@ -186,17 +186,17 @@ public class Content extends JPanel {
         try {
             //TODO: на камере, которая выключена, всё стопорится
             FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
-            streamGrabber.setOption("rw_timeout" , "1");
+            //ожидание выполнения подключения, в микросекундах
+            streamGrabber.setOption("timeout" , "1000000");
             streamGrabber.start();
-            if (streamGrabber.hasVideo())
-                button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-            else
-                button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+            button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+            button.setEnabled(true);
             streamGrabber.stop();
             streamGrabber.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+            button.setEnabled(false);
         }
 
         button.addActionListener(new ActionListener() {
