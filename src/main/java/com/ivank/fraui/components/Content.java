@@ -175,7 +175,6 @@ public class Content extends JPanel {
     }
 
     //кнопка просмотра прямого эфира камеры
-    //TODO: если камера онлайн, то делаем зелёный бордер и кнопку активной, в противной случае бордер красный и кнопка не активна
     public JComponent createButtonLiveView(CamData cd) {
         byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageLiveView());
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
@@ -183,21 +182,34 @@ public class Content extends JPanel {
         JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
         button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
 
-        try {
-            //TODO: на камере, которая выключена, всё стопорится
-            FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
-            //ожидание выполнения подключения, в микросекундах
-            streamGrabber.setOption("timeout" , "1000000");
-            streamGrabber.start();
-            button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-            button.setEnabled(true);
-            streamGrabber.stop();
-            streamGrabber.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-            button.setEnabled(false);
-        }
+        //сделаем кнопку неактивной, пока не пройдёт проверка доступности прямого эфира
+        button.setEnabled(false);
+
+        //добавим многопоточность
+        (new Thread(()->{
+            try {
+                //проверяем доступность камеры в сети
+                FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
+                //ожидание выполнения подключения, в микросекундах
+                streamGrabber.setOption("timeout" , "1000000");
+                streamGrabber.start();
+                if (streamGrabber.hasVideo()) {
+                    //устанавливаем зелёную рамку кнопке
+                    button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    //кнопка кликабельна
+                    button.setEnabled(true);
+                } else
+                    //устанавливаем красную рамку кнопке
+                    button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                streamGrabber.stop();
+                streamGrabber.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                //устанавливаем красную рамку кнопке
+                button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+            }
+        })).start();
+
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
