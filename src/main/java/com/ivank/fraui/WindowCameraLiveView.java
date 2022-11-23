@@ -56,12 +56,12 @@ public class WindowCameraLiveView extends CanvasFrame implements Runnable {
     public WindowCameraLiveView(int idCamera) {
         super("4 сыра общий план");
         CamData cd = new CamData("172.20.13.10", "/", "admin", "WRPas7dZ5!", "4 сыра общий план");
-        init(cd, (int)(getScale() * 640), (int)(getScale() * 360));
+        init(cd, 640, 360);
     }
 
     public WindowCameraLiveView(CamData cd) {
         super(cd.cameraName);
-        init(cd, 640, 360);
+        init(cd, (int)(getScale() * 640), (int)(getScale() * 360));
     }
 
     public WindowCameraLiveView(CamData cd, int w, int h) {

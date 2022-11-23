@@ -190,7 +190,7 @@ public class Content extends JPanel {
             try {
                 //проверяем доступность камеры в сети
                 FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
-                //ожидание выполнения подключения, в микросекундах
+                //ожидание выполнения подключения, в микросекундах (1 сек)
                 streamGrabber.setOption("timeout" , "1000000");
                 streamGrabber.start();
                 if (streamGrabber.hasVideo()) {

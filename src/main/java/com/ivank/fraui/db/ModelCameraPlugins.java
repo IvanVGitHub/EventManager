@@ -3,8 +3,8 @@ package com.ivank.fraui.db;
 import com.bedivierre.eloquent.model.DBModel;
 
 public class ModelCameraPlugins extends DBModel {
-    public String id;
-    public String camera_id;
+    public int id;
+    public int camera_id;
     public String plugin_id;
     public String params;
 
