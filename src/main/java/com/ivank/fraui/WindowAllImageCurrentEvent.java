@@ -1,6 +1,5 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.components.Content;
 import com.ivank.fraui.db.QueryEventImages;
 
 import javax.swing.*;

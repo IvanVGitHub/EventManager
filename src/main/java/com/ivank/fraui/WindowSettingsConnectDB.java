@@ -19,7 +19,6 @@ public class WindowSettingsConnectDB extends JFrame {
         super("Подключение к БД");
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-
         //загружаем актуальные json данные
         AppConfig.loadConfig();
         SettingsConnection conn = AppConfig.getInstance().getConnection();
@@ -49,7 +48,6 @@ public class WindowSettingsConnectDB extends JFrame {
                         }
                     } catch (Exception ex) {
                         ex.printStackTrace();
-
                         JOptionPane.showMessageDialog(null, "При сохранении настроек произошла ошибка! Обратитесь к разработчику.", "Произошла ошибка", JOptionPane.ERROR);
                     }
                 } catch (Exception ex) {

@@ -10,7 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import static com.ivank.fraui.settings.AppConfig.getScale;
+
 public class WindowSettingsCamera extends JFrame {
+    //размер окна, подстраивается под разрешение экрана
+    final int width = (int)(getScale() * 300);
+    final int height = (int)(getScale() * 100);
     private JButton buttonApply = new JButton("Применить");
 
     private static ArrayList<String> listChckBxIsSlctName = new ArrayList<>();
@@ -21,7 +26,7 @@ public class WindowSettingsCamera extends JFrame {
     public WindowSettingsCamera(int idCamera) {
         super("Настройки камеры");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setMinimumSize(new Dimension(300, 100));
+        setMinimumSize(new Dimension(width, height));
 
         JPanel panelMain = new JPanel();
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
@@ -34,7 +39,6 @@ public class WindowSettingsCamera extends JFrame {
 
         ArrayList<String> allPlugins = QueryPlugins.getListPluginIdALL();
         for (String pluginAny : allPlugins) {
-
             JCheckBox checkBox = new JCheckBox(pluginAny);
             checkBox.setForeground(Color.RED);
             for (String pluginCamera : listPluginsOfCamera) {

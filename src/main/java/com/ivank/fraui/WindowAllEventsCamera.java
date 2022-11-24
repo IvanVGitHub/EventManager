@@ -10,16 +10,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import static com.ivank.fraui.settings.AppConfig.getScale;
+
 public class WindowAllEventsCamera extends JFrame {
+    //размер окна, подстраивается под разрешение экрана
+    final int width = (int)(getScale() * 300);
+    final int height = (int)(getScale() * 300);
     private static ArrayList<JLabel> labels = new ArrayList<>();
 
     public WindowAllEventsCamera(int idCamera) {
         super("Все события камеры");
-        setPreferredSize(new Dimension(300, 300));
+        setPreferredSize(new Dimension(width, height));
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         JPanel panelMain = new JPanel();
-//        panelMain.setPreferredSize(new Dimension(300, 300));
+//        panelMain.setPreferredSize(new Dimension(width, height));
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
         panelMain.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 

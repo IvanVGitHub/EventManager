@@ -11,7 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.ivank.fraui.settings.AppConfig.getScale;
+
 public class WindowAddCamerasTEST extends JFrame {
+    //размер окна, подстраивается под разрешение экрана
+    final int width = (int)(getScale() * 600);
+    final int height = (int)(getScale() * 400);
     public static final List<JPanel> labels = new ArrayList<>();
 
     private static class CameraListPanel
@@ -95,7 +100,7 @@ public class WindowAddCamerasTEST extends JFrame {
                 AddEvent eventAdd = new AddEvent();
                 URL url = getClass().getResource("./img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
-                Dimension labelSize = new Dimension(80, 80);
+                Dimension labelSize = new Dimension((int)(getScale() * 80), (int)(getScale() * 80));
 
                 //add event to group event
                 Random rand = new Random();
@@ -130,7 +135,7 @@ public class WindowAddCamerasTEST extends JFrame {
         this.getContentPane().add(panelButton, BorderLayout.NORTH);
         this.getContentPane().add(scrollPaneGroupEvent, BorderLayout.CENTER);
 
-        this.setPreferredSize(new Dimension(600, 400));
+        this.setPreferredSize(new Dimension(width, height));
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);

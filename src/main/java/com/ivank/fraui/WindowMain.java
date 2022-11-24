@@ -57,14 +57,14 @@ public class WindowMain extends JFrame {
         System.out.println(desktopBounds);
 */
         //size window in "small" mode
-        final int width = 600;
-        final int height = 400;
+        final int width = (int)(getScale() * 600);
+        final int height = (int)(getScale() * 400);
         //location app on the screen in "small" mode
         WindowMain.instance.setBounds(
                 desktopBounds.x + desktopBounds.width - width,
                 desktopBounds.y + desktopBounds.height - height,
-                (int)(getScale() * width),
-                (int)(getScale() * height)
+                width,
+                height
         );
         //open window in "full screen" mode
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);

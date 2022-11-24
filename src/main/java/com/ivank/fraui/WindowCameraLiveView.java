@@ -14,6 +14,9 @@ import static org.bytedeco.ffmpeg.global.avutil.av_log_set_level;
 public class WindowCameraLiveView extends CanvasFrame implements Runnable {
     volatile boolean running;
     volatile CamData cd;
+    //размер окна, подстраивается под разрешение экрана
+    final int width = (int)(getScale() * 640);
+    final int height = (int)(getScale() * 360);
 
     FFmpegFrameGrabber getGrabber(CamData camera) {
         try {
@@ -61,7 +64,7 @@ public class WindowCameraLiveView extends CanvasFrame implements Runnable {
 
     public WindowCameraLiveView(CamData cd) {
         super(cd.cameraName);
-        init(cd, (int)(getScale() * 640), (int)(getScale() * 360));
+        init(cd, width, height);
     }
 
     public WindowCameraLiveView(CamData cd, int w, int h) {
