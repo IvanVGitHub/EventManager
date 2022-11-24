@@ -5,6 +5,8 @@ import com.ivank.fraui.components.*;
 import javax.swing.*;
 import java.awt.*;
 
+import static com.ivank.fraui.settings.AppConfig.getScale;
+
 public class WindowMain extends JFrame {
     private static WindowMain instance;
     public static WindowMain getInstance() {
@@ -61,8 +63,8 @@ public class WindowMain extends JFrame {
         WindowMain.instance.setBounds(
                 desktopBounds.x + desktopBounds.width - width,
                 desktopBounds.y + desktopBounds.height - height,
-                width,
-                height
+                (int)(getScale() * width),
+                (int)(getScale() * height)
         );
         //open window in "full screen" mode
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -9,16 +9,18 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import static com.ivank.fraui.settings.AppConfig.getScale;
+
 public class WindowAllImageCurrentEvent extends JFrame {
     Timer timer;
     ArrayList<ImageIcon> listImage;
-    JPanel panelMain;
-    int width = 800;
-    int height = 600;
+    final int width = (int)(getScale() * 800);
+    final int height = (int)(getScale() * 600);
 
     public WindowAllImageCurrentEvent(int event_id, String time) throws InterruptedException {
         super(time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.getContentPane().setLayout(new BorderLayout());
 
         //действия при нажатии кнопки закрытия
         addWindowListener(new WindowAdapter() {
@@ -28,14 +30,12 @@ public class WindowAllImageCurrentEvent extends JFrame {
             }
         });
 
-        panelMain = new Content.PanelFlex();
-        panelMain.setPreferredSize(new Dimension(width, height));
+        this.setPreferredSize(new Dimension(width, height));
 
         listImage = QueryEventImages.getListEventImages(event_id);
 
         JLabel label = new JLabel();
-        panelMain.add(label);
-        add(panelMain);
+        add(label);
 
         pack();
         setVisible(true);
@@ -49,13 +49,13 @@ public class WindowAllImageCurrentEvent extends JFrame {
                 ImageIcon event = listImage.get(index[0]);
                 index[0]++;
                 label.setIcon(new ImageIcon(event.getImage().getScaledInstance(
-                        width,
-                        height,
+                        label.getWidth(),
+                        label.getHeight(),
                         java.awt.Image.SCALE_SMOOTH
                 )));
             }
-            panelMain.revalidate();
-            panelMain.repaint();
+            label.revalidate();
+            label.repaint();
         });
         timer.start();
     }

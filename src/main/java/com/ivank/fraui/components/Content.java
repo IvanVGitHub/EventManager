@@ -190,9 +190,10 @@ public class Content extends JPanel {
             try {
                 //проверяем доступность камеры в сети
                 FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
-                //ожидание выполнения подключения, в микросекундах (1 сек)
+                //ожидание старта подключения, в микросекундах (1 сек) - если не подключились, значит камера не доступна
                 streamGrabber.setOption("timeout" , "1000000");
                 streamGrabber.start();
+                //если в результате подключения мы можем получить видеопоток
                 if (streamGrabber.hasVideo()) {
                     //устанавливаем зелёную рамку кнопке
                     button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
