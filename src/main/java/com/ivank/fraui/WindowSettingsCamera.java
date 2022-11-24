@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
+//TODO: не работает сохранение выбранных плагинов в файл с настройками
 public class WindowSettingsCamera extends JFrame {
     //размер окна, подстраивается под разрешение экрана
     final int width = (int)(getScale() * 300);

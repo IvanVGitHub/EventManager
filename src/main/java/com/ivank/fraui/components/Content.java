@@ -82,6 +82,7 @@ public class Content extends JPanel {
         }
     }
 
+    //разметка центральной области (Content) основного окна (WindowMain)
     public Content() {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 
@@ -100,6 +101,7 @@ public class Content extends JPanel {
         this.add(scrollPaneGroupEvent, BorderLayout.CENTER);
     }
 
+    //отрисовка элементов в центральной области (Content) основного окна (WindowMain)
     public void setCameraView() {
         //очищаем список групп событий
         internalPanel.removeAll();
@@ -212,7 +214,6 @@ public class Content extends JPanel {
             }
         })).start();
 
-
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new WindowCameraLiveView(cd);
@@ -256,6 +257,7 @@ public class Content extends JPanel {
         return button;
     }
 
+    //размечаем кнопки слева в группе событий каждой камеры
     public void createControlsForCamera(AddEvent eventPanel, int idCamera) {
         JPanel panel = new JPanel();
 
