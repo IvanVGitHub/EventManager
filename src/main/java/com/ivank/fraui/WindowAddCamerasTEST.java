@@ -22,8 +22,6 @@ public class WindowAddCamerasTEST extends JFrame {
     private static class CameraListPanel
             extends JPanel
             implements Scrollable {
-        private static final long serialVersionUID = 1;
-
         CameraListPanel() {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }

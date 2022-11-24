@@ -11,18 +11,16 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RefineryUtilities;
 
+import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 
-public class WindowTest extends ApplicationFrame
+public class WindowTest extends JFrame
 {
-
-    private static final long serialVersionUID = 1L;
-    static String TITLE = "Курс валюты, цена нефти марки Brent";
+    static String TITLE = "График работы камеры и количества событий";
 
     public WindowTest() {
-
-        super("График тестовый");
+        super(TITLE);
         final XYDataset dataset = Dataset.createDataset();
         final JFreeChart chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
@@ -32,22 +30,23 @@ public class WindowTest extends ApplicationFrame
 
         pack();
         RefineryUtilities.centerFrameOnScreen(this);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
         setVisible(true);
     }
 
     private JFreeChart createChart(final XYDataset dataset)
     {
         JFreeChart chart = ChartFactory.createTimeSeriesChart (
-                "Валюта, нефть с 11.05.2017 по 25.05.2017", null, null,
+                "Распределение событий по времени с 01.10.2022 по 31.10.2022", null, null,
                 dataset, true, true, false);
 
-        chart.setBackgroundPaint(Color.white);
+        chart.setBackgroundPaint(Color.WHITE);
 
         XYPlot plot = chart.getXYPlot();
 
         plot.setBackgroundPaint(new Color(232, 232, 232));
-        plot.setDomainGridlinePaint(Color.lightGray);
-        plot.setRangeGridlinePaint (Color.lightGray);
+        plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
+        plot.setRangeGridlinePaint (Color.LIGHT_GRAY);
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible (true);
 
@@ -62,9 +61,7 @@ public class WindowTest extends ApplicationFrame
         DateAxis axis = (DateAxis) plot.getDomainAxis();
         // Формат отображения осевых меток
         axis.setDateFormatOverride(new SimpleDateFormat("dd.MM"));
+
         return chart;
-    }
-    public static void main(final String[] args)
-    {
     }
 }

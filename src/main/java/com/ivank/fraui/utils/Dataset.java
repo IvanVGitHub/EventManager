@@ -11,26 +11,42 @@ public class Dataset
 {
     public static XYDataset createDataset()
     {
-        final TimeSeries s1 = new TimeSeries("Курс USD");
-        s1.add(new Day(11, 5, 2017), 58.0824);
-        s1.add(new Day(12, 5, 2017), 57.1161);
-        s1.add(new Day(13, 5, 2017), 57.1640);
-        s1.add(new Day(16, 5, 2017), 56.5258);
-        s1.add(new Day(17, 5, 2017), 56.2603);
+        final TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
+        s1.add(new Day(1, 10, 2022), 58.0824);
+        s1.add(new Day(2, 10, 2022), 57.1161);
+        s1.add(new Day(3, 10, 2022), 57.1640);
+        s1.add(new Day(4, 10, 2022), 56.5258);
+        s1.add(new Day(5, 10, 2022), 56.2603);
+        s1.add(new Day(6, 10, 2022), 56.2603);
+        s1.add(new Day(7, 10, 2022), 56.2603);
+        s1.add(new Day(8, 10, 2022), 6.2603);
+        s1.add(new Day(9, 10, 2022), 5.2603);
+        s1.add(new Day(10, 10, 2022), 55.2603);
+        s1.add(new Day(11, 10, 2022), 54.2603);
 
-        final TimeSeries s2 = new TimeSeries("Курс EUR");
-        s2.add(new Day(11, 5, 2017), 63.2634);
-        s2.add(new Day(12, 5, 2017), 62.1595);
-        s2.add(new Day(13, 5, 2017), 62.0915);
-        s2.add(new Day(16, 5, 2017), 61.8449);
-        s2.add(new Day(17, 5, 2017), 62.0382);
+        final TimeSeries s2 = new TimeSeries("");
+        s2.add(new Day(12, 10, 2022), 56.2603);
+        s2.add(new Day(13, 10, 2022), 56.2603);
+        s2.add(new Day(14, 10, 2022), 56.2603);
+        s2.add(new Day(15, 10, 2022), 7.2603);
 
-        final TimeSeries s3 = new TimeSeries("Нефть марки Brent");
-        s3.add(new Day(11, 5, 2017), 50.78);
-        s3.add(new Day(12, 5, 2017), 50.82);
-        s3.add(new Day(13, 5, 2017), 51.77);
-        s3.add(new Day(16, 5, 2017), 51.30);
-        s3.add(new Day(17, 5, 2017), 52.14);
+        final TimeSeries s3 = new TimeSeries("");
+        s3.add(new Day(16, 10, 2022), 8.2603);
+        s3.add(new Day(17, 10, 2022), 56.2603);
+        s3.add(new Day(18, 10, 2022), 56.2603);
+        s3.add(new Day(19, 10, 2022), 56.2603);
+        s3.add(new Day(20, 10, 2022), 56.2603);
+        s3.add(new Day(21, 10, 2022), 56.2603);
+        s3.add(new Day(22, 10, 2022), 5.2603);
+        s3.add(new Day(23, 10, 2022), 2.2603);
+        s3.add(new Day(24, 10, 2022), 52.2603);
+        s3.add(new Day(25, 10, 2022), 56.2603);
+        s3.add(new Day(26, 10, 2022), 35.2603);
+        s3.add(new Day(27, 10, 2022), 69.2603);
+        s3.add(new Day(28, 10, 2022), 56.2603);
+        s3.add(new Day(29, 10, 2022), 9.2603);
+        s3.add(new Day(30, 10, 2022), 6.2603);
+        s3.add(new Day(31, 10, 2022), 40.2603);
 
         final TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(s1);

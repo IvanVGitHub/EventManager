@@ -29,8 +29,6 @@ public class Content extends JPanel {
     public static int getLimitEvent() {return AppConfig.getInstance().getEventLimit();}
 
     public static class PanelFlex extends JPanel implements Scrollable {
-        private static final long serialVersionUID = 1;
-
         public PanelFlex() {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
