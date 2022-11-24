@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
 //TODO: утечка памяти при просмотре "гифки"
+//Окно просмотра "гифки" события
 public class WindowAllImageCurrentEvent extends JFrame {
     Timer timer;
     ArrayList<ImageIcon> listImage;

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
+//Окно просмотра списка событий
 public class WindowAllEventsCamera extends JFrame {
     //размер окна, подстраивается под разрешение экрана
     final int width = (int)(getScale() * 300);
@@ -38,7 +39,7 @@ public class WindowAllEventsCamera extends JFrame {
         CompoundBorder inner = new CompoundBorder(new EmptyBorder(5, 5, 5, 5), new EtchedBorder());
         CompoundBorder outer = new CompoundBorder(inner, new EmptyBorder(5, 5, 5, 5));
 
-        //создаём список из текстовых клакабельных элементов
+        //создаём список из текстовых кликабельных элементов
         for (ModelEvent element : QueryEvent.getListModelEventsCamera(idCamera)) {
             JLabel labelEvent = new JLabel(element.time);
             labelEvent.setBorder(outer);
@@ -61,7 +62,7 @@ public class WindowAllEventsCamera extends JFrame {
             panelMain.add(labelEvent);
         }
 
-        //TODO: testing threads
+        //TODO: testing multi-threads
 /*        JLabel label2 = new JLabel();
         label2.setText("<html><h1>Loading...</h1></html>");
         label2.setBounds(0, 70, 200, 50);
@@ -79,5 +80,33 @@ public class WindowAllEventsCamera extends JFrame {
         pack();
         setVisible(true);
         setLocationRelativeTo(null);
+
+        //создаём элементы меню-бара
+        menuBarInWindowBasic();
+    }
+
+    //меню-бар
+    void menuBarInWindowBasic() {
+        MenuBar menuBar = new MenuBar();
+        Menu parameters = new Menu("Режим отображения");
+
+        MenuItem eventsCamera = new MenuItem("События камеры");
+        parameters.add(eventsCamera);
+
+        MenuItem workIntervalCamera = new MenuItem("График работы камеры");
+        parameters.add(workIntervalCamera);
+
+        eventsCamera.addActionListener(e -> {
+            new WindowTest();
+        });
+
+        workIntervalCamera.addActionListener(e -> {
+            new WindowWorkIntervalCamera();
+        });
+
+        menuBar.add(parameters);
+
+        //отображаем меню-бар
+        setMenuBar(menuBar);
     }
 }
