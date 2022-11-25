@@ -1,7 +1,6 @@
 {
   "camerasIsSlct": [
     "4 сыра общий план",
-    "!не запускается!3",
     "4 сыра тамбур"
   ],
   "cameras": [
@@ -61,8 +60,8 @@
     "password": "Qwerty!@#456"
   },
   "labelSize": {
-    "width": 110,
-    "height": 110
+    "width": 500,
+    "height": 500
   },
-  "eventLimit": 10
+  "eventLimit": 27
 }
