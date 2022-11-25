@@ -17,7 +17,6 @@ public class WindowAllImageCurrentEvent extends JFrame {
     ArrayList<ImageIcon> listImage;
     final int width = (int)(getScale() * 800);
     final int height = (int)(getScale() * 600);
-    private boolean triggeredEvent = false;
 
     public WindowAllImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
         super(time);
@@ -29,16 +28,14 @@ public class WindowAllImageCurrentEvent extends JFrame {
             public void windowClosing(WindowEvent e) {
                 timer.stop();
                 listImage.clear();
-                if (triggeredEvent) {
-                    //убираем рамку вокруг события
-                    panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 0));
-                    panel.setBackground(null);
-                }
-                triggeredEvent = false;
+
+                //убираем выделение события
+                setPanelParams(panel, null, null, 0);
             }
         });
 
-        setCallerButton(panel);
+        //выделяем запущенное событие
+        setPanelParams(panel, Color.LIGHT_GRAY, Color.GREEN, (int)(getScale() * 2));
 
         setPreferredSize(new Dimension(width, height));
 
@@ -70,11 +67,11 @@ public class WindowAllImageCurrentEvent extends JFrame {
         timer.start();
     }
 
-    //заносим вызываемую панель во флаг, чтобы отрисовать вокруг неё контур
-    public void setCallerButton(JPanel panel) {
-        triggeredEvent = true;
+    //задаём параметры выделения отображаемого события
+    public void setPanelParams(JPanel panel, Color background, Color borderColor, int borderThickness) {
+        //устанавливаем фон
+        panel.setBackground(background);
         //устанавливаем рамку вокруг события, чтобы понимать что именно мы открыли
-        panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, (int)(getScale() * 2)));
-        panel.setBackground(Color.LIGHT_GRAY);
+        panel.setBorder(BorderFactory.createLineBorder(borderColor, borderThickness));
     }
 }
