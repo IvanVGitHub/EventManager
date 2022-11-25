@@ -13,13 +13,13 @@ public class AddEvent extends JPanel {
     }
 
     public JComponent createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
-        JPanel p = new JPanel();
-        p.setLayout (new BoxLayout (p, BoxLayout.Y_AXIS));
+        JPanel panel = new JPanel();
+        panel.setLayout (new BoxLayout (panel, BoxLayout.Y_AXIS));
         JLabel text = new JLabel();
         text.setText(time);
-        p.add(text);
+        panel.add(text);
 
-        //paste image with the specific dimensions
+        //вставляем изображение с определенными размерами
         JLabel label = new JLabel(new ImageIcon(image.getImage().getScaledInstance(
                 labelSize.width,
                 labelSize.height,
@@ -34,15 +34,15 @@ public class AddEvent extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    new WindowAllImageCurrentEvent(event_id, time);
+                    WindowAllImageCurrentEvent window = new WindowAllImageCurrentEvent(panel, event_id, time);
                 } catch (InterruptedException ex) {throw new RuntimeException(ex);}
             }
         });
 
-        p.add(label);
-        p.setSize(labelSize.width,labelSize.height + 40);
-        this.add(p);
+        panel.add(label);
+        panel.setSize(labelSize.width,labelSize.height + 40);
+        this.add(panel);
 
-        return p;
+        return panel;
     }
 }

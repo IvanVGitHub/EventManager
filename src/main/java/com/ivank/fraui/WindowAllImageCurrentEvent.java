@@ -17,21 +17,28 @@ public class WindowAllImageCurrentEvent extends JFrame {
     ArrayList<ImageIcon> listImage;
     final int width = (int)(getScale() * 800);
     final int height = (int)(getScale() * 600);
+    private JPanel callerPanelEvent = null;
 
-    public WindowAllImageCurrentEvent(int event_id, String time) throws InterruptedException {
+    public WindowAllImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
         super(time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        this.getContentPane().setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
         //действия при нажатии кнопки закрытия
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 timer.stop();
                 listImage.clear();
+                if (callerPanelEvent != null)
+                    //убираем рамку вокруг события
+                    callerPanelEvent.setBorder(BorderFactory.createLineBorder(Color.GREEN, 0));
+                callerPanelEvent = null;
             }
         });
 
-        this.setPreferredSize(new Dimension(width, height));
+        setCallerButton(panel);
+
+        setPreferredSize(new Dimension(width, height));
 
         listImage = QueryEventImages.getListEventImages(event_id);
 
@@ -59,5 +66,12 @@ public class WindowAllImageCurrentEvent extends JFrame {
             label.repaint();
         });
         timer.start();
+    }
+
+    //заносим вызываемую панель во флаг, чтобы отрисовать вокруг неё контур
+    public void setCallerButton(JPanel panel) {
+        callerPanelEvent = panel;
+        //устанавливаем рамку вокруг события, чтобы понимать что именно мы открыли
+        panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
     }
 }

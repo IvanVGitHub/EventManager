@@ -1,41 +1,66 @@
 package com.ivank.fraui;
 
+import com.ivank.fraui.utils.Dataset;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.ui.RefineryUtilities;
+
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 
-import static com.ivank.fraui.settings.AppConfig.getScale;
-
-public class WindowWorkIntervalCamera extends JFrame {
-    //размер окна, подстраивается под разрешение экрана
-    final int width = (int)(getScale() * 500);
-    final int height = (int)(getScale() * 400);
-    public static int x[] =  {50, 100, 150, 200, 250};
-    public static int y[] =  {80, 200, 150, 320, 100};
-    public static int n = 5;
+public class WindowWorkIntervalCamera extends JFrame
+{
+    static String TITLE = "График работы камеры и количества событий";
 
     public WindowWorkIntervalCamera() {
-        super("График по точкам");
-        JPanel jcp = new JPanel(new BorderLayout());
-        setContentPane(jcp);
-        jcp.add(new DrawingComponent (), BorderLayout.CENTER);
-        jcp.setBackground(Color.GREEN);
-        setSize(width, height);
-        setLocationRelativeTo(null);
+        super(TITLE);
+        final XYDataset dataset = Dataset.createDataset();
+        final JFreeChart chart = createChart(dataset);
+        final ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(560, 480));
+        chartPanel.setMouseZoomable(true, false);
+        setContentPane(chartPanel);
+
+        pack();
+        RefineryUtilities.centerFrameOnScreen(this);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setVisible(true);
     }
-}
 
-class DrawingComponent extends JPanel {
-    int xg[] =  WindowWorkIntervalCamera.x;
-    int yg[] =  WindowWorkIntervalCamera.y;
-    int ng = WindowWorkIntervalCamera.n;
+    private JFreeChart createChart(final XYDataset dataset)
+    {
+        JFreeChart chart = ChartFactory.createTimeSeriesChart (
+                "Распределение событий по времени с 01.10.2022 по 31.10.2022", null, null,
+                dataset, true, true, false);
 
-    @Override
-    protected void paintComponent(Graphics gh) {
-        Graphics2D drp = (Graphics2D)gh;
-        drp.drawLine(20, 340, 20, 20);
-        drp.drawLine(20, 340, 460, 340);
-        drp.drawPolyline(xg, yg, ng);
+        chart.setBackgroundPaint(Color.WHITE);
+
+        XYPlot plot = chart.getXYPlot();
+
+        plot.setBackgroundPaint(new Color(232, 232, 232));
+        plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
+        plot.setRangeGridlinePaint (Color.LIGHT_GRAY);
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible (true);
+
+        // Скрытие осевых линий
+        ValueAxis vaxis = plot.getDomainAxis();
+        vaxis.setAxisLineVisible (false);
+        vaxis = plot.getRangeAxis();
+        vaxis.setAxisLineVisible (false);
+
+        plot.getRenderer().setSeriesPaint(2, new Color(64, 255, 64));
+        // Определение временной оси
+        DateAxis axis = (DateAxis) plot.getDomainAxis();
+        // Формат отображения осевых меток
+        axis.setDateFormatOverride(new SimpleDateFormat("dd.MM"));
+
+        return chart;
     }
 }

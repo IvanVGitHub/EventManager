@@ -94,7 +94,7 @@ public class QueryEvent {
         return listTimeStampEvents;
     }
 
-    //последний добавленный id события
+    //последний добавленный в БД id события
     public static int getLastAddIdEvent() {
         try {
             ModelEvent result = ConnectDB.getConnector().query(ModelEvent.class)

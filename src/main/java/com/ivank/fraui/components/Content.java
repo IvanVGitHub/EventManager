@@ -105,7 +105,7 @@ public class Content extends JPanel {
         internalPanel.removeAll();
         //size icon event
         Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
-        //фиксируем в переменную последний добавленный id события (event)
+        //фиксируем в переменную последний добавленный в БД id события (event)
         UpdateOnTimer.oldIdEvent = QueryEvent.getLastAddIdEvent();
 
         //image to icon event for TEST

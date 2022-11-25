@@ -41,7 +41,9 @@ public class WindowAllEventsCamera extends JFrame {
 
         //создаём список из текстовых кликабельных элементов
         for (ModelEvent element : QueryEvent.getListModelEventsCamera(idCamera)) {
+            JPanel panel = new JPanel();
             JLabel labelEvent = new JLabel(element.time);
+            panel.add(labelEvent);
             labelEvent.setBorder(outer);
 
             //При нажатии на дату открывается окно со всеми медиа, относящимися к этому Событию
@@ -52,14 +54,14 @@ public class WindowAllEventsCamera extends JFrame {
                     if (e.getClickCount() == 2 && !e.isConsumed()) {
                         e.consume();
                          try {
-                             new WindowAllImageCurrentEvent(element.id, element.time);
+                             new WindowAllImageCurrentEvent(panel, element.id, element.time);
                          } catch (InterruptedException ex) {throw new RuntimeException(ex);}
                     }
                 }
             });
 
             labels.add(labelEvent);
-            panelMain.add(labelEvent);
+            panelMain.add(panel);
         }
 
         //TODO: testing multi-threads
@@ -88,17 +90,10 @@ public class WindowAllEventsCamera extends JFrame {
     //меню-бар
     void menuBarInWindowBasic() {
         MenuBar menuBar = new MenuBar();
-        Menu parameters = new Menu("Режим отображения");
+        Menu parameters = new Menu("Режимы отображения");
 
-        MenuItem eventsCamera = new MenuItem("События камеры");
-        parameters.add(eventsCamera);
-
-        MenuItem workIntervalCamera = new MenuItem("График работы камеры");
+        MenuItem workIntervalCamera = new MenuItem("График работы и событий камеры");
         parameters.add(workIntervalCamera);
-
-        eventsCamera.addActionListener(e -> {
-            new WindowTest();
-        });
 
         workIntervalCamera.addActionListener(e -> {
             new WindowWorkIntervalCamera();
