@@ -17,7 +17,7 @@ public class WindowAllImageCurrentEvent extends JFrame {
     ArrayList<ImageIcon> listImage;
     final int width = (int)(getScale() * 800);
     final int height = (int)(getScale() * 600);
-    private JPanel callerPanelEvent = null;
+    private boolean triggeredEvent = false;
 
     public WindowAllImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
         super(time);
@@ -29,10 +29,12 @@ public class WindowAllImageCurrentEvent extends JFrame {
             public void windowClosing(WindowEvent e) {
                 timer.stop();
                 listImage.clear();
-                if (callerPanelEvent != null)
+                if (triggeredEvent) {
                     //убираем рамку вокруг события
-                    callerPanelEvent.setBorder(BorderFactory.createLineBorder(Color.GREEN, 0));
-                callerPanelEvent = null;
+                    panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 0));
+                    panel.setBackground(null);
+                }
+                triggeredEvent = false;
             }
         });
 
@@ -70,8 +72,9 @@ public class WindowAllImageCurrentEvent extends JFrame {
 
     //заносим вызываемую панель во флаг, чтобы отрисовать вокруг неё контур
     public void setCallerButton(JPanel panel) {
-        callerPanelEvent = panel;
+        triggeredEvent = true;
         //устанавливаем рамку вокруг события, чтобы понимать что именно мы открыли
-        panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
+        panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+        panel.setBackground(Color.LIGHT_GRAY);
     }
 }
