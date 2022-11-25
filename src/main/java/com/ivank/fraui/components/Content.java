@@ -197,18 +197,18 @@ public class Content extends JPanel {
                 //если в результате подключения мы можем получить видеопоток
                 if (streamGrabber.hasVideo()) {
                     //устанавливаем зелёную рамку кнопке
-                    button.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    button.setBorder(BorderFactory.createLineBorder(Color.GREEN, (int)(getScale() * 2)));
                     //кнопка кликабельна
                     button.setEnabled(true);
                 } else
                     //устанавливаем красную рамку кнопке
-                    button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                    button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
                 streamGrabber.stop();
                 streamGrabber.close();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 //устанавливаем красную рамку кнопке
-                button.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
             }
         })).start();
 

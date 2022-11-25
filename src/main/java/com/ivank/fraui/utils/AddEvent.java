@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static com.ivank.fraui.settings.AppConfig.getScale;
+
 public class AddEvent extends JPanel {
     public AddEvent() {
         super(new FlowLayout(FlowLayout.LEFT));
@@ -27,7 +29,7 @@ public class AddEvent extends JPanel {
         )));
         label.setPreferredSize(labelSize);
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setBorder(BorderFactory.createLineBorder(color, 5));
+        label.setBorder(BorderFactory.createLineBorder(color, (int)(getScale() * 5)));
 
         //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
         label.addMouseListener(new MouseAdapter() {
@@ -40,8 +42,8 @@ public class AddEvent extends JPanel {
         });
 
         panel.add(label);
-        panel.setSize(labelSize.width,labelSize.height + 40);
-        this.add(panel);
+//        panel.setSize(labelSize.width,labelSize.height + 40);
+        add(panel);
 
         return panel;
     }

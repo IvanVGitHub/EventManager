@@ -74,7 +74,7 @@ public class WindowAllImageCurrentEvent extends JFrame {
     public void setCallerButton(JPanel panel) {
         triggeredEvent = true;
         //устанавливаем рамку вокруг события, чтобы понимать что именно мы открыли
-        panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+        panel.setBorder(BorderFactory.createLineBorder(Color.GREEN, (int)(getScale() * 2)));
         panel.setBackground(Color.LIGHT_GRAY);
     }
 }
