@@ -1,6 +1,6 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.utils.Dataset;
+import com.ivank.fraui.utils.GraphDataset;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -14,13 +14,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 
-public class WindowWorkIntervalCamera extends JFrame
+public class WindowGraphWorkIntervalCamera extends JFrame
 {
     static String TITLE = "График работы камеры и количества событий";
 
-    public WindowWorkIntervalCamera() {
+    public WindowGraphWorkIntervalCamera() {
         super(TITLE);
-        final XYDataset dataset = Dataset.createDataset();
+        final XYDataset dataset = GraphDataset.createDataset();
         final JFreeChart chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(560, 480));

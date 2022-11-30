@@ -6,10 +6,7 @@ import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.db.*;
 import com.ivank.fraui.settings.SettingsDefault;
-import com.ivank.fraui.utils.AddEvent;
-import com.ivank.fraui.utils.CalculationEventColor;
-import com.ivank.fraui.utils.CamData;
-import com.ivank.fraui.utils.UpdateOnTimer;
+import com.ivank.fraui.utils.*;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 
 import javax.swing.*;
@@ -223,7 +220,7 @@ public class Content extends JPanel {
 
     //кнопка просмотра всех событий камеры
     public JComponent createButtonAllImgEvents(int idCamera) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getButtonAllImgEvents());
+        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageAllImgEvents());
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
         JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
@@ -240,10 +237,29 @@ public class Content extends JPanel {
 
     //кнопка выбора плагинов камеры
     public JComponent createButtonOptions(int idCamera) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getLabelOptions());
+        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageOptions());
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
         JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new WindowSettingsCamera(idCamera);
+            }
+        });
+
+        return button;
+    }
+
+    //кнопка просмотра элементов COMPREFACE
+    public JComponent createButtonUnwrapCOMPREFACE(int idCamera) {
+        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageUnwrap());
+        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
+        //подгоним картинку под нужный размер
+//        JButton button = new RoundButton2(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        JButton button = new RoundButton1();
+        button.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
         button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
 
         button.addActionListener(new ActionListener() {
@@ -262,10 +278,12 @@ public class Content extends JPanel {
         JPanel panelBut1 = new JPanel();
         JPanel panelBut2 = new JPanel();
         JPanel panelBut3 = new JPanel();
+        JPanel panelBut4 = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panelBut1.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         panelBut2.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         panelBut3.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        panelBut4.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         //добавить кнопку "прямой эфир"
         panelBut1.add(createButtonLiveView(CamData.getCamDataFromId(idCamera)));
         panel.add(panelBut1);
@@ -275,6 +293,9 @@ public class Content extends JPanel {
         //добавить кнопку "опции камеры"
         panelBut3.add(createButtonOptions(idCamera));
         panel.add(panelBut3);
+        //добавить кнопку "раскрыть COMPREFACE"
+        panelBut4.add(createButtonUnwrapCOMPREFACE(idCamera));
+        panel.add(panelBut4);
 
         eventPanel.add(panel);
     }

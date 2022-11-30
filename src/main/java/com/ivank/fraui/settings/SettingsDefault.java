@@ -28,14 +28,14 @@ public class SettingsDefault extends DBModel {
     }
 
     //получить настройку по имени image_options
-    public static String getLabelOptions() {
+    public static String getImageOptions() {
         SettingsDefault defaultImage = getByCode("image_options");
 
         return defaultImage == null ? "" : defaultImage.data;
     }
 
     //получить настройку по имени image_all_img_events
-    public static String getButtonAllImgEvents() {
+    public static String getImageAllImgEvents() {
         SettingsDefault defaultImage = getByCode("image_all_img_events");
 
         return defaultImage == null ? "" : defaultImage.data;
@@ -48,9 +48,16 @@ public class SettingsDefault extends DBModel {
         return defaultImage == null ? "" : defaultImage.data;
     }
 
-    //получить настройку по имени image_default_event
+    //получить настройку по имени image_live_view
     public static String getImageLiveView() {
         SettingsDefault defaultImage = getByCode("image_live_view");
+
+        return defaultImage == null ? "" : defaultImage.data;
+    }
+
+    //получить настройку по имени image_unwrap
+    public static String getImageUnwrap() {
+        SettingsDefault defaultImage = getByCode("image_unwrap");
 
         return defaultImage == null ? "" : defaultImage.data;
     }

@@ -1,6 +1,6 @@
 package com.ivank.fraui.utils;
 
-import com.ivank.fraui.WindowAllImageCurrentEvent;
+import com.ivank.fraui.WindowViewImageCurrentEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,7 @@ public class AddEvent extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    WindowAllImageCurrentEvent window = new WindowAllImageCurrentEvent(panel, event_id, time);
+                    WindowViewImageCurrentEvent window = new WindowViewImageCurrentEvent(panel, event_id, time);
                 } catch (InterruptedException ex) {throw new RuntimeException(ex);}
             }
         });

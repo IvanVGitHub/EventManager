@@ -7,7 +7,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
-public class Dataset
+public class GraphDataset
 {
     public static XYDataset createDataset()
     {

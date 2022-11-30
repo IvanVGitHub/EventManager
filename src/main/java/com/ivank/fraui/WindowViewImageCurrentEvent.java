@@ -12,16 +12,17 @@ import static com.ivank.fraui.settings.AppConfig.getScale;
 
 //TODO: утечка памяти при просмотре "гифки"
 //Окно просмотра "гифки" события
-public class WindowAllImageCurrentEvent extends JFrame {
+public class WindowViewImageCurrentEvent extends JFrame {
     Timer timer;
     ArrayList<ImageIcon> listImage;
     final int width = (int)(getScale() * 800);
     final int height = (int)(getScale() * 600);
 
-    public WindowAllImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
+    public WindowViewImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
         super(time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(width, height));
 
         //действия при нажатии кнопки закрытия
         addWindowListener(new WindowAdapter() {
@@ -37,8 +38,7 @@ public class WindowAllImageCurrentEvent extends JFrame {
         //выделяем запущенное событие
         setPanelParams(panel, Color.LIGHT_GRAY, Color.GREEN, (int)(getScale() * 2));
 
-        setPreferredSize(new Dimension(width, height));
-
+        //заполняем список изображениями из БД
         listImage = QueryEventImages.getListEventImages(event_id);
 
         JLabel label = new JLabel();
@@ -49,8 +49,9 @@ public class WindowAllImageCurrentEvent extends JFrame {
         setLocationRelativeTo(null);
 
         final int[] index = {0};
-        timer = new Timer(200, (evt)-> {
-            if(listImage.size() > 0) {
+        //delay 40 ms = 25 fps
+        timer = new Timer(0, (evt)-> {
+            if (listImage.size() > 0) {
                 if (index[0] >= listImage.size())
                     index[0] = 0;
                 ImageIcon event = listImage.get(index[0]);
@@ -58,7 +59,7 @@ public class WindowAllImageCurrentEvent extends JFrame {
                 label.setIcon(new ImageIcon(event.getImage().getScaledInstance(
                         label.getWidth(),
                         label.getHeight(),
-                        java.awt.Image.SCALE_SMOOTH
+                        Image.SCALE_SMOOTH
                 )));
             }
             label.revalidate();

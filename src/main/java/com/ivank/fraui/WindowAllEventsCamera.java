@@ -54,7 +54,7 @@ public class WindowAllEventsCamera extends JFrame {
                     if (e.getClickCount() == 2 && !e.isConsumed()) {
                         e.consume();
                          try {
-                             new WindowAllImageCurrentEvent(panel, element.id, element.time);
+                             new WindowViewImageCurrentEvent(panel, element.id, element.time);
                          } catch (InterruptedException ex) {throw new RuntimeException(ex);}
                     }
                 }
@@ -96,7 +96,7 @@ public class WindowAllEventsCamera extends JFrame {
         parameters.add(workIntervalCamera);
 
         workIntervalCamera.addActionListener(e -> {
-            new WindowWorkIntervalCamera();
+            new WindowGraphWorkIntervalCamera();
         });
 
         menuBar.add(parameters);
