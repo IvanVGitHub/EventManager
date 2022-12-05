@@ -70,7 +70,27 @@ public class QueryEventImages {
                     "WHERE event_id = " + event_id + ");";
 
             UtilsAny.logHeapSize("\n\n========\nBefore loading from mysql");
+
+            stringSQL = "SELECT id from eventImages where event_id=" + event_id;
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
+            ArrayList<String> ids = new ArrayList<>();
+            int counter = 1;
+            int step = 5;
+            while(result.next()){
+                if(counter != step){
+                    counter++;
+                    continue;
+                }
+                ids.add(result.getString("id"));
+                counter = 1;
+            }
+            StringBuilder query = new StringBuilder();
+            query.append("Select id, image FROM eventImages where id in (");
+            query.append(String.join(",", ids));
+            query.append(");");
+            stringSQL = query.toString();
+
+            result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             while (result.next()) {
                 byte[] byteImageBase64 = Base64.getDecoder().decode(result.getString("image"));

@@ -5,6 +5,8 @@ import com.ivank.fraui.utils.UtilsAny;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class WindowViewImageCurrentEvent extends JFrame {
     final int width = (int)(getScale() * 800);
     final int height = (int)(getScale() * 600);
     JLabel label;
+
 
     public WindowViewImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
         super(time);
@@ -36,6 +39,16 @@ public class WindowViewImageCurrentEvent extends JFrame {
 
                 //убираем выделение события
                 setPanelParams(panel, null, null, 0);
+
+            }
+        });
+
+//        TODO:работает некорректно!
+        //событие при изменении размера окна
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent evt) {
+                //перерисовываем кадры под размер окна
+                rescaleWindow(label.getWidth(), label.getHeight());
             }
         });
 
@@ -57,26 +70,25 @@ public class WindowViewImageCurrentEvent extends JFrame {
         UtilsAny.logHeapSize("After total image rescaling");
 
 
-//        final int[] index = {0};
-//        //delay 40 ms = 25 fps
-//        timer = new Timer(40, (evt)-> {
-//            if (listImage.size() > 0) {
-//                if (index[0] >= listImage.size())
-//                    index[0] = 0;
-//                ImageIcon event = listImage.get(index[0]);
-//                index[0]++;
-//                label.setIcon(event);
-//            }
-//            label.revalidate();
-//            label.repaint();
-//        });
-//        timer.start();
+        final int[] index = {0};
+        //delay 40 ms = 25 fps
+        timer = new Timer(200, (evt)-> {
+            if (listImage.size() > 0) {
+                if (index[0] >= listImage.size())
+                    index[0] = 0;
+                ImageIcon event = listImage.get(index[0]);
+                index[0]++;
+                label.setIcon(event);
+            }
+            label.revalidate();
+            label.repaint();
+        });
+        timer.start();
     }
 
-
-
-    void rescaleWindow(int width, int height){
-        for(int i = 0; i < listImage.size(); i++){
+    //подгоняем размер кадров под размер окна
+    void rescaleWindow(int width, int height) {
+        for (int i = 0; i < listImage.size(); i++) {
             listImage.set(i, new ImageIcon(listImage.get(i).getImage().getScaledInstance(
                     width,
                     height,
