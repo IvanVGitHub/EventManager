@@ -36,7 +36,7 @@ public class AddEvent extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    WindowViewImageCurrentEvent window = new WindowViewImageCurrentEvent(panel, event_id, time);
+                    new WindowViewImageCurrentEvent(panel, event_id, time);
                 } catch (InterruptedException ex) {throw new RuntimeException(ex);}
             }
         });

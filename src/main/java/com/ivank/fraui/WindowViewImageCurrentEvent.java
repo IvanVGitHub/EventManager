@@ -43,7 +43,7 @@ public class WindowViewImageCurrentEvent extends JFrame {
             }
         });
 
-//        TODO:работает некорректно!
+//        TODO: работает некорректно!
         //событие при изменении размера окна
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent evt) {
@@ -64,7 +64,7 @@ public class WindowViewImageCurrentEvent extends JFrame {
 
         UtilsAny.logHeapSize("\n\n================\nBefore image loading");
         //заполняем список изображениями из БД
-        listImage = QueryEventImages.getListEventImages(event_id);
+        listImage = QueryEventImages.getListEventImages(event_id, 5);
         UtilsAny.logHeapSize("After image loading");
         rescaleWindow(label.getWidth(), label.getHeight());
         UtilsAny.logHeapSize("After total image rescaling");
