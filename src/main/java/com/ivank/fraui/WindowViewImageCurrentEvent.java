@@ -1,6 +1,7 @@
 package com.ivank.fraui;
 
 import com.ivank.fraui.db.QueryEventImages;
+import com.ivank.fraui.utils.UtilsAny;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class WindowViewImageCurrentEvent extends JFrame {
     ArrayList<ImageIcon> listImage;
     final int width = (int)(getScale() * 800);
     final int height = (int)(getScale() * 600);
+    JLabel label;
 
     public WindowViewImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
         super(time);
@@ -28,6 +30,8 @@ public class WindowViewImageCurrentEvent extends JFrame {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 timer.stop();
+                for(int i = 0; i < listImage.size(); i++)
+                    listImage.set(i, null);
                 listImage.clear();
 
                 //убираем выделение события
@@ -35,37 +39,52 @@ public class WindowViewImageCurrentEvent extends JFrame {
             }
         });
 
-        //выделяем запущенное событие
-        setPanelParams(panel, Color.LIGHT_GRAY, Color.GREEN, (int)(getScale() * 2));
-
-        //заполняем список изображениями из БД
-        listImage = QueryEventImages.getListEventImages(event_id);
-
-        JLabel label = new JLabel();
+        label = new JLabel();
         add(label);
 
         pack();
         setVisible(true);
         setLocationRelativeTo(null);
 
-        final int[] index = {0};
-        //delay 40 ms = 25 fps
-        timer = new Timer(0, (evt)-> {
-            if (listImage.size() > 0) {
-                if (index[0] >= listImage.size())
-                    index[0] = 0;
-                ImageIcon event = listImage.get(index[0]);
-                index[0]++;
-                label.setIcon(new ImageIcon(event.getImage().getScaledInstance(
-                        label.getWidth(),
-                        label.getHeight(),
-                        Image.SCALE_SMOOTH
-                )));
-            }
-            label.revalidate();
-            label.repaint();
-        });
-        timer.start();
+        //выделяем запущенное событие
+        setPanelParams(panel, Color.LIGHT_GRAY, Color.GREEN, (int)(getScale() * 2));
+
+        UtilsAny.logHeapSize("\n\n================\nBefore image loading");
+        //заполняем список изображениями из БД
+        listImage = QueryEventImages.getListEventImages(event_id);
+        UtilsAny.logHeapSize("After image loading");
+        rescaleWindow(label.getWidth(), label.getHeight());
+        UtilsAny.logHeapSize("After total image rescaling");
+
+
+//        final int[] index = {0};
+//        //delay 40 ms = 25 fps
+//        timer = new Timer(40, (evt)-> {
+//            if (listImage.size() > 0) {
+//                if (index[0] >= listImage.size())
+//                    index[0] = 0;
+//                ImageIcon event = listImage.get(index[0]);
+//                index[0]++;
+//                label.setIcon(event);
+//            }
+//            label.revalidate();
+//            label.repaint();
+//        });
+//        timer.start();
+    }
+
+
+
+    void rescaleWindow(int width, int height){
+        for(int i = 0; i < listImage.size(); i++){
+            listImage.set(i, new ImageIcon(listImage.get(i).getImage().getScaledInstance(
+                    width,
+                    height,
+                    Image.SCALE_SMOOTH
+            )));
+
+            UtilsAny.logHeapSize("After image[" + i + "] rescaling");
+        }
     }
 
     //задаём параметры выделения отображаемого события

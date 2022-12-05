@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ivan</groupId>
-    <artifactId>tst01</artifactId>
+    <artifactId>EventManager</artifactId>
     <version>0.1</version>
 
     <properties>

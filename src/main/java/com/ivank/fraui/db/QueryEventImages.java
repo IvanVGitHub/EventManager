@@ -1,6 +1,7 @@
 package com.ivank.fraui.db;
 
 import com.bedivierre.eloquent.QueryBuilder;
+import com.ivank.fraui.utils.UtilsAny;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
@@ -68,12 +69,16 @@ public class QueryEventImages {
                     "SELECT id FROM eventImages " +
                     "WHERE event_id = " + event_id + ");";
 
+            UtilsAny.logHeapSize("\n\n========\nBefore loading from mysql");
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             while (result.next()) {
                 byte[] byteImageBase64 = Base64.getDecoder().decode(result.getString("image"));
+                UtilsAny.logHeapSize("After transfer Base64 to byte[]");
                 listEventImages.add(new ImageIcon(byteImageBase64));
+                UtilsAny.logHeapSize("After transfer from byte to ImageIcon");
             }
+            UtilsAny.logHeapSize("========\nAfter transfer of all pictures from Base64");
         } catch (Exception ex) {ex.printStackTrace();}
 
         return listEventImages;

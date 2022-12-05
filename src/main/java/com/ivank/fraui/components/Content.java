@@ -258,7 +258,7 @@ public class Content extends JPanel {
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
         //подгоним картинку под нужный размер
 //        JButton button = new RoundButton2(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
-        JButton button = new RoundButton1();
+        JButton button = new RoundButton();
         button.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
         button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
 
