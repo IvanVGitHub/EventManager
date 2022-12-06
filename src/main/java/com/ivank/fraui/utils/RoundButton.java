@@ -50,6 +50,9 @@ public class RoundButton extends JButton {
             }
         });
 
+        setText(text);
+        setIcon(icon);
+
         //установить стандартный фон кнопки (только прямоугольный)
         setContentAreaFilled(false);
     }
