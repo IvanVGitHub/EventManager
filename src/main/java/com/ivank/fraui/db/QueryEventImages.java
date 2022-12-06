@@ -129,9 +129,9 @@ public class QueryEventImages {
 
         try {
             String stringSQL = "WITH CTE_Name (row_num, id) AS (" +
-            "SELECT ROW_NUMBER() OVER () row_num, id FROM eventImages" +
-            "WHERE event_id = " + event_id + ")" +
-            "SELECT image FROM eventImages" +
+            "SELECT ROW_NUMBER() OVER () row_num, id FROM eventImages " +
+            "WHERE event_id = " + event_id + ") " +
+            "SELECT image FROM eventImages " +
             "WHERE id IN (SELECT id FROM CTE_Name WHERE row_num % " + step + " = 1);";
 
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
