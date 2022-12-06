@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
@@ -33,13 +34,12 @@ public class WindowViewImageCurrentEvent extends JFrame {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 timer.stop();
-                for(int i = 0; i < listImage.size(); i++)
-                    listImage.set(i, null);
+                //очищаем память
+                Collections.fill(listImage, null);
                 listImage.clear();
 
                 //убираем выделение события
                 setPanelParams(panel, null, null, 0);
-
             }
         });
 

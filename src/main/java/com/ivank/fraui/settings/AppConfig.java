@@ -10,8 +10,9 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class AppConfig {
-    //приложение было разработано под разрешение 1366*768, поэтому под другие разрешения подстраиваем в коэффициенте
-    private static double scale = Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 768;
+    //приложение было разработано под разрешение 1920*1080, поэтому под другие разрешения подстраиваем в коэффициенте
+    private static double scale = Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 1080;
+//    private static double scale = Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 500;
     public static double getScale() {return scale;}
 
     private static String configFile = "config.json";

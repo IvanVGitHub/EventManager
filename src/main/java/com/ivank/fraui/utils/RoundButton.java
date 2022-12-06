@@ -54,32 +54,55 @@ public class RoundButton extends JButton {
         setContentAreaFilled(false);
     }
 
+    //тело кнопки
     @Override
     protected void paintComponent(Graphics g) {
-        if (getModel().isArmed()) {
-            g.setColor(Color.GRAY);
-        } else {
-            g.setColor(Color.LIGHT_GRAY);
-        }
-        g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
-        //заливает цветом
-//        g.fillRoundRect(0, 0, getSize().width - 1, getSize().height - 1, 20, 20);
+        Graphics2D g2 = (Graphics2D)g.create();
 
-        super.paintComponent(g);
+        if (getModel().isArmed()) {
+            g2.setColor(new Color(184,207,229));
+            g2.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
+        } else {
+            //верхняя усечённая сфера
+            g2.setPaint(new GradientPaint(
+                    new Point(0, 0),
+                    new Color(184,207,229),
+                    new Point(0, getHeight()/3),
+                    Color.WHITE));
+            g2.fillArc(0, 0, getWidth(), getHeight(), 20, 140);
+            //нижняя усечённая сфера
+            g2.setPaint(new GradientPaint(
+                    new Point(0, getHeight()/3),
+                    Color.WHITE,
+                    new Point(0, getHeight()),
+                    new Color(184,207,229)));
+            g2.fillArc(0, 0, getWidth(), getHeight(), 160, 220);
+            g2.dispose();
+        }
+
         //добавим сглаживание контуру прямоугольной кнопки со скруглёнными углами
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //отрисовываем картинку(например)
+        super.paintComponent(g);
     }
 
+    //контур кнопки
     @Override
     protected void paintBorder(Graphics g) {
         if (mouseEntered) {
-            g.setColor(Color.BLACK);
+            //малый контур
+            g.setColor(new Color(184,207,229));
+            g.drawOval(2, 2, getSize().width - 5, getSize().height - 5);
+            //средний контур
+            g.setColor(new Color(122,138,153));
             g.drawOval(1, 1, getSize().width - 3, getSize().height - 3);
+            //большой контур
+            g.setColor(new Color(184,207,229));
+            g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
         } else {
-            g.setColor(getForeground());
+            //большой контур
+            g.setColor(new Color(122,138,153));
             g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
         }
-        //отрисовывает только контур прямоугольной кнопки со скруглёнными углами
-//        g.drawRoundRect(0, 0, getSize().width - 1, getSize().height - 1, 20, 20);
     }
 }

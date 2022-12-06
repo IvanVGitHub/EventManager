@@ -80,7 +80,7 @@ public class QueryEventImages {
         return listEventImages;
     }
 
-    //список изображений конкретного события (каждый n-кадр, реализация с простым запросом)
+    //список изображений конкретного события (каждый n-кадр, реализация с "простым" запросом)
     /*public static ArrayList<ImageIcon> getListEventImages(int event_id, int step) {
         listEventImages.clear();
 
@@ -123,7 +123,7 @@ public class QueryEventImages {
         return listEventImages;
     }*/
 
-    //список изображений конкретного события (каждый n-кадр, реализация со сложным запросом)
+    //список изображений конкретного события (каждый n-кадр, реализация со "сложным" запросом)
     public static ArrayList<ImageIcon> getListEventImages(int event_id, int step) {
         listEventImages.clear();
 
