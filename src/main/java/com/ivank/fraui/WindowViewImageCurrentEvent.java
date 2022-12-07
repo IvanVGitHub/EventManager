@@ -91,12 +91,13 @@ public class WindowViewImageCurrentEvent extends JFrame {
     //подгоняем размер кадров под размер окна
     void rescaleWindow(int width, int height) {
         if (timer != null)
-            timer.stop(); //это верно
+            timer.stop();
+        //перезаписываем список картинок
         for (int i = 0; i < listImage.size(); i++) {
             listImage.set(i, new ImageIcon((listImage.get(i).getImage().getScaledInstance(
                     width,
                     height,
-                    Image.SCALE_SMOOTH
+                    Image.SCALE_FAST
             ))));
 
             //лог памяти в консоль
