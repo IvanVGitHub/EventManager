@@ -19,8 +19,8 @@ import static com.ivank.fraui.settings.AppConfig.getScale;
 public class WindowViewImageCurrentEvent extends JFrame {
     Timer timer;
     ArrayList<ImageIcon> listImage;
-    final int width = (int)(getScale() * 800);
-    final int height = (int)(getScale() * 600);
+    final int width = (int)(getScale() * 1600);
+    final int height = (int)(getScale() * 900);
     JLabel label;
 
 
@@ -97,7 +97,7 @@ public class WindowViewImageCurrentEvent extends JFrame {
             listImage.set(i, new ImageIcon((listImage.get(i).getImage().getScaledInstance(
                     width,
                     height,
-                    Image.SCALE_FAST
+                    Image.SCALE_FAST //SCALE_FAST быстрый и довольно качественный метод рескейла, SCALE_SMOOTH качественный, но очень медленный
             ))));
 
             //лог памяти в консоль
