@@ -53,9 +53,7 @@ public class WindowAllEventsCamera extends JFrame {
                     //двойной клик
                     if (e.getClickCount() == 2 && !e.isConsumed()) {
                         e.consume();
-                         try {
-                             new WindowViewImageCurrentEvent(panel, element.id, element.time);
-                         } catch (InterruptedException ex) {throw new RuntimeException(ex);}
+                        new WindowViewImageCurrentEvent(panel, element.id, element.time);
                     }
                 }
             });

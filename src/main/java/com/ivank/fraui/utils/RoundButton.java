@@ -83,9 +83,9 @@ public class RoundButton extends JButton {
             g2.dispose();
         }
 
-        //добавим сглаживание контуру прямоугольной кнопки со скруглёнными углами
+        //добавим сглаживание контуру кнопки
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //отрисовываем картинку(например)
+        //отрисовываем картинку (например)
         super.paintComponent(g);
     }
 

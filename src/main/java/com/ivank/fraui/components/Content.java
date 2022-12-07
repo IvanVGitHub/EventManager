@@ -203,7 +203,7 @@ public class Content extends JPanel {
                 streamGrabber.stop();
                 streamGrabber.close();
             } catch (Exception ex) {
-                ex.printStackTrace();
+//                ex.printStackTrace();
                 //устанавливаем красную рамку кнопке
                 button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
             }

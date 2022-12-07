@@ -24,7 +24,7 @@ public class WindowViewImageCurrentEvent extends JFrame {
     JLabel label;
 
 
-    public WindowViewImageCurrentEvent(JPanel panel, int event_id, String time) throws InterruptedException {
+    public WindowViewImageCurrentEvent(JPanel panel, int event_id, String time) {
         super(time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
@@ -43,14 +43,6 @@ public class WindowViewImageCurrentEvent extends JFrame {
             }
         });
 
-//        TODO: работает некорректно!
-        //событие при изменении размера окна
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent evt) {
-                //перерисовываем кадры под размер окна
-                rescaleWindow(label.getWidth(), label.getHeight());
-            }
-        });
 
         label = new JLabel();
         add(label);
@@ -59,6 +51,14 @@ public class WindowViewImageCurrentEvent extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
 
+        //событие при изменении размера окна
+        label.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent evt) {
+                //перерисовываем кадры под размер окна
+                rescaleWindow(label.getWidth(), label.getHeight());
+            }
+        });
+
         //выделяем запущенное событие
         setPanelParams(panel, Color.LIGHT_GRAY, Color.GREEN, (int)(getScale() * 2));
 
@@ -66,11 +66,13 @@ public class WindowViewImageCurrentEvent extends JFrame {
         //заполняем список изображениями из БД
         listImage = QueryEventImages.getListEventImages(event_id, 5);
         UtilsAny.logHeapSize("After image loading");
+        //перерисовываем кадры под размер окна
         rescaleWindow(label.getWidth(), label.getHeight());
         UtilsAny.logHeapSize("After total image rescaling");
 
 
         final int[] index = {0};
+
         //delay 40 ms = 25 fps
         timer = new Timer(200, (evt)-> {
             if (listImage.size() > 0) {
@@ -88,15 +90,20 @@ public class WindowViewImageCurrentEvent extends JFrame {
 
     //подгоняем размер кадров под размер окна
     void rescaleWindow(int width, int height) {
+        if (timer != null)
+            timer.stop(); //это верно
         for (int i = 0; i < listImage.size(); i++) {
-            listImage.set(i, new ImageIcon(listImage.get(i).getImage().getScaledInstance(
+            listImage.set(i, new ImageIcon((listImage.get(i).getImage().getScaledInstance(
                     width,
                     height,
                     Image.SCALE_SMOOTH
-            )));
+            ))));
 
+            //лог памяти в консоль
             UtilsAny.logHeapSize("After image[" + i + "] rescaling");
         }
+        if (timer != null)
+            timer.restart();
     }
 
     //задаём параметры выделения отображаемого события
