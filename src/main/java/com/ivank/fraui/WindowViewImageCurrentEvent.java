@@ -14,15 +14,17 @@ import java.util.Collections;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
-//TODO: утечка памяти при просмотре "гифки"
+//TODO: утечка памяти при просмотре "гифки" (после закрытия окна, память не очищается)
 //Окно просмотра "гифки" события
 public class WindowViewImageCurrentEvent extends JFrame {
+    //таймер для очерёдного воспроизведения кадров
     Timer timer;
+    //список кадров события
     ArrayList<ImageIcon> listImage;
+    //размеры окна просмотра "гифки"
     final int width = (int)(getScale() * 1600);
     final int height = (int)(getScale() * 900);
     JLabel label;
-
 
     public WindowViewImageCurrentEvent(JPanel panel, int event_id, String time) {
         super(time);
@@ -42,7 +44,6 @@ public class WindowViewImageCurrentEvent extends JFrame {
                 setPanelParams(panel, null, null, 0);
             }
         });
-
 
         label = new JLabel();
         add(label);

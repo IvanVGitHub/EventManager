@@ -15,8 +15,8 @@ public class WindowCameraLiveView extends CanvasFrame implements Runnable {
     volatile boolean running;
     volatile CamData cd;
     //размер окна, подстраивается под разрешение экрана
-    final int width = (int)(getScale() * 640);
-    final int height = (int)(getScale() * 360);
+    final int width = (int)(getScale() * 1600);
+    final int height = (int)(getScale() * 900);
 
     FFmpegFrameGrabber getGrabber(CamData camera) {
         try {
