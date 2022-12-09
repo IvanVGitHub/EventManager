@@ -1,6 +1,6 @@
 package com.ivank.fraui;
 
-import com.ivank.fraui.utils.AddEvent;
+import com.ivank.fraui.utils.AddGroupEvents;
 
 import javax.swing.*;
 import java.awt.*;
@@ -95,7 +95,7 @@ public class WindowAddCamerasTEST extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int number = labels.size() + 1;
-                AddEvent eventAdd = new AddEvent();
+                AddGroupEvents eventAdd = new AddGroupEvents();
                 URL url = getClass().getResource("./img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
                 Dimension labelSize = new Dimension((int)(getScale() * 80), (int)(getScale() * 80));

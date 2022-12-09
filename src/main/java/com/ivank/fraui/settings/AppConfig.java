@@ -2,6 +2,7 @@ package com.ivank.fraui.settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ivank.fraui.components.Content;
 
 import java.awt.*;
 import java.io.File;

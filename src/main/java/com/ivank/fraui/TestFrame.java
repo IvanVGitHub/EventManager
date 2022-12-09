@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,12 +80,11 @@ public class TestFrame extends JFrame {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame.setDefaultLookAndFeelDecorated(true);
-                createGUI();
-            }
-        });
+    public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] digest = md.digest("abracadabra".getBytes("UTF-8"));
+        for (byte b : digest) {
+            System.out.printf("%02x", b);
+        }
     }
 }
