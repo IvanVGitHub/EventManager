@@ -2,7 +2,10 @@ package com.ivank.fraui.utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
+import static com.ivank.fraui.settings.AppConfig.getScale;
 
 //Отрисовываем группу Событий
 public class AddGroupEvents extends JPanel {
@@ -27,7 +30,7 @@ public class AddGroupEvents extends JPanel {
     если хотя бы одна дополнительная область развёрнута, то сворачиваем все области и, наоборот,
     если хотя бы одна дополнительная область свёрнута, то разворачиваем все области
     */
-    public void toggleViewModeAllEvents() {
+    public void toggleViewModeAllEvents(JButton button, BufferedImage bufferedImage) {
         boolean hasCollapsed = false;
 
         for (AddEventElement event : listEvents) {
@@ -38,22 +41,43 @@ public class AddGroupEvents extends JPanel {
         }
 
         if (hasCollapsed)
-            expandAllEvents();
+            expandAllEvents(button, bufferedImage);
         else
-            collapseAllEvents();
+            collapseAllEvents(button, bufferedImage);
     }
 
     //сворачиваем дополнительную область у всех Событий
-    public void collapseAllEvents() {
+    public void collapseAllEvents(JButton button, BufferedImage bufferedImage) {
         for (AddEventElement event: listEvents) {
+            //сворачиваем элемент под каждой миниатюрой
             event.collapse();
         }
+
+        //разворачиваем направление стрелки на картинке
+        button.setIcon(new ImageIcon(bufferedImage.getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
     }
 
     //разворачиваем дополнительную область у всех Событий
-    public void expandAllEvents() {
+    public void expandAllEvents(JButton button, BufferedImage bufferedImage) {
         for (AddEventElement event: listEvents) {
+            //сворачиваем элемент под каждой миниатюрой
             event.expand();
         }
+
+        //разворачиваем направление стрелки на картинке
+        //TODO: не работает более предпочтительный сценарий получения изображения картинки
+        //(из кнопки мы получаем чёрный квадрат, а не картинку, которую можно перевернуть)
+/*        Icon icon = button.getIcon();
+        BufferedImage bufferedImage = new BufferedImage(
+                icon.getIconWidth(),
+                icon.getIconHeight(),
+                BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = bufferedImage.createGraphics();
+        icon.paintIcon(null, graphics, 0, 0);
+        //очищаем память
+        graphics.dispose();*/
+        bufferedImage = UtilsAny.rotateImage(bufferedImage, 180);
+
+        button.setIcon(new ImageIcon(bufferedImage.getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
     }
 }

@@ -9,10 +9,14 @@ import com.ivank.fraui.settings.SettingsDefault;
 import com.ivank.fraui.utils.*;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -253,16 +257,15 @@ public class Content extends JPanel {
         return button;
     }
 
-
     //размечаем кнопки слева в группе событий каждой камеры
-    public void createControlsForCamera(AddGroupEvents eventPanel, int idCamera) {
+    public void createControlsForCamera(AddGroupEvents groupPanel, int idCamera) {
         JPanel parentButtonsPanel = new JPanel();
         parentButtonsPanel.setLayout(new BoxLayout(parentButtonsPanel, BoxLayout.Y_AXIS));
 
         //добавить кнопку "прямой эфир"
         CamData cd = CamData.getCamDataFromId(idCamera);
         JButton button = new JButton();
-        addSidePanelBtn(button, eventPanel, SettingsDefault.getImageLiveView(), parentButtonsPanel,
+        addSidePanelBtn(button, new ImageIcon(Base64.getDecoder().decode(SettingsDefault.getImageLiveView())), parentButtonsPanel,
                 e -> new WindowCameraLiveView(cd),
                 () -> {
                     //сделаем кнопку неактивной, пока не пройдёт проверка доступности прямого эфира
@@ -294,30 +297,38 @@ public class Content extends JPanel {
                             button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
                         }
                     })).start();
-                },
-                cd
+                }
         );
 
         //добавить кнопку "все события текущей камеры"
-        addSidePanelBtn(new JButton(), eventPanel, SettingsDefault.getImageAllImgEvents(), parentButtonsPanel,
+        addSidePanelBtn(new JButton(), new ImageIcon(Base64.getDecoder().decode(SettingsDefault.getImageAllImgEvents())), parentButtonsPanel,
                 e -> new WindowAllEventsCamera(idCamera)
         );
 
         //добавить кнопку "опции камеры"
-        addSidePanelBtn(new JButton(), eventPanel, SettingsDefault.getImageOptions(), parentButtonsPanel,
+        addSidePanelBtn(new JButton(), new ImageIcon(Base64.getDecoder().decode(SettingsDefault.getImageOptions())), parentButtonsPanel,
                 e -> new WindowSettingsCamera(idCamera)
         );
 
         //добавить кнопку "раскрыть CompreFace"
-        addSidePanelBtn(new RoundButton(), eventPanel, SettingsDefault.getImageUnwrap(), parentButtonsPanel,
-                e -> eventPanel.toggleViewModeAllEvents()
+        //преобразуем картинки в BufferedImage, чтобы именно её передавать в нескольких местах
+        byte[] bytes = Base64.getDecoder().decode(SettingsDefault.getImageUnwrap());
+        BufferedImage bufferedImage;
+        try {
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        JButton roundButton = new RoundButton();
+        addSidePanelBtn(roundButton, new ImageIcon(bufferedImage), parentButtonsPanel,
+                e -> groupPanel.toggleViewModeAllEvents(roundButton, bufferedImage)
         );
 
-        eventPanel.add(parentButtonsPanel);
+        groupPanel.add(parentButtonsPanel);
     }
 
     //создаём кнопку для группы событий
-    void addSidePanelBtn(JButton button, AddGroupEvents eventPanel, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, CamData cd) {
+    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate) {
         JPanel panelButton = new JPanel();
         panelButton.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         button.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
@@ -329,25 +340,7 @@ public class Content extends JPanel {
 
         parentPanel.add(panelButton);
     }
-    void addSidePanelBtn(JButton button, AddGroupEvents eventPanel, String strB64ImageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(strB64ImageIcon);
-        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
-
-        addSidePanelBtn(button, eventPanel, imageIcon, parentPanel, listener, onCreate, null);
-    }
-    void addSidePanelBtn(JButton button, AddGroupEvents eventPanel, String strB64ImageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, CamData cd) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(strB64ImageIcon);
-        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
-
-        addSidePanelBtn(button, eventPanel, imageIcon, parentPanel, listener, onCreate, null);
-    }
-    void addSidePanelBtn(JButton button, AddGroupEvents eventPanel, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener) {
-        addSidePanelBtn(button, eventPanel, imageIcon, parentPanel, listener, null, null);
-    }
-    void addSidePanelBtn(JButton button, AddGroupEvents eventPanel, String strB64ImageIcon, JPanel parentPanel, ActionListener listener) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(strB64ImageIcon);
-        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
-
-        addSidePanelBtn(button, eventPanel, imageIcon, parentPanel, listener, null, null);
+    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener) {
+        addSidePanelBtn(button, imageIcon, parentPanel, listener, null);
     }
 }

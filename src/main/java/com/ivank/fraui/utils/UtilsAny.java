@@ -1,10 +1,28 @@
 package com.ivank.fraui.utils;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 
 public class UtilsAny {
+    //вращение картинки на n градусов
+    public static BufferedImage rotateImage(BufferedImage bufferedImage, int degrees) {
+        double width = bufferedImage.getWidth();
+        double height = bufferedImage.getHeight();
+
+        BufferedImage newBufferedImage = new BufferedImage((int)width, (int)height, bufferedImage.getType());
+
+        Graphics2D graphics2D = newBufferedImage.createGraphics();
+        graphics2D.rotate(Math.toRadians(degrees), width / 2, height / 2);
+        graphics2D.drawImage(bufferedImage, null, 0, 0);
+        //очищаем память
+        graphics2D.dispose();
+
+        return newBufferedImage;
+    }
+
     //отображение параметров памяти "кучи" (занимаемый размер, зарезервированный размер, оставшееся место)
     public static void logHeapSize(String message) {
         String heapSize = HumanReadableByteMemory(Runtime.getRuntime().totalMemory());
