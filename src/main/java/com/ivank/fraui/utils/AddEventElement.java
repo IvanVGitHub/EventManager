@@ -4,10 +4,9 @@ import com.ivank.fraui.WindowViewImageCurrentEvent;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
@@ -15,17 +14,21 @@ import static com.ivank.fraui.settings.AppConfig.getScale;
 public class AddEventElement extends JPanel {
     //флаг состояния панели CompreFace: "свёрнуто"
     boolean collapsed = true;
-    JLabel collapsedLabel = null;
-    JPanel compreFacePanel = new JPanel();
+    JPanel compreFacePanel = null;
 
-    //отрисовываем новое Событие в группе
-    public AddEventElement(Dimension labelSize, Color color, ImageIcon image, int event_id, String time){
-        this.setLayout (new BoxLayout (this, BoxLayout.Y_AXIS));
-        JLabel text = new JLabel();
-        text.setText(time);
-        this.add(text);
+    //создание элемента, включающего Событие и связанные с ним элементы
+    public AddEventElement(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
+        this.setLayout(new BoxLayout (this, BoxLayout.Y_AXIS));
+
+        //название события (точное время)
+        JPanel panelText = new JPanel();
+        JLabel labelText = new JLabel();
+        labelText.setText(time);
+        panelText.add(labelText);
+        this.add(panelText);
 
         //вставляем изображение с определенными размерами
+        JPanel panelLabel = new JPanel();
         JLabel label = new JLabel(new ImageIcon(image.getImage().getScaledInstance(
                 labelSize.width,
                 labelSize.height,
@@ -46,9 +49,10 @@ public class AddEventElement extends JPanel {
             }
         });*/
 
-        //перерисовываем панель CompreFace
-        redrawCompreFacePanel();
-        this.add(label);
+        //отрисовываем панель CompreFace
+        drawCompreFacePanel();
+        panelLabel.add(label);
+        this.add(panelLabel);
         this.add(compreFacePanel);
 
         //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
@@ -64,34 +68,50 @@ public class AddEventElement extends JPanel {
     //сворачиваем панель CompreFace
     public void collapse() {
         collapsed = true;
-        //перерисовываем панель CompreFace
-        redrawCompreFacePanel();
+        //меняем видимость панели CompreFace
+        compreFacePanel.setVisible(!collapsed);
+
     }
 
     //разворачиваем панель CompreFace
     public void expand() {
         collapsed = false;
-        //перерисовываем панель CompreFace
-        redrawCompreFacePanel();
+        //меняем видимость панели CompreFace
+        compreFacePanel.setVisible(!collapsed);
     }
 
-    //перерисовываем элемент со всем содержимым
-    public void redrawCompreFacePanel() {
-        if (collapsedLabel == null) {
-            int width = 100, height = 100;
-            collapsedLabel = new JLabel();
-            collapsedLabel.setMinimumSize(new Dimension(width, height));
-            collapsedLabel.setPreferredSize(new Dimension(width, height));
-            collapsedLabel.setMaximumSize(new Dimension(width, height));
-            collapsedLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
-            compreFacePanel.add(collapsedLabel);
+    //отрисовываем и задаём видимость элементу CompreFace со всем содержимым
+    public void drawCompreFacePanel() {
+        if (compreFacePanel == null) {
+            compreFacePanel = new JPanel();
+            compreFacePanel.setLayout(new BoxLayout (compreFacePanel, BoxLayout.Y_AXIS));
+
+            for (int i = 0; i < 5; i++) {
+                int width = 30, height = 30;
+                JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                JLabel label = new JLabel();
+                JTextArea textArea = new JTextArea();
+                textArea.setText("Сотрудник: ФИО\nОтдел:-\nДополнительно:-");
+                label.setMinimumSize(new Dimension(width, height));
+                label.setPreferredSize(new Dimension(width, height));
+                label.setMaximumSize(new Dimension(width, height));
+                label.setBorder(BorderFactory.createLineBorder(Color.RED));
+                //ТЕСТовое изображение
+                URL url = getClass().getResource("../img/event.jpg");
+                ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
+                label.setIcon(new ImageIcon(image.getImage().getScaledInstance(
+                        width,
+                        height,
+                        Image.SCALE_FAST
+                )));
+
+                panel.add(label);
+                panel.add(textArea);
+
+                compreFacePanel.add(panel);
+            }
         }
 
-        //задаём параметр видимости элемента
-        collapsedLabel.setVisible(!collapsed);
-
-        //перерисовываем элемент со всем содержимым
-        compreFacePanel.revalidate();
-        compreFacePanel.repaint();
+        compreFacePanel.setVisible(false);
     }
 }

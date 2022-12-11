@@ -54,6 +54,18 @@ public class AddGroupEvents extends JPanel {
         }
 
         //разворачиваем направление стрелки на картинке
+        //TODO: не работает более предпочтительный сценарий получения изображения картинки
+        //(из кнопки мы получаем чёрный квадрат, а не картинку, которую можно перевернуть)
+/*        Icon icon = button.getIcon();
+        BufferedImage bufferedImage = new BufferedImage(
+                icon.getIconWidth(),
+                icon.getIconHeight(),
+                BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = bufferedImage.createGraphics();
+        icon.paintIcon(null, graphics, 0, 0);
+        //очищаем память
+        graphics.dispose();*/
+
         button.setIcon(new ImageIcon(bufferedImage.getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
     }
 
