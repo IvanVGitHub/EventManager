@@ -11,23 +11,23 @@ import java.net.URL;
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
 //Отрисовываем Событие в группе
-public class AddEventElement extends JPanel {
+public class AddEvent extends JPanel {
     //флаг состояния панели CompreFace: "свёрнуто"
     boolean collapsed = true;
     JPanel compreFacePanel = null;
 
     //создание элемента, включающего Событие и связанные с ним элементы
-    public AddEventElement(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
+    public AddEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
         this.setLayout(new BoxLayout (this, BoxLayout.Y_AXIS));
 
-        //название события (точное время)
+        //заголовок события (время создания события)
         JPanel panelText = new JPanel();
         JLabel labelText = new JLabel();
         labelText.setText(time);
         panelText.add(labelText);
         this.add(panelText);
 
-        //вставляем изображение с определенными размерами
+        //миниатюра события
         JPanel panelLabel = new JPanel();
         JLabel label = new JLabel(new ImageIcon(image.getImage().getScaledInstance(
                 labelSize.width,
@@ -49,7 +49,7 @@ public class AddEventElement extends JPanel {
             }
         });*/
 
-        //отрисовываем панель CompreFace
+        //панель CompreFace
         drawCompreFacePanel();
         panelLabel.add(label);
         this.add(panelLabel);
@@ -70,7 +70,6 @@ public class AddEventElement extends JPanel {
         collapsed = true;
         //меняем видимость панели CompreFace
         compreFacePanel.setVisible(!collapsed);
-
     }
 
     //разворачиваем панель CompreFace
@@ -86,12 +85,24 @@ public class AddEventElement extends JPanel {
             compreFacePanel = new JPanel();
             compreFacePanel.setLayout(new BoxLayout (compreFacePanel, BoxLayout.Y_AXIS));
 
+            JScrollPane scrollPaneCompreFace = new JScrollPane();
+            JPanel panelOuter = new JPanel();
+            panelOuter.setLayout(new BorderLayout());
+            scrollPaneCompreFace.setViewportView(panelOuter);
+            scrollPaneCompreFace.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollPaneCompreFace.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
             for (int i = 0; i < 5; i++) {
-                int width = 30, height = 30;
-                JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                int width = (int)(getScale() * 30), height = (int)(getScale() * 30);
+                JPanel panelInner = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 JLabel label = new JLabel();
-                JTextArea textArea = new JTextArea();
-                textArea.setText("Сотрудник: ФИО\nОтдел:-\nДополнительно:-");
+                JTextArea textArea = new JTextArea(3, (int)(getScale() * 9));
+                JScrollPane scrollPane = new JScrollPane(
+                        textArea,
+                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
+                );
+
                 label.setMinimumSize(new Dimension(width, height));
                 label.setPreferredSize(new Dimension(width, height));
                 label.setMaximumSize(new Dimension(width, height));
@@ -105,11 +116,17 @@ public class AddEventElement extends JPanel {
                         Image.SCALE_FAST
                 )));
 
-                panel.add(label);
-                panel.add(textArea);
+                textArea.setText("Сотрудник: ФИО\nОтдел: -\nДополнительно: бла-бла-бла-бла");
+                //запрещаем пользователю изменять текст
+                textArea.setEditable(false);
+                //убрать перенос строки
+                textArea.setLineWrap(false);
 
-                compreFacePanel.add(panel);
+                panelInner.add(label);
+                panelInner.add(textArea);
+                panelOuter.add(scrollPane);
             }
+            compreFacePanel.add(scrollPaneCompreFace);
         }
 
         compreFacePanel.setVisible(false);
