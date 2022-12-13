@@ -50,7 +50,7 @@ public class AddEvent extends JPanel {
         });*/
 
         //панель CompreFace
-        drawCompreFacePanel();
+        drawCompreFacePanel(labelSize);
         panelLabel.add(label);
         this.add(panelLabel);
         this.add(compreFacePanel);
@@ -80,39 +80,49 @@ public class AddEvent extends JPanel {
     }
 
     //отрисовываем и задаём видимость элементу CompreFace со всем содержимым
-    public void drawCompreFacePanel() {
+    public void drawCompreFacePanel(Dimension size) {
         if (compreFacePanel == null) {
             compreFacePanel = new JPanel();
             compreFacePanel.setLayout(new BoxLayout (compreFacePanel, BoxLayout.Y_AXIS));
+            Dimension dimension = new Dimension((int)(getScale() * 40),(int)(getScale() * 40));
 
             JScrollPane scrollPaneCompreFace = new JScrollPane();
             JPanel panelOuter = new JPanel();
-            panelOuter.setLayout(new BorderLayout());
+
+            panelOuter.setLayout(new BoxLayout (panelOuter, BoxLayout.Y_AXIS));
+
             scrollPaneCompreFace.setViewportView(panelOuter);
-            scrollPaneCompreFace.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            scrollPaneCompreFace.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scrollPaneCompreFace.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPaneCompreFace.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPaneCompreFace.setPreferredSize(new Dimension(size.width, size.height * 2));
 
             for (int i = 0; i < 5; i++) {
-                int width = (int)(getScale() * 30), height = (int)(getScale() * 30);
-                JPanel panelInner = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                JPanel panelInner = new JPanel();
                 JLabel label = new JLabel();
-                JTextArea textArea = new JTextArea(3, (int)(getScale() * 9));
+                JTextArea textArea = new JTextArea();
                 JScrollPane scrollPane = new JScrollPane(
                         textArea,
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
+                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
                 );
+                //здесь есть особенность: применяется только высота элемента,
+                //ширина по-факту получается по внутренней границе внешнего JScrollPane
+                scrollPane.setPreferredSize(new Dimension(0, 70));
 
-                label.setMinimumSize(new Dimension(width, height));
-                label.setPreferredSize(new Dimension(width, height));
-                label.setMaximumSize(new Dimension(width, height));
+//                panelInner.setLayout(new FlowLayout(FlowLayout.LEFT));
+                panelInner.setLayout(new BoxLayout (panelInner, BoxLayout.Y_AXIS));
+//                panelInner.setPreferredSize(new Dimension(size.width, size.height));
+
+                label.setMinimumSize(dimension);
+                label.setPreferredSize(dimension);
+                label.setMaximumSize(dimension);
                 label.setBorder(BorderFactory.createLineBorder(Color.RED));
                 //ТЕСТовое изображение
                 URL url = getClass().getResource("../img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
                 label.setIcon(new ImageIcon(image.getImage().getScaledInstance(
-                        width,
-                        height,
+                        dimension.width,
+                        dimension.height,
                         Image.SCALE_FAST
                 )));
 
@@ -123,8 +133,8 @@ public class AddEvent extends JPanel {
                 textArea.setLineWrap(false);
 
                 panelInner.add(label);
-                panelInner.add(textArea);
-                panelOuter.add(scrollPane);
+                panelInner.add(scrollPane);
+                panelOuter.add(panelInner);
             }
             compreFacePanel.add(scrollPaneCompreFace);
         }
