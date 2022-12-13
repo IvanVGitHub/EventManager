@@ -17,26 +17,39 @@ public class AddEvent extends JPanel {
     JPanel compreFacePanel = null;
 
     //создание элемента, включающего Событие и связанные с ним элементы
-    public AddEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
+    public AddEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time, int countCompreFace) {
         this.setLayout(new BoxLayout (this, BoxLayout.Y_AXIS));
 
         //заголовок события (время создания события)
         JPanel panelText = new JPanel();
         JLabel labelText = new JLabel();
+
         labelText.setText(time);
         panelText.add(labelText);
         this.add(panelText);
 
         //миниатюра события
         JPanel panelLabel = new JPanel();
-        JLabel label = new JLabel(new ImageIcon(image.getImage().getScaledInstance(
+        JLabel labelIcon = new JLabel();
+        labelIcon.setIcon(new ImageIcon(image.getImage().getScaledInstance(
                 labelSize.width,
                 labelSize.height,
                 java.awt.Image.SCALE_SMOOTH
         )));
-        label.setPreferredSize(labelSize);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setBorder(BorderFactory.createLineBorder(color, (int)(getScale() * 5)));
+        labelIcon.setPreferredSize(labelSize);
+        labelIcon.setBorder(BorderFactory.createLineBorder(color, (int)(getScale() * 5)));
+        labelIcon.setLayout( new BoxLayout(labelIcon, BoxLayout.Y_AXIS) );
+
+        //надпись в углу миниатюры с количеством событий CompreFace
+        JLabel labelIconText = new JLabel();
+        Font font = new Font("TimesRoman", Font.BOLD, 30);
+        labelIconText.setBackground(Color.ORANGE);
+        labelIconText.setLocation(0, 0);
+        labelIconText.setFont(font);
+        labelIconText.setText(String.valueOf(countCompreFace));
+        //непрозрачность фона
+        labelIconText.setOpaque(true);
+        labelIcon.add(labelIconText);
 
 /*        JButton newButton = new JButton("Кнопка");
         this.add(newButton);
@@ -50,14 +63,14 @@ public class AddEvent extends JPanel {
         });*/
 
         //панель CompreFace
-        drawCompreFacePanel(labelSize);
-        panelLabel.add(label);
+        drawCompreFacePanel(labelSize, countCompreFace);
+        panelLabel.add(labelIcon);
         this.add(panelLabel);
         this.add(compreFacePanel);
 
         //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
         JPanel _this = this;
-        label.addMouseListener(new MouseAdapter() {
+        labelIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new WindowViewImageCurrentEvent(_this, event_id, time);
@@ -79,8 +92,8 @@ public class AddEvent extends JPanel {
         compreFacePanel.setVisible(!collapsed);
     }
 
-    //отрисовываем и задаём видимость элементу CompreFace со всем содержимым
-    public void drawCompreFacePanel(Dimension size) {
+    //отрисовываем и задаём видимость панели CompreFace со всем содержимым
+    public void drawCompreFacePanel(Dimension size, int countCompreFace) {
         if (compreFacePanel == null) {
             compreFacePanel = new JPanel();
             compreFacePanel.setLayout(new BoxLayout (compreFacePanel, BoxLayout.Y_AXIS));
@@ -96,9 +109,9 @@ public class AddEvent extends JPanel {
             scrollPaneCompreFace.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             scrollPaneCompreFace.setPreferredSize(new Dimension(size.width, size.height * 2));
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < countCompreFace; i++) {
                 JPanel panelInner = new JPanel();
-                JLabel label = new JLabel();
+                JLabel labelIcon = new JLabel();
                 JTextArea textArea = new JTextArea();
                 JScrollPane scrollPane = new JScrollPane(
                         textArea,
@@ -109,18 +122,14 @@ public class AddEvent extends JPanel {
                 //ширина по-факту получается по внутренней границе внешнего JScrollPane
                 scrollPane.setPreferredSize(new Dimension(0, 70));
 
-//                panelInner.setLayout(new FlowLayout(FlowLayout.LEFT));
                 panelInner.setLayout(new BoxLayout (panelInner, BoxLayout.Y_AXIS));
-//                panelInner.setPreferredSize(new Dimension(size.width, size.height));
 
-                label.setMinimumSize(dimension);
-                label.setPreferredSize(dimension);
-                label.setMaximumSize(dimension);
-                label.setBorder(BorderFactory.createLineBorder(Color.RED));
-                //ТЕСТовое изображение
+                labelIcon.setPreferredSize(dimension);
+                labelIcon.setBorder(BorderFactory.createLineBorder(Color.RED));
+                //ТЕСТ демонстрационное изображение
                 URL url = getClass().getResource("../img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
-                label.setIcon(new ImageIcon(image.getImage().getScaledInstance(
+                labelIcon.setIcon(new ImageIcon(image.getImage().getScaledInstance(
                         dimension.width,
                         dimension.height,
                         Image.SCALE_FAST
@@ -129,10 +138,10 @@ public class AddEvent extends JPanel {
                 textArea.setText("Сотрудник: ФИО\nОтдел: -\nДополнительно: бла-бла-бла-бла");
                 //запрещаем пользователю изменять текст
                 textArea.setEditable(false);
-                //убрать перенос строки
+                //убрать побуквенный перенос строки, слово целиком
                 textArea.setLineWrap(false);
 
-                panelInner.add(label);
+                panelInner.add(labelIcon);
                 panelInner.add(scrollPane);
                 panelOuter.add(panelInner);
             }

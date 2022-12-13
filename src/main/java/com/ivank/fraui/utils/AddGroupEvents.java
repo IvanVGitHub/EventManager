@@ -32,12 +32,12 @@ public class AddGroupEvents extends JPanel {
 
     //отрисовываем Событие в группе
     public void createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
-        AddEvent panel = new AddEvent(labelSize, color, image, event_id, time);
+        AddEvent panel = new AddEvent(labelSize, color, image, event_id, time, 5);
         listEvents.add(panel);
         add(panel);
     }
 
-    //"умная" функция разворачивания/сворачивания дополнительной области (для CompreFace) События
+    //"умная" функция разворачивания/сворачивания панели CompreFace
     /*
     если хотя бы одна дополнительная область развёрнута, то сворачиваем все области и, наоборот,
     если хотя бы одна дополнительная область свёрнута, то разворачиваем все области
@@ -160,7 +160,7 @@ public class AddGroupEvents extends JPanel {
                 e -> new WindowSettingsCamera(idCamera)
         );
 
-        //добавить кнопку "раскрыть CompreFace"
+        //добавить кнопку "раскрыть/скрыть CompreFace"
         //преобразуем картинки в BufferedImage, чтобы именно её передавать в нескольких местах для вращения
         byte[] bytes = Base64.getDecoder().decode(SettingsDefault.getImageUnwrap());
         BufferedImage bufferedImage;
