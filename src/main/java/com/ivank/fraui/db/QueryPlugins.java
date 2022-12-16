@@ -17,8 +17,8 @@ public class QueryPlugins {
                     "camera_id",
                     idCamera
             ).get();
-            for (ModelCameraPlugins unit : result) {
-                listPluginsOfCamera.add(String.valueOf(unit.plugin_id));
+            for (ModelCameraPlugins item : result) {
+                listPluginsOfCamera.add(String.valueOf(item.plugin_id));
             }
         } catch (Exception ex) {ex.printStackTrace();}
 
@@ -32,8 +32,8 @@ public class QueryPlugins {
             //query to MYSQL
             QueryBuilder<ModelPlugins> query = ConnectDB.getConnector().query(ModelPlugins.class);
             ResultSet<ModelPlugins> result = query.get();
-            for (ModelPlugins unit : result) {
-                listPluginId.add(String.valueOf(unit.id));
+            for (ModelPlugins item : result) {
+                listPluginId.add(String.valueOf(item.id));
             }
         } catch (Exception ex) {ex.printStackTrace();}
 

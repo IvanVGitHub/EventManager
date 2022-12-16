@@ -137,8 +137,8 @@ public class Content extends JPanel {
             listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
             //список id событий из списка моделей
-            for (ModelEvent unit : listModelEvents) {
-                listIndexEventsId.add(unit.id);
+            for (ModelEvent item : listModelEvents) {
+                listIndexEventsId.add(item.id);
             }
 
             //список из первых кадров событий одной камеры

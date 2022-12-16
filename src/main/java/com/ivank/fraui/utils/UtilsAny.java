@@ -56,8 +56,8 @@ public class UtilsAny {
         }
 
         try {
-            for (String unit : list) {
-                if (unit.equals(sample)) {
+            for (String item : list) {
+                if (item.equals(sample)) {
                     boolResult = true;
                 }
             }

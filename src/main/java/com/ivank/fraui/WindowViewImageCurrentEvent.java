@@ -98,7 +98,8 @@ public class WindowViewImageCurrentEvent extends JFrame {
             listImage.set(i, new ImageIcon((listImage.get(i).getImage().getScaledInstance(
                     width,
                     height,
-                    Image.SCALE_FAST //SCALE_FAST быстрый и довольно качественный метод рескейла, SCALE_SMOOTH качественный, но очень медленный
+                    //SCALE_FAST быстрый и довольно качественный метод рескейла, SCALE_SMOOTH качественный, но медленный
+                    Image.SCALE_FAST
             ))));
 
             //лог памяти в консоль

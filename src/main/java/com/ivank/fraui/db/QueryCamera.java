@@ -34,9 +34,9 @@ public class QueryCamera {
 
         try {
             ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasIsSlct();
-            for (String unit : camerasIsSlct) {
+            for (String item : camerasIsSlct) {
                 ResultSet<ModelCamera> result = ConnectDB.getConnector().query(ModelCamera.class)
-                        .where("camera_name", unit)
+                        .where("camera_name", item)
                         .get();
                 listModelCamerasIsSelect.addAll(result);
             }
@@ -50,8 +50,8 @@ public class QueryCamera {
         listCameraName.clear();
 
         try {
-            for (ModelCamera unit : getListModelCameras()) {
-                listCameraName.add(String.valueOf(unit.camera_name));
+            for (ModelCamera item : getListModelCameras()) {
+                listCameraName.add(String.valueOf(item.camera_name));
             }
         } catch (Exception ex) {ex.printStackTrace();}
 
@@ -63,8 +63,8 @@ public class QueryCamera {
         listCameraNameIsSelect.clear();
 
         try {
-            for (ModelCamera unit : getListModelCamerasIsSelect()) {
-                listCameraNameIsSelect.add(String.valueOf(unit.camera_name));
+            for (ModelCamera item : getListModelCamerasIsSelect()) {
+                listCameraNameIsSelect.add(String.valueOf(item.camera_name));
             }
         } catch (Exception ex) {ex.printStackTrace();}
 

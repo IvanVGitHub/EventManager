@@ -33,8 +33,7 @@ public class WindowGraphWorkIntervalCamera extends JFrame
         setVisible(true);
     }
 
-    private JFreeChart createChart(final XYDataset dataset)
-    {
+    private JFreeChart createChart(final XYDataset dataset) {
         JFreeChart chart = ChartFactory.createTimeSeriesChart (
                 "Распределение событий по времени с 01.10.2022 по 31.10.2022", null, null,
                 dataset, true, true, false);

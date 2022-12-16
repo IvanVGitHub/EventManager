@@ -1,52 +1,62 @@
 package com.ivank.fraui.utils;
 
-import org.jfree.data.time.Day;
-import org.jfree.data.time.Hour;
-import org.jfree.data.time.Minute;
+import com.ivank.fraui.db.QueryCameraStatus;
+import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
+
+import java.sql.Array;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class GraphDataset
 {
     public static XYDataset createDataset()
     {
         final TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
-        s1.add(new Day(1, 10, 2022), 58.0824);
-        s1.add(new Day(2, 10, 2022), 57.1161);
-        s1.add(new Day(3, 10, 2022), 57.1640);
-        s1.add(new Day(4, 10, 2022), 56.5258);
-        s1.add(new Day(5, 10, 2022), 56.2603);
-        s1.add(new Day(6, 10, 2022), 56.2603);
-        s1.add(new Day(7, 10, 2022), 56.2603);
-        s1.add(new Day(8, 10, 2022), 6.2603);
-        s1.add(new Day(9, 10, 2022), 5.2603);
-        s1.add(new Day(10, 10, 2022), 55.2603);
-        s1.add(new Day(11, 10, 2022), 54.2603);
-
         final TimeSeries s2 = new TimeSeries("");
-        s2.add(new Day(12, 10, 2022), 56.2603);
-        s2.add(new Day(13, 10, 2022), 56.2603);
-        s2.add(new Day(14, 10, 2022), 56.2603);
-        s2.add(new Day(15, 10, 2022), 7.2603);
-
         final TimeSeries s3 = new TimeSeries("");
-        s3.add(new Day(16, 10, 2022), 8.2603);
-        s3.add(new Day(17, 10, 2022), 56.2603);
-        s3.add(new Day(18, 10, 2022), 56.2603);
-        s3.add(new Day(19, 10, 2022), 56.2603);
-        s3.add(new Day(20, 10, 2022), 56.2603);
-        s3.add(new Day(21, 10, 2022), 56.2603);
-        s3.add(new Day(22, 10, 2022), 5.2603);
-        s3.add(new Day(23, 10, 2022), 2.2603);
-        s3.add(new Day(24, 10, 2022), 52.2603);
-        s3.add(new Day(25, 10, 2022), 56.2603);
-        s3.add(new Day(26, 10, 2022), 35.2603);
-        s3.add(new Day(27, 10, 2022), 69.2603);
-        s3.add(new Day(28, 10, 2022), 56.2603);
-        s3.add(new Day(29, 10, 2022), 9.2603);
-        s3.add(new Day(30, 10, 2022), 6.2603);
-        s3.add(new Day(31, 10, 2022), 40.2603);
+
+        ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession("ea8216a6-15ba-4a2c-afa8-a0003c57763d"));
+        for (Timestamp item : listDate)
+        {
+            s1.add(new Millisecond(item), 5);
+        }
+
+//        s1.add(new Day(1, 12, 2022), 58.0824);
+//        s1.add(new Day(2, 12, 2022), 57.1161);
+//        s1.add(new Day(3, 12, 2022), 57.1640);
+//        s1.add(new Day(4, 12, 2022), 56.5258);
+//        s1.add(new Day(5, 12, 2022), 56.2603);
+//        s1.add(new Day(6, 12, 2022), 56.2603);
+//        s1.add(new Day(7, 12, 2022), 56.2603);
+//        s1.add(new Day(8, 12, 2022), 6.2603);
+//        s1.add(new Day(9, 12, 2022), 5.2603);
+//        s1.add(new Day(10, 12, 2022), 55.2603);
+//        s1.add(new Day(11, 12, 2022), 54.2603);
+
+//        s2.add(new Day(12, 12, 2022), 56.2603);
+//        s2.add(new Day(13, 12, 2022), 56.2603);
+//        s2.add(new Day(14, 12, 2022), 56.2603);
+//        s2.add(new Day(15, 12, 2022), 7.2603);
+
+//        s3.add(new Day(16, 12, 2022), 8.2603);
+//        s3.add(new Day(17, 12, 2022), 56.2603);
+//        s3.add(new Day(18, 12, 2022), 56.2603);
+//        s3.add(new Day(19, 12, 2022), 56.2603);
+//        s3.add(new Day(20, 12, 2022), 56.2603);
+//        s3.add(new Day(21, 12, 2022), 56.2603);
+//        s3.add(new Day(22, 12, 2022), 5.2603);
+//        s3.add(new Day(23, 12, 2022), 2.2603);
+//        s3.add(new Day(24, 12, 2022), 52.2603);
+//        s3.add(new Day(25, 12, 2022), 56.2603);
+//        s3.add(new Day(26, 12, 2022), 35.2603);
+//        s3.add(new Day(27, 12, 2022), 69.2603);
+//        s3.add(new Day(28, 12, 2022), 56.2603);
+//        s3.add(new Day(29, 12, 2022), 9.2603);
+//        s3.add(new Day(30, 12, 2022), 6.2603);
+//        s3.add(new Day(31, 12, 2022), 40.2603);
 
         final TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(s1);

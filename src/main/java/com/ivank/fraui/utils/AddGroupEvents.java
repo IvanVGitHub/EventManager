@@ -181,6 +181,7 @@ public class AddGroupEvents extends JPanel {
         button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
         button.addActionListener(listener);
         childPanel.add(button);
+
         if(onCreate != null)
             onCreate.onAction();
 
