@@ -82,11 +82,11 @@ public class WindowAllEventsCamera extends JFrame {
         setLocationRelativeTo(null);
 
         //создаём элементы меню-бара
-        menuBarInWindowBasic();
+        menuBarInWindowBasic(idCamera);
     }
 
     //меню-бар
-    void menuBarInWindowBasic() {
+    void menuBarInWindowBasic(int idCamera) {
         MenuBar menuBar = new MenuBar();
         Menu parameters = new Menu("Режимы отображения");
 
@@ -94,7 +94,7 @@ public class WindowAllEventsCamera extends JFrame {
         parameters.add(workIntervalCamera);
 
         workIntervalCamera.addActionListener(e -> {
-            new WindowGraphWorkIntervalCamera();
+            new WindowGraphWorkIntervalCamera(idCamera);
         });
 
         menuBar.add(parameters);

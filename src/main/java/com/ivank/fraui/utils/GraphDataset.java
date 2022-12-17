@@ -1,6 +1,7 @@
 package com.ivank.fraui.utils;
 
 import com.ivank.fraui.db.QueryCameraStatus;
+import org.bytedeco.opencv.presets.opencv_core;
 import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
 
@@ -12,16 +13,27 @@ import java.util.Locale;
 
 public class GraphDataset
 {
-    public static XYDataset createDataset()
+    public static XYDataset createDataset(int idCamera)
     {
-        final TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
-        final TimeSeries s2 = new TimeSeries("");
-        final TimeSeries s3 = new TimeSeries("");
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+//        final TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
+//        final TimeSeries s2 = new TimeSeries("");
+//        final TimeSeries s3 = new TimeSeries("");
 
-        ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession("ea8216a6-15ba-4a2c-afa8-a0003c57763d"));
-        for (Timestamp item : listDate)
-        {
-            s1.add(new Millisecond(item), 5);
+        //список сессий
+        ArrayList<String> listUUID = new ArrayList<>(QueryCameraStatus.getListSessionsCamera(idCamera));
+
+        for (String item : listUUID) {
+            TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
+
+            //список дат
+            ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(item));
+            for (Timestamp item1 : listDate)
+            {
+                timeSeries.add(new Millisecond(item1), Math.random());
+            }
+
+            dataset.addSeries(timeSeries);
         }
 
 //        s1.add(new Day(1, 12, 2022), 58.0824);
@@ -58,10 +70,11 @@ public class GraphDataset
 //        s3.add(new Day(30, 12, 2022), 6.2603);
 //        s3.add(new Day(31, 12, 2022), 40.2603);
 
-        final TimeSeriesCollection dataset = new TimeSeriesCollection();
-        dataset.addSeries(s1);
-        dataset.addSeries(s2);
-        dataset.addSeries(s3);
+//        final TimeSeriesCollection dataset = new TimeSeriesCollection();
+
+//        dataset.addSeries(s1);
+//        dataset.addSeries(s2);
+//        dataset.addSeries(s3);
         return dataset;
     }
     public static Hour getHour(final int value)
