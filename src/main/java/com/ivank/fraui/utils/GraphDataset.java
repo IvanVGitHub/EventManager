@@ -1,41 +1,44 @@
 package com.ivank.fraui.utils;
 
 import com.ivank.fraui.db.QueryCameraStatus;
-import org.bytedeco.opencv.presets.opencv_core;
+import com.ivank.fraui.db.QueryEvent;
 import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
 
-import java.sql.Array;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.UUID;
 
 public class GraphDataset
 {
     public static XYDataset createDataset(int idCamera)
     {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
-//        final TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
-//        final TimeSeries s2 = new TimeSeries("");
-//        final TimeSeries s3 = new TimeSeries("");
 
         //список сессий
-        ArrayList<String> listUUID = new ArrayList<>(QueryCameraStatus.getListSessionsCamera(idCamera));
+        ArrayList<UUID> listUUID = new ArrayList<>(QueryCameraStatus.getListSessionsCamera(idCamera));
 
-        for (String item : listUUID) {
+        for (UUID item : listUUID) {
             TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
 
             //список дат
             ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(item));
             for (Timestamp item1 : listDate)
             {
-                timeSeries.add(new Millisecond(item1), Math.random());
+                //количество событий в сессии
+                int count = QueryEvent.getCountEventsSession(item);
+                //заполняем кривую значениями
+//                timeSeries.add(new Millisecond(item1), count);
+                timeSeries.add(new Millisecond(item1), (count != -1) ? count : Math.random());
             }
 
+            //добавляем кривую на график
             dataset.addSeries(timeSeries);
         }
 
+//        TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
+//        TimeSeries s2 = new TimeSeries("");
+//        TimeSeries s3 = new TimeSeries("");
 //        s1.add(new Day(1, 12, 2022), 58.0824);
 //        s1.add(new Day(2, 12, 2022), 57.1161);
 //        s1.add(new Day(3, 12, 2022), 57.1640);
@@ -47,12 +50,12 @@ public class GraphDataset
 //        s1.add(new Day(9, 12, 2022), 5.2603);
 //        s1.add(new Day(10, 12, 2022), 55.2603);
 //        s1.add(new Day(11, 12, 2022), 54.2603);
-
+//
 //        s2.add(new Day(12, 12, 2022), 56.2603);
 //        s2.add(new Day(13, 12, 2022), 56.2603);
 //        s2.add(new Day(14, 12, 2022), 56.2603);
 //        s2.add(new Day(15, 12, 2022), 7.2603);
-
+//
 //        s3.add(new Day(16, 12, 2022), 8.2603);
 //        s3.add(new Day(17, 12, 2022), 56.2603);
 //        s3.add(new Day(18, 12, 2022), 56.2603);
@@ -69,9 +72,7 @@ public class GraphDataset
 //        s3.add(new Day(29, 12, 2022), 9.2603);
 //        s3.add(new Day(30, 12, 2022), 6.2603);
 //        s3.add(new Day(31, 12, 2022), 40.2603);
-
-//        final TimeSeriesCollection dataset = new TimeSeriesCollection();
-
+//
 //        dataset.addSeries(s1);
 //        dataset.addSeries(s2);
 //        dataset.addSeries(s3);

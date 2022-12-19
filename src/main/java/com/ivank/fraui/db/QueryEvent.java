@@ -2,6 +2,7 @@ package com.ivank.fraui.db;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class QueryEvent {
     //список записей времени создания события
@@ -101,5 +102,23 @@ public class QueryEvent {
         } catch (Exception ex) {ex.printStackTrace();}
 
         return 0;
+    }
+
+    //количество событий в сессии камеры
+    public static int getCountEventsSession(UUID uuidSession) {
+        try {
+            int count = 0;
+            String stringSQL = "SELECT COUNT(*) AS _count FROM event " +
+                    "WHERE uuid_session = '" + uuidSession + "'";
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
+
+            while (result.next()) {
+                count = result.getInt("_count");
+            }
+
+            return count;
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return -1;
     }
 }

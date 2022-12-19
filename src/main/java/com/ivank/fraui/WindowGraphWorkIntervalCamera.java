@@ -5,6 +5,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
@@ -44,21 +45,28 @@ public class WindowGraphWorkIntervalCamera extends JFrame
 
         plot.setBackgroundPaint(new Color(232, 232, 232));
         plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
-        plot.setRangeGridlinePaint (Color.LIGHT_GRAY);
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
         plot.setDomainCrosshairVisible(true);
-        plot.setRangeCrosshairVisible (true);
+        plot.setRangeCrosshairVisible(true);
+        //устанавливаем границы по оси Y
+        plot.getRangeAxis().setRange(-5, 5);
+//        //устанавливаем нижнее поле для оси (в процентах от диапазона оси)
+//        plot.getRangeAxis().setLowerMargin(10);
+//        plot.getDomainAxis().setLowerMargin(10);
+//        //устанавливаем верхнее поле для оси (в процентах от диапазона оси)
+//        plot.getRangeAxis().setUpperMargin(10);
+//        plot.getDomainAxis().setUpperMargin(10);
 
-        // Скрытие осевых линий
-        ValueAxis vaxis = plot.getDomainAxis();
-        vaxis.setAxisLineVisible (false);
-        vaxis = plot.getRangeAxis();
-        vaxis.setAxisLineVisible (false);
+
+        //скрытие осевых линий
+        plot.getDomainAxis().setAxisLineVisible(false);
+        plot.getRangeAxis().setAxisLineVisible(false);
 
         plot.getRenderer().setSeriesPaint(2, new Color(64, 255, 64));
-        // Определение временной оси
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-        // Формат отображения осевых меток
-        axis.setDateFormatOverride(new SimpleDateFormat("dd.MM"));
+//        // Определение временной оси
+//        DateAxis axis = (DateAxis) plot.getDomainAxis();
+//        // Формат отображения осевых меток
+//        axis.setDateFormatOverride(new SimpleDateFormat("dd.MM"));
 
         return chart;
     }

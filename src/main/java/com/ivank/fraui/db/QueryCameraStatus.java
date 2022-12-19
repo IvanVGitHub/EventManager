@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.UUID;
 
 public class QueryCameraStatus {
     //получаем список времён событий сессии
-    public static ArrayList<Timestamp> getListTimesSession(String uuid_session) {
+    public static ArrayList<Timestamp> getListTimesSession(UUID uuid_session) {
         ArrayList<Timestamp> listTime = new ArrayList<>();
 
         try {
@@ -26,8 +27,8 @@ public class QueryCameraStatus {
     }
 
     //список сессий (уникальных uuid_session) конкретной камеры
-    public static ArrayList<String> getListSessionsCamera(int idCamera) {
-        ArrayList<String> listUUID = new ArrayList<>();
+    public static ArrayList<UUID> getListSessionsCamera(int idCamera) {
+        ArrayList<UUID> listUUID = new ArrayList<>();
 
         try {
             String stringSQL = "SELECT DISTINCT uuid_session FROM cameraStatus WHERE camera_id = " + idCamera;
@@ -35,7 +36,7 @@ public class QueryCameraStatus {
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             while (result.next()) {
-                listUUID.add(result.getString("uuid_session"));
+                listUUID.add(UUID.fromString(result.getString("uuid_session")));
             }
         } catch (Exception ex) {ex.printStackTrace();}
 
