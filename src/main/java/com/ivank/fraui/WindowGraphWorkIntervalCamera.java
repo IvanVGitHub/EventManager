@@ -46,10 +46,11 @@ public class WindowGraphWorkIntervalCamera extends JFrame
         plot.setBackgroundPaint(new Color(232, 232, 232));
         plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
         plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        //перекрестие на пИке
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
         //устанавливаем границы по оси Y
-        plot.getRangeAxis().setRange(-5, 5);
+//        plot.getRangeAxis().setRange(-5, 5);
 //        //устанавливаем нижнее поле для оси (в процентах от диапазона оси)
 //        plot.getRangeAxis().setLowerMargin(10);
 //        plot.getDomainAxis().setLowerMargin(10);
@@ -57,9 +58,10 @@ public class WindowGraphWorkIntervalCamera extends JFrame
 //        plot.getRangeAxis().setUpperMargin(10);
 //        plot.getDomainAxis().setUpperMargin(10);
 
-
         //скрытие осевых линий
+        //x
         plot.getDomainAxis().setAxisLineVisible(false);
+        //y
         plot.getRangeAxis().setAxisLineVisible(false);
 
         plot.getRenderer().setSeriesPaint(2, new Color(64, 255, 64));

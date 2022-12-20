@@ -105,7 +105,7 @@ public class QueryEvent {
     }
 
     //количество событий в сессии камеры
-    public static int getCountEventsSession(UUID uuidSession) {
+    public static int getCountEventsSessionCamera(UUID uuidSession) {
         try {
             int count = 0;
             String stringSQL = "SELECT COUNT(*) AS _count FROM event " +
@@ -119,6 +119,29 @@ public class QueryEvent {
             return count;
         } catch (Exception ex) {ex.printStackTrace();}
 
-        return -1;
+        return -5;
+    }
+
+    //количество событий в сессии камеры в час
+    public static int getCountEventsEveryHourSessionCamera(UUID uuidSession) {
+        try {
+            int count = 0;
+            String stringSQL = "SELECT DATE_FORMAT(time,'%Y-%m-%d %H:00:00') AS interval_start, " +
+                    "DATE_FORMAT(DATE_ADD(time, INTERVAL 1 HOUR),'%Y-%m-%d %H:00:00') AS interval_end, " +
+                    "count(*) AS _count " +
+                    "FROM event " +
+                    "WHERE uuid_session = '" + uuidSession + "' " +
+                    "GROUP BY interval_start " +
+                    "ORDER BY id";
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
+
+            while (result.next()) {
+                count = result.getInt("_count");
+            }
+
+            return count;
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return -5;
     }
 }
