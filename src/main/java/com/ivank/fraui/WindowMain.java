@@ -7,6 +7,7 @@ import java.awt.*;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
+//Главное окно приложения
 public class WindowMain extends JFrame {
     private static WindowMain instance;
     public static WindowMain getInstance() {
@@ -38,7 +39,6 @@ public class WindowMain extends JFrame {
     StatusBar statusBar = new StatusBar();
     Tree tree = new Tree();
     Reserved reserved = new Reserved();
-
 
     public WindowMain() {
         super("Диспетчер событий");
@@ -106,7 +106,7 @@ public class WindowMain extends JFrame {
         parameters.add(exit);
 
         addCamera.addActionListener(e -> {
-            new WindowAddCamera();
+            new WindowListCameras();
         });
 
         settingsConnection.addActionListener(e -> {

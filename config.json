@@ -54,8 +54,8 @@
     }
   ],
   "connection": {
-    "host": "172.20.3.231",
-    "database": "test",
+    "host": "172.20.3.233",
+    "database": "vcontrol",
     "username": "ivanUser",
     "password": "Qwerty!@#456"
   },

@@ -10,13 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class WindowAddCamera extends JFrame {
+public class WindowListCameras extends JFrame {
     private static ArrayList<String> listChckBxIsSlctName = new ArrayList<>();
     //получаем список имён всех камер
     private static ArrayList<String> listCameraNameALL = new ArrayList<>();
     private static ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
-    public WindowAddCamera() {
+    public WindowListCameras() {
         super("Список камер");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setMinimumSize(new Dimension(250, 100));
