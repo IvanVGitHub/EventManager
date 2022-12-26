@@ -1,6 +1,6 @@
 package com.ivank.fraui.utils;
 
-import com.ivank.fraui.WindowViewImageCurrentEvent;
+import com.ivank.fraui.WindowViewGifCurrentEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +73,11 @@ public class AddEvent extends JPanel {
         labelIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new WindowViewImageCurrentEvent(_this, event_id, time);
+                //двойной клик
+                if (e.getClickCount() == 2 && !e.isConsumed()) {
+                    e.consume();
+                    new WindowViewGifCurrentEvent(_this, event_id, time);
+                }
             }
         });
     }
@@ -127,7 +131,10 @@ public class AddEvent extends JPanel {
                 labelIcon.setPreferredSize(dimension);
                 labelIcon.setBorder(BorderFactory.createLineBorder(Color.RED));
                 //ТЕСТ демонстрационное изображение
+                //для отладки в среде разработки
                 URL url = getClass().getResource("../img/event.jpg");
+                //для скомпилированного .jar файла
+//                URL url = getClass().getResource("/com/ivank/fraui/img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
                 labelIcon.setIcon(new ImageIcon(image.getImage().getScaledInstance(
                         dimension.width,

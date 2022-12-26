@@ -16,7 +16,7 @@ import static com.ivank.fraui.settings.AppConfig.getScale;
 
 //TODO: утечка памяти при просмотре "гифки" (после закрытия окна, память не очищается)
 //Окно просмотра "гифки" события
-public class WindowViewImageCurrentEvent extends JFrame {
+public class WindowViewGifCurrentEvent extends JFrame {
     //таймер для очерёдного воспроизведения кадров
     Timer timer;
     //список кадров события
@@ -26,7 +26,7 @@ public class WindowViewImageCurrentEvent extends JFrame {
     final int height = (int)(getScale() * 900);
     JLabel label;
 
-    public WindowViewImageCurrentEvent(JPanel panel, int event_id, String time) {
+    public WindowViewGifCurrentEvent(JPanel panel, int event_id, String time) {
         super(time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
@@ -61,16 +61,17 @@ public class WindowViewImageCurrentEvent extends JFrame {
         });
 
         //выделяем запущенное событие
-        setPanelParams(panel, Color.LIGHT_GRAY, Color.GREEN, (int)(getScale() * 2));
+        setPanelParams(panel, Color.GRAY, Color.GREEN, (int)(getScale() * 2));
 
         UtilsAny.logHeapSize("\n\n================\nBefore image loading");
-        //заполняем список изображениями из БД
-        listImage = QueryEventImages.getListEventImages(event_id, 5);
+        //заполняем список изображениями из БД (кадр, кратный n)
+//        listImage = QueryEventImages.getListEventImages(event_id, 5);
+        //заполняем список изображениями из БД (все кадры)
+        listImage = QueryEventImages.getListEventImages(event_id);
         UtilsAny.logHeapSize("After image loading");
         //перерисовываем кадры под размер окна
         rescaleWindow(label.getWidth(), label.getHeight());
         UtilsAny.logHeapSize("After total image rescaling");
-
 
         final int[] index = {0};
 

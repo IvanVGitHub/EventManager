@@ -124,6 +124,8 @@ public class AddGroupEvents extends JPanel {
                     //добавим многопоточность
                     (new Thread(()->{
                         try {
+                            //устанавливаем красную рамку кнопке
+                            button.setBorder(BorderFactory.createLineBorder(Color.BLACK, (int)(getScale() * 2)));
                             //проверяем доступность камеры в сети
                             FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
                             //ожидание старта подключения, в микросекундах (1 сек)
@@ -152,29 +154,35 @@ public class AddGroupEvents extends JPanel {
 
         //добавить кнопку "все события текущей камеры"
         addSidePanelBtn(new JButton(), new ImageIcon(Base64.getDecoder().decode(SettingsDefault.getImageAllImgEvents())), parentButtonsPanel,
-                e -> new WindowAllEventsCamera(idCamera)
+                e -> new WindowAllEventsCamera(idCamera),
+                null
         );
 
         //добавить кнопку "опции камеры"
         addSidePanelBtn(new JButton(), new ImageIcon(Base64.getDecoder().decode(SettingsDefault.getImageOptions())), parentButtonsPanel,
-                e -> new WindowSettingsCamera(idCamera)
+                e -> new WindowSettingsCamera(idCamera),
+                null
         );
 
         //добавить кнопку "раскрыть/скрыть CompreFace"
         //преобразуем картинки в BufferedImage, чтобы именно её передавать в нескольких местах для вращения
         byte[] bytes = Base64.getDecoder().decode(SettingsDefault.getImageUnwrap());
         BufferedImage bufferedImage;
-        try {bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));} catch (IOException e) {throw new RuntimeException(e);}
+        try {
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
+        } catch (IOException e) {throw new RuntimeException(e);}
         JButton roundButton = new RoundButton();
         addSidePanelBtn(roundButton, new ImageIcon(bufferedImage), parentButtonsPanel,
-                e -> groupPanel.toggleViewModeAllEvents(roundButton, bufferedImage)
+                e -> groupPanel.toggleViewModeAllEvents(roundButton, bufferedImage),
+                null,
+                true
         );
 
         groupPanel.add(parentButtonsPanel);
     }
 
     //создаём кнопку для группы событий
-    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate) {
+    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, Boolean flagVisible) {
         JPanel childPanel = new JPanel();
         childPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         button.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
@@ -186,9 +194,11 @@ public class AddGroupEvents extends JPanel {
             onCreate.onAction();
 
         parentPanel.add(childPanel);
+
+        button.setVisible(flagVisible);
     }
-    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener) {
-        addSidePanelBtn(button, imageIcon, parentPanel, listener, null);
+    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate) {
+        addSidePanelBtn(button, imageIcon, parentPanel, listener, onCreate, true);
     }
 
     //АРХИВ
