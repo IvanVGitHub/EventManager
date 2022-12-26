@@ -3,6 +3,7 @@ package com.ivank.fraui.settings;
 import com.bedivierre.eloquent.model.DBModel;
 import com.ivank.fraui.db.ConnectDB;
 
+//Стандартные параметры
 public class SettingsDefault extends DBModel {
     public String id;
     public String code;
@@ -41,9 +42,9 @@ public class SettingsDefault extends DBModel {
         return defaultImage == null ? "" : defaultImage.data;
     }
 
-    //получить настройку по имени image_default_event
-    public static String getImageDefault() {
-        SettingsDefault defaultImage = getByCode("image_default_event");
+    //получить настройку по имени image_null
+    public static String getImageNull() {
+        SettingsDefault defaultImage = getByCode("image_null");
 
         return defaultImage == null ? "" : defaultImage.data;
     }
@@ -58,6 +59,13 @@ public class SettingsDefault extends DBModel {
     //получить настройку по имени image_unwrap
     public static String getImageUnwrap() {
         SettingsDefault defaultImage = getByCode("image_unwrap");
+
+        return defaultImage == null ? "" : defaultImage.data;
+    }
+
+    //получить настройку по имени image_default_event
+    public static String getImageDefaultEvent() {
+        SettingsDefault defaultImage = getByCode("image_default_event");
 
         return defaultImage == null ? "" : defaultImage.data;
     }

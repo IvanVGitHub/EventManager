@@ -1,12 +1,14 @@
 package com.ivank.fraui.utils;
 
 import com.ivank.fraui.WindowViewGifCurrentEvent;
+import com.ivank.fraui.settings.SettingsDefault;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.Base64;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
@@ -51,6 +53,7 @@ public class AddEvent extends JPanel {
         labelIconText.setOpaque(true);
         labelIcon.add(labelIconText);
 
+        //кнопка на каждой миниатюре
 /*        JButton newButton = new JButton("Кнопка");
         this.add(newButton);
         newButton.addActionListener(new ActionListener() {
@@ -132,10 +135,11 @@ public class AddEvent extends JPanel {
                 labelIcon.setBorder(BorderFactory.createLineBorder(Color.RED));
                 //ТЕСТ демонстрационное изображение
                 //для отладки в среде разработки
-                URL url = getClass().getResource("../img/event.jpg");
+//                URL url = getClass().getResource("../img/event.jpg");
                 //для скомпилированного .jar файла
 //                URL url = getClass().getResource("/com/ivank/fraui/img/event.jpg");
-                ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
+//                ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
+                ImageIcon image = new ImageIcon(Base64.getDecoder().decode(SettingsDefault.getImageDefaultEvent()));
                 labelIcon.setIcon(new ImageIcon(image.getImage().getScaledInstance(
                         dimension.width,
                         dimension.height,
