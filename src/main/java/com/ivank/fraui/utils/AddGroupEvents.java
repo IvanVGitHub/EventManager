@@ -126,6 +126,8 @@ public class AddGroupEvents extends JPanel {
                         try {
                             //устанавливаем красную рамку кнопке
                             button.setBorder(BorderFactory.createLineBorder(Color.BLACK, (int)(getScale() * 2)));
+                            //кнопка не кликабельна
+                            button.setEnabled(false);
                             //проверяем доступность камеры в сети
                             FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
                             //ожидание старта подключения, в микросекундах (1 сек)
@@ -138,15 +140,20 @@ public class AddGroupEvents extends JPanel {
                                 button.setBorder(BorderFactory.createLineBorder(Color.GREEN, (int)(getScale() * 2)));
                                 //кнопка кликабельна
                                 button.setEnabled(true);
-                            } else
+                            } else {
                                 //устанавливаем красную рамку кнопке
-                                button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
+                                button.setBorder(BorderFactory.createLineBorder(Color.RED, (int) (getScale() * 2)));
+                                //кнопка не кликабельна
+                                button.setEnabled(false);
+                            }
                             streamGrabber.stop();
                             streamGrabber.close();
                         } catch (Exception ex) {
-//                ex.printStackTrace();
+                            ex.printStackTrace();
                             //устанавливаем красную рамку кнопке
                             button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
+                            //кнопка не кликабельна
+                            button.setEnabled(false);
                         }
                     })).start();
                 }
