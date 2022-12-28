@@ -26,7 +26,7 @@ public class AppConfig {
         return instance;
     }
 
-    //fields
+    //поля
     private ArrayList<String> camerasIsSlct = new ArrayList<>();
     private ArrayList<SettingsCamera> cameras = new ArrayList<>();
     private SettingsConnection connection = new SettingsConnection();
@@ -99,6 +99,7 @@ public class AppConfig {
         return null;
     }
 
+    //устанавливает статус установленного/снятого флага с чекбокса
     public void setPluginsIsSlct(int idCamera, ArrayList<String> listPluginsIsSlct) {
         SettingsCamera c = this.getCameraById(idCamera);
         if(c != null)

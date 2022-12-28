@@ -27,7 +27,7 @@ public class WindowViewGifCurrentEvent extends JFrame {
     JLabel label;
 
     public WindowViewGifCurrentEvent(JPanel panel, int event_id, String time) {
-        super(time);
+        super("Событие: #" + event_id + ", время: " + time);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         setPreferredSize(new Dimension(width, height));
