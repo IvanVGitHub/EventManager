@@ -62,7 +62,7 @@ public class AppConfig {
     public void setEventLimit(int eventLimit) {
         this.eventLimit = eventLimit;
     }
-    //end of fields
+    //конец полей
 
     public ArrayList<SettingsCamera> getCameras() {
         //загружаем актуальные json данные
