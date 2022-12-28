@@ -8,7 +8,7 @@ public class QueryEvent {
     //список записей времени создания события
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
-    //список моделей событий конкретной камеры, имеющих image
+    //получить список моделей событий конкретной камеры, имеющих image
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int limit) {
         try {
             String stringSQL = "SELECT * FROM event " +
@@ -16,8 +16,8 @@ public class QueryEvent {
                     "SELECT event_id FROM eventImages " +
                     "WHERE event_id = event.id) " +
                     "AND camera_id = " + camera_id + " " +
-                    "ORDER BY id DESC " +
-                    "LIMIT " + limit + ";";
+                    "ORDER BY id DESC" + (limit > 0 ? " LIMIT " + limit + ";" : ";");
+                    ;
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             ArrayList<ModelEvent> events = new ArrayList<>();
@@ -37,9 +37,8 @@ public class QueryEvent {
 
         return null;
     }
-
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id) {
-        try {
+/*        try {
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT * FROM event ")
                     .append("WHERE EXISTS (")
@@ -65,7 +64,8 @@ public class QueryEvent {
             return events;
         } catch (Exception ex) {ex.printStackTrace();}
 
-        return null;
+        return null;*/
+        return getListModelEventsCamera(camera_id, 0);
     }
 
     //список дат событий, имеющих image
@@ -124,7 +124,7 @@ public class QueryEvent {
 
     //количество событий в сессии камеры в час
     public static int getCountEventsEveryHourSessionCamera(UUID uuidSession) {
-        try {
+        /*try {
             int count = 0;
             String stringSQL = "SELECT DATE_FORMAT(time,'%Y-%m-%d %H:00:00') AS interval_start, " +
                     "DATE_FORMAT(DATE_ADD(time, INTERVAL 1 HOUR),'%Y-%m-%d %H:00:00') AS interval_end, " +
@@ -140,7 +140,7 @@ public class QueryEvent {
             }
 
             return count;
-        } catch (Exception ex) {ex.printStackTrace();}
+        } catch (Exception ex) {ex.printStackTrace();}*/
 
         return -5;
     }

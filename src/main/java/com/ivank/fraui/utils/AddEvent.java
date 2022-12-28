@@ -26,7 +26,7 @@ public class AddEvent extends JPanel {
         JPanel panelText = new JPanel();
         JLabel labelText = new JLabel();
 
-        labelText.setText(time);
+        labelText.setText(String.format("<html>Событие: #%d<br>%s</html>", event_id, time));
         panelText.add(labelText);
         this.add(panelText);
 

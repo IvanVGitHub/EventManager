@@ -6,11 +6,40 @@ import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 public class GraphDataset
 {
+    //тест
+    public static void getGraph() {
+//    public static Map<Integer, String> getGraph() {
+        Map<Integer, String> states = new HashMap<Integer, String>();
+        states.put(1, "Poland");
+        states.put(2, "France");
+        states.put(3, "Spain");
+        states.put(4, "Italy");
+        states.put(5, "Russia");
+
+        // получим объект по ключу 2
+        String first = states.get(2);
+        System.out.println(first);
+        // получим весь набор ключей
+        Set<Integer> keys = states.keySet();
+        // получить набор всех значений
+        Collection<String> values = states.values();
+        //заменить элемент
+        states.replace(1, "Germany");
+        // удаление элемента по ключу 2
+        states.remove(3);
+        // перебор элементов
+        for (Map.Entry<Integer, String> item : states.entrySet()) {
+            System.out.printf("Key: %d  Value: %s \n", item.getKey(), item.getValue());
+        }
+
+//        return states;
+    }
+
+    //создаём кривые
     public static XYDataset createDataset(int idCamera)
     {
         TimeSeriesCollection dataset = new TimeSeriesCollection();

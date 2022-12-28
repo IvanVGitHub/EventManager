@@ -22,6 +22,7 @@ public class WindowGraphWorkIntervalCamera extends JFrame
     public WindowGraphWorkIntervalCamera(int idCamera) {
         super(TITLE);
         final XYDataset dataset = GraphDataset.createDataset(idCamera);
+        GraphDataset.getGraph();
         final JFreeChart chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(560, 480));
