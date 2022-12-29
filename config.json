@@ -6,7 +6,7 @@
   "cameras": [
     {
       "id": 1,
-      "name": "Camera43",
+      "name": "nope",
       "plugins": [
         "nalogovaya",
         "whitelist"
@@ -14,7 +14,7 @@
     },
     {
       "id": 2,
-      "name": "Camera234",
+      "name": "nope",
       "plugins": [
         "motion",
         "blacklist",
@@ -24,7 +24,7 @@
     },
     {
       "id": 3,
-      "name": "Camera584",
+      "name": "nope",
       "plugins": [
         "nalogovaya",
         "blacklist",
@@ -33,7 +33,7 @@
     },
     {
       "id": 4,
-      "name": "Camera12",
+      "name": "nope",
       "plugins": [
         "blacklist",
         "motion",
@@ -42,14 +42,14 @@
     },
     {
       "id": 5,
-      "name": "Camera1232",
+      "name": "nope",
       "plugins": [
         "blacklist"
       ]
     },
     {
       "id": 6,
-      "name": "Camera2",
+      "name": "nope",
       "plugins": []
     }
   ],

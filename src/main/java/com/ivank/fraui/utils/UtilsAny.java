@@ -51,7 +51,7 @@ public class UtilsAny {
     //статус радиокнопки, отмечена или нет
     public static Boolean statusChBx(ArrayList<String> list, String sample) {
         Boolean boolResult = false;
-        if (list.size() == 0) {
+        if (list == null) {
             return boolResult;
         }
 

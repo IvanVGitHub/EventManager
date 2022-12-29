@@ -10,9 +10,9 @@ public class UpdateOnTimer {
     public static int oldIdEvent = 0;
     static int newIdEvent = 0;
 
-    //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain) каждые 60 секунд
+    //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain) каждые n секунд
     public static void updateContent() {
-        timer = new Timer(60000, (evt)-> {
+        timer = new Timer(60_000, (evt) -> {
             newIdEvent = QueryEvent.getLastAddIdEvent();
 
             if (oldIdEvent != QueryEvent.getLastAddIdEvent()) {

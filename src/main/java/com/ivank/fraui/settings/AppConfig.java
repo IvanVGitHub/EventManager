@@ -102,7 +102,7 @@ public class AppConfig {
     //устанавливает статус установленного/снятого флага с чекбокса
     public void setPluginsIsSlct(int idCamera, ArrayList<String> listPluginsIsSlct) {
         SettingsCamera c = this.getCameraById(idCamera);
-        if(c != null)
+        if (c != null)
             c.plugins = listPluginsIsSlct;
     }
 
