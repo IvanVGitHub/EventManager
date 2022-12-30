@@ -1,13 +1,15 @@
 {
-  "camerasIsSlct": [
+  "listSelectedCameras": [
     "4 сыра общий план",
     "4 сыра тамбур"
   ],
-  "cameras": [
+  "listCameras": [
     {
       "id": 1,
       "name": "nope",
       "plugins": [
+        "blacklist",
+        "motion",
         "nalogovaya",
         "whitelist"
       ]
@@ -17,9 +19,8 @@
       "name": "nope",
       "plugins": [
         "motion",
-        "blacklist",
-        "whitelist",
-        "nalogovaya"
+        "nalogovaya",
+        "whitelist"
       ]
     },
     {
@@ -54,8 +55,8 @@
     }
   ],
   "connection": {
-    "host": "172.20.3.231",
-    "database": "test",
+    "host": "172.20.3.233",
+    "database": "vcontrol",
     "username": "ivanUser",
     "password": "Qwerty!@#456"
   },

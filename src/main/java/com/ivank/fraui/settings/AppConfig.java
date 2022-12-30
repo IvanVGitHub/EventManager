@@ -2,7 +2,6 @@ package com.ivank.fraui.settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ivank.fraui.components.Content;
 
 import java.awt.*;
 import java.io.File;
@@ -27,28 +26,26 @@ public class AppConfig {
     }
 
     //поля
-    private ArrayList<String> camerasIsSlct = new ArrayList<>();
-    private ArrayList<SettingsCamera> cameras = new ArrayList<>();
+    private ArrayList<String> listSelectedCameras = new ArrayList<>();
+    private ArrayList<SettingsCamera> listCameras = new ArrayList<>();
     private SettingsConnection connection = new SettingsConnection();
     private SettingsLabelSize labelSize = new SettingsLabelSize();
-
     public SettingsLabelSize getLabelSize() {
         return labelSize;
     }
-
     public void setLabelSize(int width, int height) {
         this.labelSize.width = width;
         this.labelSize.height = height;
     }
     private int eventLimit;
-    public ArrayList<String> getCamerasIsSlct() {
+    public ArrayList<String> getListSelectedCameras() {
         //загружаем актуальные json данные
         loadConfig();
 
-        return camerasIsSlct;
+        return listSelectedCameras;
     }
-    public void setCamerasIsSlct(ArrayList<String> camerasIsSlct) {
-        this.camerasIsSlct = camerasIsSlct;
+    public void setListSelectedCameras(ArrayList<String> listSelectedCameras) {
+        this.listSelectedCameras = listSelectedCameras;
     }
     public SettingsConnection getConnection() {
         return connection;
@@ -64,16 +61,16 @@ public class AppConfig {
     }
     //конец полей
 
-    public ArrayList<SettingsCamera> getCameras() {
+    public ArrayList<SettingsCamera> getListCameras() {
         //загружаем актуальные json данные
         loadConfig();
 
-        return cameras;
+        return listCameras;
     }
 
     public SettingsCamera getCameraByName(String name) {
-        for (SettingsCamera c: getCameras()) {
-            if(c.name.equals(name))
+        for (SettingsCamera c : getListCameras()) {
+            if (c.name.equals(name))
                 return c;
         }
 
@@ -81,29 +78,32 @@ public class AppConfig {
     }
 
     public SettingsCamera getCameraById(int id) {
-        for (SettingsCamera c: getCameras()) {
-            if(c.id == id)
+        for (SettingsCamera c : getListCameras()) {
+            if (c.id == id)
                 return c;
         }
 
         return null;
     }
 
-    public ArrayList<String> getPluginsIsSlct(int idCamera) {
+    public ArrayList<String> getListSelectedPlugins(int idCamera) {
         //загружаем актуальные json данные
         loadConfig();
 
         SettingsCamera c = this.getCameraById(idCamera);
-        if(c != null)
+        if (c != null)
             return c.plugins;
         return null;
     }
 
     //устанавливает статус установленного/снятого флага с чекбокса
-    public void setPluginsIsSlct(int idCamera, ArrayList<String> listPluginsIsSlct) {
-        SettingsCamera c = this.getCameraById(idCamera);
-        if (c != null)
-            c.plugins = listPluginsIsSlct;
+    public void setListSelectedPlugins(int idCamera, ArrayList<String> listSelectedPlugins) {
+        for (SettingsCamera settings:listCameras) {
+            if(settings.id == idCamera){
+                settings.plugins = listSelectedPlugins;
+                break;
+            }
+        }
     }
 
     public static AppConfig loadConfig() {
@@ -121,9 +121,7 @@ public class AppConfig {
 
                 return conf;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         return new AppConfig();
     }
@@ -138,8 +136,6 @@ public class AppConfig {
             FileWriter wr = new FileWriter(file);
             wr.write(json);
             wr.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
     }
 }

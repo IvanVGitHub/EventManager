@@ -70,7 +70,7 @@ public class WindowListCameras extends JFrame {
                     }
 
                     //сохранение списка выбранных камер в файл настроек
-                    AppConfig.getInstance().setCamerasIsSlct(listChckBxIsSlctName);
+                    AppConfig.getInstance().setListSelectedCameras(listChckBxIsSlctName);
                     AppConfig.saveConfig();
 
                     //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain)

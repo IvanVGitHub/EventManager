@@ -33,7 +33,7 @@ public class QueryCamera {
         listModelCamerasIsSelect.clear();
 
         try {
-            ArrayList<String> camerasIsSlct = AppConfig.getInstance().getCamerasIsSlct();
+            ArrayList<String> camerasIsSlct = AppConfig.getInstance().getListSelectedCameras();
             for (String item : camerasIsSlct) {
                 ResultSet<ModelCamera> result = ConnectDB.getConnector().query(ModelCamera.class)
                         .where("camera_name", item)
