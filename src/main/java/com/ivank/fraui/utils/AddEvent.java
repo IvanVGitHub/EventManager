@@ -78,7 +78,7 @@ public class AddEvent extends JPanel {
                 //двойной клик
                 if (e.getClickCount() == 2 && !e.isConsumed()) {
                     e.consume();
-                    (new Thread(()->{new WindowViewGifCurrentEvent(_this, event_id, time);})).start();
+                    new WindowViewGifCurrentEvent(_this, event_id, time);
                 }
             }
         });
