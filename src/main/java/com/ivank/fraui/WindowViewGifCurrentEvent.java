@@ -35,10 +35,13 @@ public class WindowViewGifCurrentEvent extends JFrame {
         //действия при нажатии кнопки закрытия
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                timer.stop();
+                if (timer != null)
+                    timer.stop();
                 //очищаем память
-                Collections.fill(listImage, null);
-                listImage.clear();
+                if (listImage != null) {
+                    Collections.fill(listImage, null);
+                    listImage.clear();
+                }
 
                 //убираем выделение события
                 setPanelParams(panel, null, null, 0);

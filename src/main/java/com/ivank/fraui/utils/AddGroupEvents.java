@@ -222,6 +222,7 @@ public class AddGroupEvents extends JPanel {
         button.setEnabled(false);
 
         //добавим многопоточность
+//        (new Thread(()->{...})).start();
         (new Thread(()->{
             try {
                 //проверяем доступность камеры в сети
