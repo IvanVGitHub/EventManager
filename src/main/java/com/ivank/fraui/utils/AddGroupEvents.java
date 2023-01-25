@@ -8,6 +8,7 @@ import org.bytedeco.javacv.FFmpegFrameGrabber;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -171,6 +172,11 @@ public class AddGroupEvents extends JPanel {
                 null
         );
 
+        JPanel paginatorButtonsPanel = new JPanel();
+        parentButtonsPanel.add(paginatorButtonsPanel);
+        addSidePanelBtn(new BasicArrowButton(BasicArrowButton.WEST), null, paginatorButtonsPanel, null, null);
+        addSidePanelBtn(new BasicArrowButton(BasicArrowButton.EAST), null, paginatorButtonsPanel, null, null);
+
         //добавить кнопку "раскрыть/скрыть CompreFace"
         //преобразуем картинки в BufferedImage, чтобы именно её передавать в нескольких местах для вращения
         byte[] bytes = Base64.getDecoder().decode(SettingsDefault.getImageUnwrap());
@@ -192,7 +198,8 @@ public class AddGroupEvents extends JPanel {
     void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, Boolean flagVisible) {
         JPanel childPanel = new JPanel();
         childPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-        button.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        if (imageIcon != null)
+            button.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
         button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
         button.addActionListener(listener);
         childPanel.add(button);

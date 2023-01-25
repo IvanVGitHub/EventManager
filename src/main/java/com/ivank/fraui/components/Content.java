@@ -153,7 +153,7 @@ public class Content extends JPanel {
             //add event to group event
             for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
                 //если в БД отсутствуют кадры события, то не отрисовываем это событие
-                if(listEventFirstImages.isEmpty())
+                if (listEventFirstImages.isEmpty())
                     continue;
                 addGroupEvents.createLabelEvent(
                         labelSize,

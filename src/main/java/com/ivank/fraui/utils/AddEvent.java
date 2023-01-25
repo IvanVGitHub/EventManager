@@ -146,7 +146,8 @@ public class AddEvent extends JPanel {
                         Image.SCALE_FAST
                 )));
 
-                textArea.setText("Сотрудник: ФИО\nОтдел: -\nДополнительно: бла-бла-бла-бла");
+//                textArea.setText("Сотрудник: ФИО\nОтдел: -\nДополнительно: бла-бла-бла-бла");
+                textArea.setText("Coming soon...");
                 //запрещаем пользователю изменять текст
                 textArea.setEditable(false);
                 //убрать побуквенный перенос строки, слово целиком
