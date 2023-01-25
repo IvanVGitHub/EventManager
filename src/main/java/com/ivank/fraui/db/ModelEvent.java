@@ -11,6 +11,7 @@ public class ModelEvent extends DBModel {
     public String plugin_id;
     public String data;
     public String time;
+    public int processing;
 
     @Override
     public String getTable() {

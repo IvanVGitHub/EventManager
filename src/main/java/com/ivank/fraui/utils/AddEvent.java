@@ -1,5 +1,6 @@
 package com.ivank.fraui.utils;
 
+import com.ivank.fraui.TestFrame1;
 import com.ivank.fraui.WindowViewGifCurrentEvent;
 import com.ivank.fraui.settings.SettingsDefault;
 
@@ -39,7 +40,7 @@ public class AddEvent extends JPanel {
         )));
         labelIcon.setPreferredSize(labelSize);
         labelIcon.setBorder(BorderFactory.createLineBorder(color, (int)(getScale() * 5)));
-        labelIcon.setLayout( new BoxLayout(labelIcon, BoxLayout.Y_AXIS) );
+        labelIcon.setLayout(new BoxLayout(labelIcon, BoxLayout.Y_AXIS));
 
         //надпись в углу миниатюры с количеством событий CompreFace
         JLabel labelIconText = new JLabel();
@@ -70,7 +71,7 @@ public class AddEvent extends JPanel {
         this.add(panelLabel);
         this.add(compreFacePanel);
 
-        //При нажатии на Событие/Event открывается окно со всеми медиа, относящимися к этому Событию
+        //просмотр гифки События
         JPanel _this = this;
         labelIcon.addMouseListener(new MouseAdapter() {
             @Override

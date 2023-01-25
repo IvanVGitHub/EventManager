@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
+import static com.ivank.fraui.utils.UtilsAny.getCountCF;
 
 public class Content extends JPanel {
     public static JPanel externalPanel = new JPanel();
@@ -159,7 +160,8 @@ public class Content extends JPanel {
                         CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
                         listEventFirstImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
                         listModelEvents.get(indexEvents).id,
-                        listModelEvents.get(indexEvents).time
+                        listModelEvents.get(indexEvents).time,
+                        getCountCF(listModelEvents.get(indexEvents).data)
                 );
             }
             //очищаем память

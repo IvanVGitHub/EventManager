@@ -1,5 +1,8 @@
 package com.ivank.fraui.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.text.CharacterIterator;
@@ -7,6 +10,25 @@ import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 
 public class UtilsAny {
+    //считываем из json количество лиц на фото
+    public static int getCountCF(String data) {
+        if (data == null)
+            return 0;
+
+        return parseJson(data).maxFaces;
+    }
+
+    //разбираем json на переменные
+    public static EventCFData parseJson(String data) {
+        if (data == null)
+            return null;
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        EventCFData eventCFData = gson.fromJson(data, EventCFData.class);
+
+        return eventCFData;
+    }
+
     //вращение картинки на n градусов
     public static BufferedImage rotateImage(BufferedImage bufferedImage, int degrees) {
         double width = bufferedImage.getWidth();

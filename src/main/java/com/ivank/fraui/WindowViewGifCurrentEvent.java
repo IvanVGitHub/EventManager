@@ -24,7 +24,6 @@ public class WindowViewGifCurrentEvent extends JFrame {
     //размеры окна просмотра "гифки"
     final int width = (int)(getScale() * 1600);
     final int height = (int)(getScale() * 900);
-    JLabel label;
 
     public WindowViewGifCurrentEvent(JPanel panel, int event_id, String time) {
         super("Событие: #" + event_id + ", время: " + time);
@@ -48,12 +47,12 @@ public class WindowViewGifCurrentEvent extends JFrame {
             }
         });
 
-        label = new JLabel();
+        JLabel label = new JLabel();
         add(label);
 
         pack();
-        setVisible(true);
         setLocationRelativeTo(null);
+        setVisible(true);
 
         //событие при изменении размера окна
         label.addComponentListener(new ComponentAdapter() {

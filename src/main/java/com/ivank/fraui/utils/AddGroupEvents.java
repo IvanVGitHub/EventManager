@@ -31,8 +31,8 @@ public class AddGroupEvents extends JPanel {
     }
 
     //отрисовываем Событие в группе
-    public void createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time) {
-        AddEvent panel = new AddEvent(labelSize, color, image, event_id, time, 5);
+    public void createLabelEvent(Dimension labelSize, Color color, ImageIcon image, int event_id, String time, int countCompreFace) {
+        AddEvent panel = new AddEvent(labelSize, color, image, event_id, time, countCompreFace);
         listEvents.add(panel);
         add(panel);
     }
