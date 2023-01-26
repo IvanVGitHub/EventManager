@@ -5,12 +5,12 @@ import com.ivank.fraui.WindowCameraLiveView;
 import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.settings.SettingsDefault;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.opencv.presets.opencv_core;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
+import static com.ivank.fraui.utils.UtilsAny.base64ToImage;
 
 //Отрисовываем группу Событий
 public class AddGroupEvents extends JPanel {
@@ -107,10 +108,10 @@ public class AddGroupEvents extends JPanel {
     }
 
     //размечаем кнопки слева в группе событий каждой камеры
-    public void createControlsForCamera(AddGroupEvents groupPanel, int idCamera) {
+    public void createButtonsForCamera(AddGroupEvents groupPanel, int idCamera) {
         JPanel parentButtonsPanel = new JPanel();
         parentButtonsPanel.setLayout(new BoxLayout (parentButtonsPanel, BoxLayout.Y_AXIS));
-        //не работает
+        //не работает (пытаюсь прижать блок с кнопками к верху панели)
 //        parentButtonsPanel.setAlignmentY(TOP_ALIGNMENT);
 
         //добавить кнопку "прямой эфир"
@@ -173,17 +174,14 @@ public class AddGroupEvents extends JPanel {
         );
 
         JPanel paginatorButtonsPanel = new JPanel();
+//        paginatorButtonsPanel.setLayout(new BoxLayout(paginatorButtonsPanel, BoxLayout.X_AXIS));
         parentButtonsPanel.add(paginatorButtonsPanel);
         addSidePanelBtn(new BasicArrowButton(BasicArrowButton.WEST), null, paginatorButtonsPanel, null, null);
         addSidePanelBtn(new BasicArrowButton(BasicArrowButton.EAST), null, paginatorButtonsPanel, null, null);
 
         //добавить кнопку "раскрыть/скрыть CompreFace"
         //преобразуем картинки в BufferedImage, чтобы именно её передавать в нескольких местах для вращения
-        byte[] bytes = Base64.getDecoder().decode(SettingsDefault.getImageUnwrap());
-        BufferedImage bufferedImage;
-        try {
-            bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
-        } catch (IOException e) {throw new RuntimeException(e);}
+        BufferedImage bufferedImage = base64ToImage(SettingsDefault.getImageUnwrap());
         JButton roundButton = new RoundButton();
         addSidePanelBtn(roundButton, new ImageIcon(bufferedImage), parentButtonsPanel,
                 e -> groupPanel.toggleViewModeAllEvents(roundButton, bufferedImage),
@@ -195,11 +193,15 @@ public class AddGroupEvents extends JPanel {
     }
 
     //создаём кнопку для группы событий
-    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, Boolean flagVisible) {
+    void addSidePanelBtn(JButton button, Object stringOrImageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, Boolean enabled) {
         JPanel childPanel = new JPanel();
         childPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-        if (imageIcon != null)
-            button.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        //если передали картинку
+        if (stringOrImageIcon instanceof ImageIcon)
+            button.setIcon(new ImageIcon(((ImageIcon) stringOrImageIcon).getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
+        //если передали текст
+        if (stringOrImageIcon instanceof String)
+            button.setText((String) stringOrImageIcon);
         button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
         button.addActionListener(listener);
         childPanel.add(button);
@@ -209,10 +211,10 @@ public class AddGroupEvents extends JPanel {
 
         parentPanel.add(childPanel);
 
-        button.setVisible(flagVisible);
+        button.setEnabled(enabled);
     }
-    void addSidePanelBtn(JButton button, ImageIcon imageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate) {
-        addSidePanelBtn(button, imageIcon, parentPanel, listener, onCreate, true);
+    void addSidePanelBtn(JButton button, Object stringOrImageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate) {
+        addSidePanelBtn(button, stringOrImageIcon, parentPanel, listener, onCreate, true);
     }
 
     //АРХИВ

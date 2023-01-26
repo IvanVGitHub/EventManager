@@ -1,26 +1,13 @@
 package com.ivank.fraui.components;
 
-import com.ivank.fraui.WindowCameraLiveView;
 import com.ivank.fraui.settings.AppConfig;
-import com.ivank.fraui.WindowSettingsCamera;
-import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.db.*;
-import com.ivank.fraui.settings.SettingsDefault;
 import com.ivank.fraui.utils.*;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 
-import static com.ivank.fraui.settings.AppConfig.getScale;
 import static com.ivank.fraui.utils.UtilsAny.getCountCF;
 
 public class Content extends JPanel {
@@ -146,7 +133,7 @@ public class Content extends JPanel {
             listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
 
             //добавляем кнопки взаимодействия с камерой/группой событий
-            addGroupEvents.createControlsForCamera(addGroupEvents, (QueryCamera.getListModelCamerasIsSelect().get(indexCameras).id));
+            addGroupEvents.createButtonsForCamera(addGroupEvents, (QueryCamera.getListModelCamerasIsSelect().get(indexCameras).id));
 
             //создаём рамку группы событий и пишем на ней имя камеры
             addGroupEvents.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));

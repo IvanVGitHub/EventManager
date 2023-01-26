@@ -2,14 +2,30 @@ package com.ivank.fraui.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ivank.fraui.settings.SettingsDefault;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class UtilsAny {
+    //конвертируем изображение из строки в графику
+    public static BufferedImage base64ToImage (String strBase64) {
+        byte[] bytes = Base64.getDecoder().decode(strBase64);
+        BufferedImage bufferedImage;
+        try {
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
+        } catch (IOException e) {throw new RuntimeException(e);}
+
+        return bufferedImage;
+    }
+
     //считываем из json количество лиц на фото
     public static int getCountCF(String data) {
         if (data == null)
