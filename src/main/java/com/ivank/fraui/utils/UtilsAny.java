@@ -30,8 +30,12 @@ public class UtilsAny {
     public static int getCountCF(String data) {
         if (data == null)
             return 0;
-
-        return parseJson(data).maxFaces;
+        try {
+            EventCFData cfData = parseJson(data);
+            return cfData.maxFaces;
+        } catch (Exception ex){
+            return 0;
+        }
     }
 
     //разбираем json на переменные

@@ -95,7 +95,7 @@ public class WindowAddCamerasTEST extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int number = labels.size() + 1;
-                AddGroupEvents eventAdd = new AddGroupEvents();
+                AddGroupEvents eventAdd = new AddGroupEvents(null);
                 URL url = getClass().getResource("./img/event.jpg");
                 ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
                 Dimension labelSize = new Dimension((int)(getScale() * 80), (int)(getScale() * 80));

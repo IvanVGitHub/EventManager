@@ -41,6 +41,40 @@ public class QueryEvent {
 
         return null;
     }
+    //получить список моделей событий конкретной камеры, имеющих image, ограниченного диапазона и количества
+    public static ArrayList<ModelEvent> fetchEvents(int camera_id, int offset, int limit) {
+        return fetchEvents(camera_id, offset, limit, false);
+    }
+    public static ArrayList<ModelEvent> fetchEvents(int camera_id, int offset, int limit, boolean asc) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT * FROM event WHERE EXISTS (SELECT event_id FROM eventImages WHERE event_id = event.id) ")
+                .append(" AND camera_id=").append(camera_id)
+                .append(" ORDER BY id ").append(asc ? "" : "DESC")
+                .append(limit > 0 ? " LIMIT " + limit: "")
+                .append(offset > 0 ? " OFFSET " + offset : "")
+                    .append(";")
+            ;
+
+            ResultSet result = ConnectDB.getConnector().executeRaw(sb.toString());
+
+            ArrayList<ModelEvent> events = new ArrayList<>();
+            while (result.next()) {
+                ModelEvent ev = new ModelEvent();
+                ev.id = result.getInt("id");
+                ev.uuid = result.getString("uuid");
+                ev.camera_id = result.getInt("camera_id");
+                ev.plugin_id = result.getString("plugin_id");
+                ev.data = result.getString("data");
+                ev.time = result.getString("time");
+                events.add(ev);
+            }
+
+            return events;
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return null;
+    }
 
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int limit) {
 /*        try {

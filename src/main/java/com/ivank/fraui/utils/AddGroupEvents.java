@@ -6,7 +6,9 @@ import com.ivank.fraui.WindowCameraLiveView;
 import com.ivank.fraui.WindowSettingsCamera;
 import com.ivank.fraui.components.Content;
 import com.ivank.fraui.db.ModelCamera;
+import com.ivank.fraui.db.ModelEvent;
 import com.ivank.fraui.db.QueryEvent;
+import com.ivank.fraui.db.QueryEventImages;
 import com.ivank.fraui.settings.AppConfig;
 import com.ivank.fraui.settings.SettingsDefault;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
@@ -22,16 +24,37 @@ import java.util.Base64;
 import static com.ivank.fraui.db.QueryCamera.getModelCameraById;
 import static com.ivank.fraui.settings.AppConfig.getScale;
 import static com.ivank.fraui.utils.UtilsAny.base64ToImage;
+import static com.ivank.fraui.utils.UtilsAny.getCountCF;
 
 //Отрисовываем группу Событий
 public class AddGroupEvents extends JPanel {
+    public ModelCamera camera;
+    public CamData cameraData;
+    //смещение результата событий
+    public int offset = 0;
+    public int limit = 10;
+
+    public static Dimension defaultSize(){
+        return new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
+    }
+
+
     //список Событий в данной группе
     public ArrayList<AddEvent> listEvents = new ArrayList<>();
 
     //экземпляр класса
-    public AddGroupEvents() {
+    public AddGroupEvents(ModelCamera camera) {
         //задаём ориентацию расположения Событий (слева направо)
         super(new FlowLayout(FlowLayout.LEFT));
+        CamData cd = CamData.getCamDataFromId(camera.id);
+        this.camera = camera;
+        limit = AppConfig.getInstance().getEventLimit();
+
+        //добавляем кнопки взаимодействия с камерой/группой событий
+        createButtonsForCamera(this, camera.id);
+
+        //создаём рамку группы событий и пишем на ней имя камеры
+        setBorder(BorderFactory.createTitledBorder("Камера \"" + camera.camera_name + "\""));
     }
 
     //отрисовываем Событие в группе
@@ -110,7 +133,7 @@ public class AddGroupEvents extends JPanel {
     }
 
     //размечаем кнопки слева в группе событий каждой камеры
-    public void createButtonsForCamera(AddGroupEvents groupPanel, int idCamera, int firstIdEvent, int lastIdEvent) {
+    public void createButtonsForCamera(AddGroupEvents groupPanel, int idCamera) {
         JPanel parentButtonsPanel = new JPanel();
         parentButtonsPanel.setLayout(new BoxLayout (parentButtonsPanel, BoxLayout.Y_AXIS));
         //не работает (пытаюсь прижать блок с кнопками к верху панели)
@@ -178,18 +201,17 @@ public class AddGroupEvents extends JPanel {
         JPanel paginatorButtonsPanel = new JPanel();
 //        paginatorButtonsPanel.setLayout(new BoxLayout(paginatorButtonsPanel, BoxLayout.X_AXIS));
         parentButtonsPanel.add(paginatorButtonsPanel);
-        ModelCamera modelCamera = getModelCameraById(idCamera);
         addSidePanelBtn(new BasicArrowButton(BasicArrowButton.WEST), null, paginatorButtonsPanel,
-                e -> Application.windowMain().getContent().drawGroupCameraPanel(
-                        modelCamera,
-                        QueryEvent.getListModelEventsCamera(modelCamera.id, lastIdEvent, ">", AppConfig.getInstance().getEventLimit()),
-                        new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height)),
+                e -> {
+                    offset-= 5;
+                    updateEventList();
+                },
                 null);
         addSidePanelBtn(new BasicArrowButton(BasicArrowButton.EAST), null, paginatorButtonsPanel,
-                e -> Application.windowMain().getContent().drawGroupCameraPanel(
-                        modelCamera,
-                        QueryEvent.getListModelEventsCamera(modelCamera.id, firstIdEvent, "<", AppConfig.getInstance().getEventLimit()),
-                        new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height)),
+                e -> {
+                    offset+= 5;
+                    updateEventList();
+                },
                 null);
 
         //добавить кнопку "раскрыть/скрыть CompreFace"
@@ -204,6 +226,40 @@ public class AddGroupEvents extends JPanel {
 
         groupPanel.add(parentButtonsPanel);
     }
+
+    public void updateEventList() {
+        if (offset < 0)
+            offset = 0;
+        //список ограниченного количества моделей событий
+        ArrayList<ModelEvent> events = QueryEvent.fetchEvents(camera.id, offset, limit);
+        //список id событий из списка моделей
+        ArrayList<Integer> listIndexEventsId = new ArrayList<>();
+        removeAll();
+        listEvents.clear();
+
+        //список id событий из списка моделей
+        for (ModelEvent item : events) {
+            listIndexEventsId.add(item.id);
+        }
+
+        //список из первых кадров событий одной камеры
+        ArrayList<ImageIcon> listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
+        for (int indexEvents = 0; indexEvents < events.size(); indexEvents++) {
+            //если в БД отсутствуют кадры события, то не отрисовываем это событие
+            if (listEventFirstImages.isEmpty())
+                continue;
+            createLabelEvent(
+                    defaultSize(),
+                    CalculationEventColor.eventColor(events.get(indexEvents).plugin_id),
+                    listEventFirstImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
+                    events.get(indexEvents).id,
+                    events.get(indexEvents).time,
+                    getCountCF(events.get(indexEvents).data)
+            );
+        }
+    }
+
+
 
     //создаём кнопку для группы событий
     void addSidePanelBtn(JButton button, Object stringOrImageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, Boolean enabled) {
