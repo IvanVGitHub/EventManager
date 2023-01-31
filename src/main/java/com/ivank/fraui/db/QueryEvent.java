@@ -1,7 +1,9 @@
 package com.ivank.fraui.db;
 
+import java.awt.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 public class QueryEvent {
@@ -32,6 +34,8 @@ public class QueryEvent {
                 events.add(ev);
             }
 
+            if (moreOrLess == ">")
+                Collections.reverse(events);
             return events;
         } catch (Exception ex) {ex.printStackTrace();}
 
