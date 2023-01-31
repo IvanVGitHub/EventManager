@@ -9,14 +9,14 @@ public class QueryEvent {
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
     //получить список моделей событий конкретной камеры, имеющих image, ограниченного диапазона и количества
-    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int lastIdEvent, String moreOrLess, int limit) {
+    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int edgeIdEvent, String moreOrLess, int limit) {
         try {
             String stringSQL = "SELECT * FROM event " +
                     "WHERE EXISTS " +
                     "(SELECT event_id FROM eventImages WHERE event_id = event.id) " +
                     "AND camera_id = " + camera_id + " " +
-                    (lastIdEvent != 0 ? "AND id " + (moreOrLess == "" ? ">" : moreOrLess) + " " + lastIdEvent + " " : "") +
-                    "ORDER BY id DESC" + (limit > 0 ? " LIMIT " + limit + ";" : ";");
+                    (edgeIdEvent != 0 ? "AND id " + (moreOrLess == "" ? ">" : moreOrLess) + " " + edgeIdEvent + " " : "") +
+                    "ORDER BY id " + (moreOrLess == ">" ? "" : "DESC") + (limit > 0 ? " LIMIT " + limit + ";" : ";");
 
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 

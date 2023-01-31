@@ -178,8 +178,6 @@ public class AddGroupEvents extends JPanel {
         JPanel paginatorButtonsPanel = new JPanel();
 //        paginatorButtonsPanel.setLayout(new BoxLayout(paginatorButtonsPanel, BoxLayout.X_AXIS));
         parentButtonsPanel.add(paginatorButtonsPanel);
-//        AppConfig.getInstance().getEventLimit()
-//        Application.windowMain().getContent().drawGroupCameraPanel();
         ModelCamera modelCamera = getModelCameraById(idCamera);
         addSidePanelBtn(new BasicArrowButton(BasicArrowButton.WEST), null, paginatorButtonsPanel,
                 e -> Application.windowMain().getContent().drawGroupCameraPanel(
