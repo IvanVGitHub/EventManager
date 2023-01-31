@@ -1,23 +1,25 @@
 package com.ivank.fraui.utils;
 
+import com.ivank.fraui.Application;
 import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.WindowCameraLiveView;
 import com.ivank.fraui.WindowSettingsCamera;
+import com.ivank.fraui.components.Content;
+import com.ivank.fraui.db.ModelCamera;
+import com.ivank.fraui.db.QueryEvent;
+import com.ivank.fraui.settings.AppConfig;
 import com.ivank.fraui.settings.SettingsDefault;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.opencv.presets.opencv_core;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 
+import static com.ivank.fraui.db.QueryCamera.getModelCameraById;
 import static com.ivank.fraui.settings.AppConfig.getScale;
 import static com.ivank.fraui.utils.UtilsAny.base64ToImage;
 
@@ -60,7 +62,7 @@ public class AddGroupEvents extends JPanel {
             collapseAllEvents(button, bufferedImage);
     }
 
-    //сворачиваем дополнительную область у всех Событий
+    //сворачиваем дополнительную область CF у всех Событий
     public void collapseAllEvents(JButton button, BufferedImage bufferedImage) {
         for (AddEvent event: listEvents) {
             //сворачиваем элемент под каждой миниатюрой
@@ -83,7 +85,7 @@ public class AddGroupEvents extends JPanel {
         button.setIcon(new ImageIcon(bufferedImage.getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
     }
 
-    //разворачиваем дополнительную область у всех Событий
+    //разворачиваем дополнительную область CF у всех Событий
     public void expandAllEvents(JButton button, BufferedImage bufferedImage) {
         for (AddEvent event: listEvents) {
             //сворачиваем элемент под каждой миниатюрой
@@ -108,7 +110,7 @@ public class AddGroupEvents extends JPanel {
     }
 
     //размечаем кнопки слева в группе событий каждой камеры
-    public void createButtonsForCamera(AddGroupEvents groupPanel, int idCamera) {
+    public void createButtonsForCamera(AddGroupEvents groupPanel, int idCamera, int firstIdEvent, int lastIdEvent) {
         JPanel parentButtonsPanel = new JPanel();
         parentButtonsPanel.setLayout(new BoxLayout (parentButtonsPanel, BoxLayout.Y_AXIS));
         //не работает (пытаюсь прижать блок с кнопками к верху панели)
@@ -122,7 +124,6 @@ public class AddGroupEvents extends JPanel {
                 () -> {
                     //сделаем кнопку неактивной, пока не пройдёт проверка доступности прямого эфира
                     setEnabled(false);
-
                     //добавим многопоточность
                     (new Thread(()->{
                         try {
@@ -173,11 +174,25 @@ public class AddGroupEvents extends JPanel {
                 null
         );
 
+        //добавить кнопки пагинатора
         JPanel paginatorButtonsPanel = new JPanel();
 //        paginatorButtonsPanel.setLayout(new BoxLayout(paginatorButtonsPanel, BoxLayout.X_AXIS));
         parentButtonsPanel.add(paginatorButtonsPanel);
-        addSidePanelBtn(new BasicArrowButton(BasicArrowButton.WEST), null, paginatorButtonsPanel, null, null);
-        addSidePanelBtn(new BasicArrowButton(BasicArrowButton.EAST), null, paginatorButtonsPanel, null, null);
+//        AppConfig.getInstance().getEventLimit()
+//        Application.windowMain().getContent().drawGroupCameraPanel();
+        ModelCamera modelCamera = getModelCameraById(idCamera);
+        addSidePanelBtn(new BasicArrowButton(BasicArrowButton.WEST), null, paginatorButtonsPanel,
+                e -> Application.windowMain().getContent().drawGroupCameraPanel(
+                        modelCamera,
+                        QueryEvent.getListModelEventsCamera(modelCamera.id, lastIdEvent, ">", AppConfig.getInstance().getEventLimit()),
+                        new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height)),
+                null);
+        addSidePanelBtn(new BasicArrowButton(BasicArrowButton.EAST), null, paginatorButtonsPanel,
+                e -> Application.windowMain().getContent().drawGroupCameraPanel(
+                        modelCamera,
+                        QueryEvent.getListModelEventsCamera(modelCamera.id, firstIdEvent, "<", AppConfig.getInstance().getEventLimit()),
+                        new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height)),
+                null);
 
         //добавить кнопку "раскрыть/скрыть CompreFace"
         //преобразуем картинки в BufferedImage, чтобы именно её передавать в нескольких местах для вращения

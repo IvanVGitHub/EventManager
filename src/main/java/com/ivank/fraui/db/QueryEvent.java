@@ -8,16 +8,16 @@ public class QueryEvent {
     //список записей времени создания события
     private static ArrayList<String> listTimeStampEvents = new ArrayList<>();
 
-    //получить список моделей событий конкретной камеры, имеющих image
-    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int limit) {
+    //получить список моделей событий конкретной камеры, имеющих image, ограниченного диапазона и количества
+    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int lastIdEvent, String moreOrLess, int limit) {
         try {
             String stringSQL = "SELECT * FROM event " +
-                    "WHERE EXISTS (" +
-                    "SELECT event_id FROM eventImages " +
-                    "WHERE event_id = event.id) " +
+                    "WHERE EXISTS " +
+                    "(SELECT event_id FROM eventImages WHERE event_id = event.id) " +
                     "AND camera_id = " + camera_id + " " +
+                    (lastIdEvent != 0 ? "AND id " + (moreOrLess == "" ? ">" : moreOrLess) + " " + lastIdEvent + " " : "") +
                     "ORDER BY id DESC" + (limit > 0 ? " LIMIT " + limit + ";" : ";");
-                    ;
+
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             ArrayList<ModelEvent> events = new ArrayList<>();
@@ -36,6 +36,35 @@ public class QueryEvent {
         } catch (Exception ex) {ex.printStackTrace();}
 
         return null;
+    }
+
+    public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id, int limit) {
+/*        try {
+            String stringSQL = "SELECT * FROM event " +
+                    "WHERE EXISTS (" +
+                    "SELECT event_id FROM eventImages " +
+                    "WHERE event_id = event.id) " +
+                    "AND camera_id = " + camera_id + " " +
+                    "ORDER BY id DESC" + (limit > 0 ? " LIMIT " + limit + ";" : ";");
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
+
+            ArrayList<ModelEvent> events = new ArrayList<>();
+            while (result.next()) {
+                ModelEvent ev = new ModelEvent();
+                ev.id = result.getInt("id");
+                ev.uuid = result.getString("uuid");
+                ev.camera_id = result.getInt("camera_id");
+                ev.plugin_id = result.getString("plugin_id");
+                ev.data = result.getString("data");
+                ev.time = result.getString("time");
+                events.add(ev);
+            }
+
+            return events;
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return null;*/
+        return getListModelEventsCamera(camera_id, 0, "", limit);
     }
     public static ArrayList<ModelEvent> getListModelEventsCamera(int camera_id) {
 /*        try {

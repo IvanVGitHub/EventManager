@@ -117,10 +117,16 @@ public class Content extends JPanel {
         ArrayList<Integer> listIndexEventsId = new ArrayList<>();
         //список из первых кадров событий одной камеры
         ArrayList<ImageIcon> listEventFirstImages;
+        //первый и последний id события в группе
+        int lastIdEvent;
 
         //отрисовка групп событий (одна группа событий - это одна камера с набором плагинов)
         for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
-            AddGroupEvents addGroupEvents = new AddGroupEvents();
+            //отрисовываем группу событий
+            drawGroupCameraPanel(listModelCameras.get(indexCameras),
+                    QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent()),
+                    labelSize);
+            /*AddGroupEvents addGroupEvents = new AddGroupEvents();
             //список ограниченного количества моделей событий
             listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
 
@@ -156,12 +162,59 @@ public class Content extends JPanel {
             listIndexEventsId.clear();
             listEventFirstImages.clear();
 
-            internalPanel.add(addGroupEvents);
+            internalPanel.add(addGroupEvents);*/
         }
         //очищаем память
         listModelCameras.clear();
 
-        internalPanel.revalidate();
-        internalPanel.repaint();
+//        internalPanel.revalidate();
+//        internalPanel.repaint();
+    }
+
+    //отрисовываем группу событий
+    public void drawGroupCameraPanel(ModelCamera modelCamera,
+                                     ArrayList<ModelEvent> listModelEvents,
+                                     Dimension labelSize) {
+        AddGroupEvents addGroupEvents = new AddGroupEvents();
+        //список id событий из списка моделей
+        ArrayList<Integer> listIndexEventsId = new ArrayList<>();
+
+        //последний id события в группе
+        int firstIdEvent = listModelEvents.get(listModelEvents.size() - 1).id;
+        int lastIdEvent = listModelEvents.get(0).id;
+
+        //список id событий из списка моделей
+        for (ModelEvent item : listModelEvents) {
+            listIndexEventsId.add(item.id);
+        }
+
+        //список из первых кадров событий одной камеры
+        ArrayList<ImageIcon> listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
+
+        //добавляем кнопки взаимодействия с камерой/группой событий
+        addGroupEvents.createButtonsForCamera(addGroupEvents, modelCamera.id, firstIdEvent, lastIdEvent);
+
+        //создаём рамку группы событий и пишем на ней имя камеры
+        addGroupEvents.setBorder(BorderFactory.createTitledBorder("Камера \"" + modelCamera.camera_name + "\""));
+        //add event to group event
+        for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
+            //если в БД отсутствуют кадры события, то не отрисовываем это событие
+            if (listEventFirstImages.isEmpty())
+                continue;
+            addGroupEvents.createLabelEvent(
+                    labelSize,
+                    CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
+                    listEventFirstImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
+                    listModelEvents.get(indexEvents).id,
+                    listModelEvents.get(indexEvents).time,
+                    getCountCF(listModelEvents.get(indexEvents).data)
+            );
+        }
+        //очищаем память
+        listModelEvents.clear();
+        listIndexEventsId.clear();
+        listEventFirstImages.clear();
+
+        internalPanel.add(addGroupEvents);
     }
 }
