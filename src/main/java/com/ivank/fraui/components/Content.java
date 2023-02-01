@@ -67,9 +67,6 @@ public class Content extends JPanel {
     //разметка центральной области (Content) основного окна (WindowMain)
     public Content() {
         this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-
-        internalPanel.setLayout(new GridLayout(0, 1));
-
         externalPanel.setLayout(new BorderLayout(0, 0));
         externalPanel.add(internalPanel, BorderLayout.NORTH);
 

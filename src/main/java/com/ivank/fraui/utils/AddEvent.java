@@ -1,6 +1,5 @@
 package com.ivank.fraui.utils;
 
-import com.ivank.fraui.TestFrame1;
 import com.ivank.fraui.WindowViewGifCurrentEvent;
 import com.ivank.fraui.settings.SettingsDefault;
 

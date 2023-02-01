@@ -29,8 +29,8 @@ public class AddGroupEvents extends JPanel {
     public CamData cameraData;
     //смещение результата Событий
     public int offset = 0;
-    //количество Событий в группе
-    public int limit = 5;
+    //количество Событий в группе (задано дефолтное значение на случай ошибки чтения из файла настроек)
+    public int limit = 1;
 
     //размер иконки События
     final Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
@@ -57,11 +57,11 @@ public class AddGroupEvents extends JPanel {
         add(panel);
     }
 
-    //"умная" функция разворачивания/сворачивания панели CompreFace
     /*
     если хотя бы одна дополнительная область развёрнута, то сворачиваем все области и, наоборот,
     если хотя бы одна дополнительная область свёрнута, то разворачиваем все области
     */
+    //"умная" функция разворачивания/сворачивания панели CompreFace
     public void toggleViewModeAllEvents(JButton button, BufferedImage bufferedImage) {
         boolean hasCollapsed = false;
 
