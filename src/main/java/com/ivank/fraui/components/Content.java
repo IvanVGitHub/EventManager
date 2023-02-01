@@ -1,6 +1,5 @@
 package com.ivank.fraui.components;
 
-import com.ivank.fraui.settings.AppConfig;
 import com.ivank.fraui.db.*;
 import com.ivank.fraui.utils.*;
 
@@ -8,14 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static com.ivank.fraui.utils.UtilsAny.getCountCF;
-
 public class Content extends JPanel {
     public static JPanel externalPanel = new JPanel();
     public static JPanel internalPanel = new PanelFlex();
     public static JScrollPane scrollPaneGroupEvent = new JScrollPane();
-
-    public static int getLimitEvent() {return AppConfig.getInstance().getEventLimit();}
 
     public static class PanelFlex extends JPanel implements Scrollable {
         public PanelFlex() {
@@ -90,13 +85,10 @@ public class Content extends JPanel {
 
     //отрисовка элементов в центральной области (Content) основного окна (WindowMain)
     public void setCameraView() {
-        //очищаем список групп событий
+        //очищаем список групп Событий
         internalPanel.removeAll();
-        //size icon event
-        Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
-        //фиксируем в переменную последний добавленный в БД id события (event)
+        //фиксируем в переменную последний добавленный в БД id События (event)
         UpdateOnTimer.oldIdEvent = QueryEvent.getLastAddIdEvent();
-
         //image to icon event for TEST
 /*
         //image to icon event for test
@@ -108,72 +100,24 @@ public class Content extends JPanel {
         byte[] byteImageBase64 = Base64.getDecoder().decode(base64string);
         ImageIcon imageIcon = new ImageIcon(byteImageBase64);
 */
-
         //список моделей камер
         ArrayList<ModelCamera> listModelCameras = QueryCamera.getListModelCamerasIsSelect();
-        //список ограниченного количества моделей событий
-        ArrayList<ModelEvent> listModelEvents;
-        //список id событий из списка моделей
-        ArrayList<Integer> listIndexEventsId = new ArrayList<>();
-        //список из первых кадров событий одной камеры
-        ArrayList<ImageIcon> listEventFirstImages;
-        //первый и последний id события в группе
-        int lastIdEvent;
+        //список ограниченного количества моделей Событий
 
-        //отрисовка групп событий (одна группа событий - это одна камера с набором плагинов)
-        for (int indexCameras = 0; indexCameras < listModelCameras.size(); indexCameras++) {
-            //отрисовываем группу событий
-            drawGroupCameraPanel(listModelCameras.get(indexCameras));
-            /*AddGroupEvents addGroupEvents = new AddGroupEvents();
-            //список ограниченного количества моделей событий
-            listModelEvents = QueryEvent.getListModelEventsCamera(listModelCameras.get(indexCameras).id, getLimitEvent());
-
-            //список id событий из списка моделей
-            for (ModelEvent item : listModelEvents) {
-                listIndexEventsId.add(item.id);
-            }
-
-            //список из первых кадров событий одной камеры
-            listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
-
-            //добавляем кнопки взаимодействия с камерой/группой событий
-            addGroupEvents.createButtonsForCamera(addGroupEvents, (QueryCamera.getListModelCamerasIsSelect().get(indexCameras).id));
-
-            //создаём рамку группы событий и пишем на ней имя камеры
-            addGroupEvents.setBorder(BorderFactory.createTitledBorder("Камера \"" + listModelCameras.get(indexCameras).camera_name + "\""));
-            //add event to group event
-            for (int indexEvents = 0; indexEvents < listModelEvents.size(); indexEvents++) {
-                //если в БД отсутствуют кадры события, то не отрисовываем это событие
-                if (listEventFirstImages.isEmpty())
-                    continue;
-                addGroupEvents.createLabelEvent(
-                        labelSize,
-                        CalculationEventColor.eventColor(listModelEvents.get(indexEvents).plugin_id),
-                        listEventFirstImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
-                        listModelEvents.get(indexEvents).id,
-                        listModelEvents.get(indexEvents).time,
-                        getCountCF(listModelEvents.get(indexEvents).data)
-                );
-            }
-            //очищаем память
-            listModelEvents.clear();
-            listIndexEventsId.clear();
-            listEventFirstImages.clear();
-
-            internalPanel.add(addGroupEvents);*/
+        //отрисовка групп Событий (одна группа Событий - это одна камера с набором плагинов)
+        for (ModelCamera item : listModelCameras) {
+            //создаём группу Событий
+            drawGroupCameraPanel(item);
         }
+
         //очищаем память
         listModelCameras.clear();
-
-//        internalPanel.revalidate();
-//        internalPanel.repaint();
     }
 
-    //отрисовываем группу событий
+    //создаём группу Событий
     public void drawGroupCameraPanel(ModelCamera modelCamera) {
-
         AddGroupEvents addGroupEvents = new AddGroupEvents(modelCamera);
-        //add event to group event
+        //добавляем группу Событий
         addGroupEvents.updateEventList();
 
         internalPanel.add(addGroupEvents);

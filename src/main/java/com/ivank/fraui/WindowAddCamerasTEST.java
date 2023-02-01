@@ -102,7 +102,7 @@ public class WindowAddCamerasTEST extends JFrame {
 
                 //add event to group event
                 Random rand = new Random();
-                //создаём рамку группы событий и пишем на ней имя камеры
+                //создаём рамку группы Событий и пишем на ней имя камеры
                 eventAdd.setBorder(BorderFactory.createTitledBorder("Камера \"" + number + "\""));
                 for(int a = 0; a < 20; a++) {
                     //random color border event for TEST

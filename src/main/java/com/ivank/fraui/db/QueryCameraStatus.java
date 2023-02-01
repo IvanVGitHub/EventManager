@@ -9,7 +9,7 @@ import java.util.Base64;
 import java.util.UUID;
 
 public class QueryCameraStatus {
-    //получаем список времён событий сессии
+    //получаем список времён Событий сессии
     public static ArrayList<Timestamp> getListTimesSession(UUID uuid_session) {
         ArrayList<Timestamp> listTime = new ArrayList<>();
 

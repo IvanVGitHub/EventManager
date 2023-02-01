@@ -1,10 +1,8 @@
 package com.ivank.fraui.utils;
 
-import com.ivank.fraui.Application;
 import com.ivank.fraui.WindowAllEventsCamera;
 import com.ivank.fraui.WindowCameraLiveView;
 import com.ivank.fraui.WindowSettingsCamera;
-import com.ivank.fraui.components.Content;
 import com.ivank.fraui.db.ModelCamera;
 import com.ivank.fraui.db.ModelEvent;
 import com.ivank.fraui.db.QueryEvent;
@@ -21,40 +19,35 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import static com.ivank.fraui.db.QueryCamera.getModelCameraById;
 import static com.ivank.fraui.settings.AppConfig.getScale;
 import static com.ivank.fraui.utils.UtilsAny.base64ToImage;
 import static com.ivank.fraui.utils.UtilsAny.getCountCF;
 
 //Отрисовываем группу Событий
 public class AddGroupEvents extends JPanel {
-    public ModelCamera camera;
+    public ModelCamera modelCamera;
     public CamData cameraData;
-    //смещение результата событий
+    //смещение результата Событий
     public int offset = 0;
-    public int limit = 10;
+    //количество Событий в группе
+    public int limit = 5;
 
-    public static Dimension defaultSize(){
-        return new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
-    }
-
+    //размер иконки События
+    final Dimension labelSize = new Dimension(AppConfig.getInstance().getLabelSize().width, AppConfig.getInstance().getLabelSize().height);
 
     //список Событий в данной группе
     public ArrayList<AddEvent> listEvents = new ArrayList<>();
 
     //экземпляр класса
-    public AddGroupEvents(ModelCamera camera) {
+    public AddGroupEvents(ModelCamera modelCamera) {
         //задаём ориентацию расположения Событий (слева направо)
         super(new FlowLayout(FlowLayout.LEFT));
-        CamData cd = CamData.getCamDataFromId(camera.id);
-        this.camera = camera;
+        this.modelCamera = modelCamera;
+        cameraData = CamData.getCamDataFromId(modelCamera.id);
         limit = AppConfig.getInstance().getEventLimit();
 
-        //добавляем кнопки взаимодействия с камерой/группой событий
-        createButtonsForCamera(this, camera.id);
-
-        //создаём рамку группы событий и пишем на ней имя камеры
-        setBorder(BorderFactory.createTitledBorder("Камера \"" + camera.camera_name + "\""));
+        //создаём рамку группы Событий и пишем на ней имя камеры
+        setBorder(BorderFactory.createTitledBorder("Камера \"" + modelCamera.camera_name + "\""));
     }
 
     //отрисовываем Событие в группе
@@ -132,18 +125,17 @@ public class AddGroupEvents extends JPanel {
         button.setIcon(new ImageIcon(bufferedImage.getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
     }
 
-    //размечаем кнопки слева в группе событий каждой камеры
-    public void createButtonsForCamera(AddGroupEvents groupPanel, int idCamera) {
+    //размечаем кнопки слева в группе Событий каждой камеры
+    public void createButtonsForCamera(int idCamera) {
         JPanel parentButtonsPanel = new JPanel();
         parentButtonsPanel.setLayout(new BoxLayout (parentButtonsPanel, BoxLayout.Y_AXIS));
         //не работает (пытаюсь прижать блок с кнопками к верху панели)
 //        parentButtonsPanel.setAlignmentY(TOP_ALIGNMENT);
 
         //добавить кнопку "прямой эфир"
-        CamData cd = CamData.getCamDataFromId(idCamera);
         JButton button = new JButton();
         addSidePanelBtn(button, new ImageIcon(Base64.getDecoder().decode(SettingsDefault.getImageLiveView())), parentButtonsPanel,
-                e -> new WindowCameraLiveView(cd),
+                e -> new WindowCameraLiveView(cameraData),
                 () -> {
                     //сделаем кнопку неактивной, пока не пройдёт проверка доступности прямого эфира
                     setEnabled(false);
@@ -155,7 +147,7 @@ public class AddGroupEvents extends JPanel {
                             //кнопка не кликабельна
                             button.setEnabled(false);
                             //проверяем доступность камеры в сети
-                            FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
+                            FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cameraData.getConnectionUrl());
                             //ожидание старта подключения, в микросекундах (1 сек)
                             //если не подключились: получаем ошибку в лог и считаем, что камера не доступна
                             streamGrabber.setOption("timeout" , "1000000");
@@ -203,53 +195,57 @@ public class AddGroupEvents extends JPanel {
         parentButtonsPanel.add(paginatorButtonsPanel);
         addSidePanelBtn(new BasicArrowButton(BasicArrowButton.WEST), null, paginatorButtonsPanel,
                 e -> {
-                    offset-= 5;
+                    offset -= limit;
                     updateEventList();
                 },
                 null);
         addSidePanelBtn(new BasicArrowButton(BasicArrowButton.EAST), null, paginatorButtonsPanel,
                 e -> {
-                    offset+= 5;
+                    offset += limit;
                     updateEventList();
                 },
                 null);
 
         //добавить кнопку "раскрыть/скрыть CompreFace"
-        //преобразуем картинки в BufferedImage, чтобы именно её передавать в нескольких местах для вращения
+        //преобразуем картинку в BufferedImage, чтобы именно её передавать в нескольких местах для вращения
         BufferedImage bufferedImage = base64ToImage(SettingsDefault.getImageUnwrap());
         JButton roundButton = new RoundButton();
         addSidePanelBtn(roundButton, new ImageIcon(bufferedImage), parentButtonsPanel,
-                e -> groupPanel.toggleViewModeAllEvents(roundButton, bufferedImage),
+                e -> this.toggleViewModeAllEvents(roundButton, bufferedImage),
                 null,
                 true
         );
 
-        groupPanel.add(parentButtonsPanel);
+        add(parentButtonsPanel);
     }
 
+    //заполняем группу Событий
     public void updateEventList() {
         if (offset < 0)
             offset = 0;
-        //список ограниченного количества моделей событий
-        ArrayList<ModelEvent> events = QueryEvent.fetchEvents(camera.id, offset, limit);
-        //список id событий из списка моделей
-        ArrayList<Integer> listIndexEventsId = new ArrayList<>();
-        removeAll();
         listEvents.clear();
+        removeAll();
 
-        //список id событий из списка моделей
+        //добавляем кнопки взаимодействия с камерой/группой Событий
+        createButtonsForCamera(modelCamera.id);
+
+        //список ограниченного количества моделей Событий
+        ArrayList<ModelEvent> events = QueryEvent.fetchEvents(modelCamera.id, offset, limit);
+        //список id Событий из списка моделей
+        ArrayList<Integer> listIndexEventsId = new ArrayList<>();
+        //список id Событий из списка моделей
         for (ModelEvent item : events) {
             listIndexEventsId.add(item.id);
         }
-
-        //список из первых кадров событий одной камеры
+        //список из первых кадров Событий одной камеры
         ArrayList<ImageIcon> listEventFirstImages = QueryEventImages.getListEventFirstImages(listIndexEventsId);
+
         for (int indexEvents = 0; indexEvents < events.size(); indexEvents++) {
-            //если в БД отсутствуют кадры события, то не отрисовываем это событие
+            //если в БД отсутствуют кадры События, то не отрисовываем это Событие
             if (listEventFirstImages.isEmpty())
                 continue;
             createLabelEvent(
-                    defaultSize(),
+                    labelSize,
                     CalculationEventColor.eventColor(events.get(indexEvents).plugin_id),
                     listEventFirstImages.get(indexEvents), //получаем кадр из списка первых кадров, полученных "большим" SQL запросом
                     events.get(indexEvents).id,
@@ -259,9 +255,7 @@ public class AddGroupEvents extends JPanel {
         }
     }
 
-
-
-    //создаём кнопку для группы событий
+    //создаём кнопку для группы Событий
     void addSidePanelBtn(JButton button, Object stringOrImageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate, Boolean enabled) {
         JPanel childPanel = new JPanel();
         childPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
@@ -275,7 +269,7 @@ public class AddGroupEvents extends JPanel {
         button.addActionListener(listener);
         childPanel.add(button);
 
-        if(onCreate != null)
+        if (onCreate != null)
             onCreate.onAction();
 
         parentPanel.add(childPanel);
@@ -285,89 +279,4 @@ public class AddGroupEvents extends JPanel {
     void addSidePanelBtn(JButton button, Object stringOrImageIcon, JPanel parentPanel, ActionListener listener, OnActionListener onCreate) {
         addSidePanelBtn(button, stringOrImageIcon, parentPanel, listener, onCreate, true);
     }
-
-    //АРХИВ
-    /*
-    //кнопка просмотра прямого эфира камеры
-    public JComponent createButtonLiveView(CamData cd) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageLiveView());
-        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
-        //подгоним картинку под нужный размер
-        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
-        button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
-
-        //сделаем кнопку неактивной, пока не пройдёт проверка доступности прямого эфира
-        button.setEnabled(false);
-
-        //добавим многопоточность
-//        (new Thread(()->{...})).start();
-        (new Thread(()->{
-            try {
-                //проверяем доступность камеры в сети
-                FFmpegFrameGrabber streamGrabber = new FFmpegFrameGrabber(cd.getConnectionUrl());
-                //ожидание старта подключения, в микросекундах (1 сек)
-                //если не подключились: получаем ошибку в лог и считаем, что камера не доступна
-                streamGrabber.setOption("timeout" , "1000000");
-                streamGrabber.start();
-                //если в результате подключения мы можем получить видеопоток
-                if (streamGrabber.hasVideo()) {
-                    //устанавливаем зелёную рамку кнопке
-                    button.setBorder(BorderFactory.createLineBorder(Color.GREEN, (int)(getScale() * 2)));
-                    //кнопка кликабельна
-                    button.setEnabled(true);
-                } else
-                    //устанавливаем красную рамку кнопке
-                    button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
-                streamGrabber.stop();
-                streamGrabber.close();
-            } catch (Exception ex) {
-//                ex.printStackTrace();
-                //устанавливаем красную рамку кнопке
-                button.setBorder(BorderFactory.createLineBorder(Color.RED, (int)(getScale() * 2)));
-            }
-        })).start();
-
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new WindowCameraLiveView(cd);
-            }
-        });
-
-        return button;
-    }
-
-    //кнопка просмотра всех событий камеры
-    public JComponent createButtonAllImgEvents(int idCamera) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageAllImgEvents());
-        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
-        //подгоним картинку под нужный размер
-        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
-        button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
-
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new WindowAllEventsCamera(idCamera);
-            }
-        });
-
-        return button;
-    }
-
-    //кнопка выбора плагинов камеры
-    public JComponent createButtonOptions(int idCamera) {
-        byte[] byteImageBase64 = Base64.getDecoder().decode(SettingsDefault.getImageOptions());
-        ImageIcon imageIcon = new ImageIcon(byteImageBase64);
-        //подгоним картинку под нужный размер
-        JButton button = new JButton(new ImageIcon(imageIcon.getImage().getScaledInstance((int)(getScale() * 30), (int)(getScale() * 30), java.awt.Image.SCALE_SMOOTH)));
-        button.setPreferredSize(new Dimension((int)(getScale() * 40), (int)(getScale() * 40)));
-
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new WindowSettingsCamera(idCamera);
-            }
-        });
-
-        return button;
-    }
-    */
 }

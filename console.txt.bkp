@@ -1,12 +1,12 @@
 
 
-# Список изображений конкретного события
+# Список изображений конкретного События
 # SELECT image FROM eventImages
 # WHERE id IN (
 #     SELECT id FROM eventImages
 #         WHERE event_id = 11);
 
-# Получаем список событий, имеющих картинки
+# Получаем список Событий, имеющих картинки
 # SELECT * FROM event
 # WHERE EXISTS (
 #     SELECT event_id FROM eventImages
@@ -14,7 +14,7 @@
 #   AND camera_id = 6
 # ORDER BY id DESC;
 
-# Получаем последние 10 событий, имеющих картинки
+# Получаем последние 10 Событий, имеющих картинки
 # SELECT *
 # FROM event
 # WHERE EXISTS(
@@ -58,7 +58,7 @@
 # )
 # ORDER BY event_id DESC;
 
-# Получаем количество изображений по каждому id события (event_id)
+# Получаем количество изображений по каждому id События (event_id)
 # SELECT COUNT(uuid), event_id FROM eventImages
 # WHERE event_id IN (4610, 4609, 4608, 4607, 4606, 4605, 4604, 4603, 4602, 4601)
 # GROUP BY event_id ORDER BY event_id DESC;

@@ -2,7 +2,6 @@ package com.ivank.fraui.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ivank.fraui.settings.SettingsDefault;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -33,7 +32,7 @@ public class UtilsAny {
         try {
             EventCFData cfData = parseJson(data);
             return cfData.maxFaces;
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return 0;
         }
     }

@@ -54,7 +54,7 @@ public class GraphDataset
             ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(item));
             for (Timestamp item1 : listDate)
             {
-                //количество событий в сессии
+                //количество Событий в сессии
                 int count = QueryEvent.getCountEventsEveryHourSessionCamera(item);
                 //заполняем кривую значениями
                 timeSeries.add(new Millisecond(item1), count);

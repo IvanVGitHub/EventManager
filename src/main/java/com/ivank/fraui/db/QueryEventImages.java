@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 public class QueryEventImages {
-    //список изображений события (event)
+    //список изображений События (event)
     private static ArrayList<ImageIcon> listEventImages = new ArrayList<>();
 
-    //список моделей конкретного события
+    //список моделей конкретного События
     public static ArrayList<ModelEventImages> getListModelEventImages(int event_id) {
         try {
             QueryBuilder<ModelEventImages> query = ConnectDB.getConnector().query(ModelEventImages.class)
@@ -25,7 +25,7 @@ public class QueryEventImages {
         return null;
     }
 
-    //проверка наличия хотя бы одной записи image у события
+    //проверка наличия хотя бы одной записи image у События
     public static boolean getBoolEventHaveImage(int event_id) {
         boolean bool = false;
 
@@ -39,7 +39,7 @@ public class QueryEventImages {
         return bool;
     }
 
-    //первое изображение события
+    //первое изображение События
     public static ImageIcon getEventFirstImage(int event_id) {
         try {
             ModelEventImages result = ConnectDB.getConnector().query(ModelEventImages.class)
@@ -59,7 +59,7 @@ public class QueryEventImages {
         return null;
     }
 
-    //список изображений конкретного события (все кадры)
+    //список изображений конкретного События (все кадры)
     public static ArrayList<ImageIcon> getListEventImages(int event_id) {
         listEventImages.clear();
 
@@ -80,7 +80,7 @@ public class QueryEventImages {
         return listEventImages;
     }
 
-    //список изображений конкретного события (каждый n-кадр, реализация с "простым" запросом)
+    //список изображений конкретного События (каждый n-кадр, реализация с "простым" запросом)
     /*public static ArrayList<ImageIcon> getListEventImages(int event_id, int step) {
         listEventImages.clear();
 
@@ -123,7 +123,7 @@ public class QueryEventImages {
         return listEventImages;
     }*/
 
-    //список изображений конкретного события (каждый n-кадр, реализация со "сложным" запросом)
+    //список изображений конкретного События (каждый n-кадр, реализация со "сложным" запросом)
     public static ArrayList<ImageIcon> getListEventImages(int event_id, int step) {
         listEventImages.clear();
 
@@ -145,7 +145,7 @@ public class QueryEventImages {
         return listEventImages;
     }
 
-    //список первых изображений из списка event_id (id событий)
+    //список первых изображений из списка event_id (id Событий)
     public static ArrayList<ImageIcon> getListEventFirstImages(ArrayList<Integer> listIndexEventsId) {
         listEventImages.clear();
         if (listIndexEventsId.isEmpty())

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class QueryCamera {
     //список моделей всех камер
     private static ArrayList<ModelCamera> listModelCameras = new ArrayList<>();
-    //список моделей камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания событий
+    //список моделей камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания Событий
     private static ArrayList<ModelCamera> listModelCamerasIsSelect = new ArrayList<>();
     //список имён всех камер
     private static ArrayList<String> listCameraName = new ArrayList<>();
-    //список имён камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания событий
+    //список имён камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания Событий
     private static ArrayList<String> listCameraNameIsSelect = new ArrayList<>();
 
     //список моделей всех камер в таблице camera
@@ -83,7 +83,7 @@ public class QueryCamera {
         return listCameraName;
     }
 
-    //список имён камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания событий
+    //список имён камер, сохранённых в локальных настройках приложения, т. е. их выбрали для отслеживания Событий
     public static ArrayList<String> getListCameraNameIsSelect() {
         listCameraNameIsSelect.clear();
 

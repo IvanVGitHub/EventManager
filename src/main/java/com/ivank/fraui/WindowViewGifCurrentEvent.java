@@ -15,11 +15,11 @@ import java.util.Collections;
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
 //TODO: утечка памяти при просмотре "гифки" (после закрытия окна, память не очищается)
-//Окно просмотра "гифки" события
+//Окно просмотра "гифки" События
 public class WindowViewGifCurrentEvent extends JFrame {
     //таймер для очерёдного воспроизведения кадров
     Timer timer;
-    //список кадров события
+    //список кадров События
     ArrayList<ImageIcon> listImage;
     //размеры окна просмотра "гифки"
     final int width = (int)(getScale() * 1600);
@@ -42,7 +42,7 @@ public class WindowViewGifCurrentEvent extends JFrame {
                     listImage.clear();
                 }
 
-                //убираем выделение события
+                //убираем выделение События
                 setPanelParams(panel, null, null, 0);
             }
         });
@@ -54,7 +54,7 @@ public class WindowViewGifCurrentEvent extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        //событие при изменении размера окна
+        //Событие при изменении размера окна
         label.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent evt) {
                 //перерисовываем кадры под размер окна
@@ -62,7 +62,7 @@ public class WindowViewGifCurrentEvent extends JFrame {
             }
         });
 
-        //выделяем запущенное событие
+        //выделяем запущенное Событие
         setPanelParams(panel, Color.GRAY, Color.GREEN, (int)(getScale() * 2));
 
         UtilsAny.logHeapSize("\n\n================\nBefore image loading");
@@ -112,11 +112,11 @@ public class WindowViewGifCurrentEvent extends JFrame {
             timer.restart();
     }
 
-    //задаём параметры выделения отображаемого события
+    //задаём параметры выделения отображаемого События
     public void setPanelParams(JPanel panel, Color background, Color borderColor, int borderThickness) {
         //устанавливаем фон
         panel.setBackground(background);
-        //устанавливаем рамку вокруг события, чтобы понимать что именно мы открыли
+        //устанавливаем рамку вокруг События, чтобы понимать что именно мы открыли
         panel.setBorder(BorderFactory.createLineBorder(borderColor, borderThickness));
     }
 }

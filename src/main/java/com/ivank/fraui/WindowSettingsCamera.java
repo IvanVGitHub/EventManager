@@ -88,7 +88,7 @@ public class WindowSettingsCamera extends JFrame {
                     AppConfig.saveConfig();
 
                     //перерисовываем/обновляем Content (JPanel) в основном окне (WindowMain)
-                    //(можно оптимизировать, перерисовывая/обновляя только конкретную группу событий)
+                    //(можно оптимизировать, перерисовывая/обновляя только конкретную группу Событий)
                     Application.windowMain().getContent().setCameraView();
                 } catch (Exception ex) {
                     ex.printStackTrace();

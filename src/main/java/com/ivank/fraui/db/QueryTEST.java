@@ -8,7 +8,7 @@ import java.util.Base64;
 
 //запросы на чистом SQL
 public class QueryTEST {
-    //первое изображение события
+    //первое изображение События
     public static ImageIcon getEventFirstImage(int event_id) {
         ImageIcon imageIcon = null;
         try {

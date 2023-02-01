@@ -12,13 +12,14 @@ import java.util.ArrayList;
 
 import static com.ivank.fraui.settings.AppConfig.getScale;
 
-//Окно просмотра списка событий
+//Окно просмотра списка Событий
 public class WindowAllEventsCamera extends JFrame {
     //размер окна, подстраивается под разрешение экрана
     final int width = (int)(getScale() * 300);
     final int height = (int)(getScale() * 300);
     private static ArrayList<JLabel> labels = new ArrayList<>();
 
+    //отрисовка окна с элементами
     public WindowAllEventsCamera(int idCamera) {
         super("Все события камеры");
         setPreferredSize(new Dimension(width, height));
@@ -40,7 +41,7 @@ public class WindowAllEventsCamera extends JFrame {
         CompoundBorder outer = new CompoundBorder(inner, new EmptyBorder(5, 5, 5, 5));
 
         //создаём список из текстовых кликабельных элементов
-        for (ModelEvent element : QueryEvent.getListModelEventsCamera(idCamera)) {
+        for (ModelEvent element : QueryEvent.fetchEvents(idCamera, 0, 0)) {
             JPanel panel = new JPanel();
             JLabel labelEvent = new JLabel(element.time);
             panel.add(labelEvent);
