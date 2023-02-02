@@ -69,7 +69,7 @@ public class WindowGraphWorkIntervalCamera extends JFrame
 //        // Определение временной оси
 //        DateAxis axis = (DateAxis) plot.getDomainAxis();
 //        // Формат отображения осевых меток
-//        axis.setDateFormatOverride(new SimpleDateFormat("dd.MM"));
+//        axis.setDateFormatOverride(new SimpleDateFormat("dd.MM"));\chart.repaint();
 
         return chart;
     }

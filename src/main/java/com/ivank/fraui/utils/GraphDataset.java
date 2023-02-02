@@ -47,24 +47,29 @@ public class GraphDataset
         //список сессий
         ArrayList<UUID> listUUID = new ArrayList<>(QueryCameraStatus.getListSessionsCamera(idCamera));
 
+//        TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
+        Random random = new Random();
         for (UUID item : listUUID) {
             TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
-
             //список дат
             ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(item));
-            for (Timestamp item1 : listDate)
-            {
+            Timestamp date1 = listDate.get(0);
+            Timestamp date2 = listDate.get(listDate.size() - 1);
+//            Timestamp date2 = new Timestamp(System.currentTimeMillis());
+            timeSeries.add(new Millisecond(date1), random.nextDouble());
+//            timeSeries.add(new Millisecond(date1), 0);
+            timeSeries.add(new Millisecond(date2), random.nextDouble());
+//            timeSeries.add(new Millisecond(date2), 0);
+/*            for (Timestamp item1 : listDate) {
                 //количество Событий в сессии
                 int count = QueryEvent.getCountEventsEveryHourSessionCamera(item);
                 //заполняем кривую значениями
                 timeSeries.add(new Millisecond(item1), count);
-            }
+            }*/
 
             //добавляем кривую на график
             dataset.addSeries(timeSeries);
         }
-
-/*
 
         TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
         TimeSeries s2 = new TimeSeries("");
@@ -81,7 +86,6 @@ public class GraphDataset
         dataset.addSeries(s1);
         dataset.addSeries(s2);
         dataset.addSeries(s3);
-*/
 
 /*
         TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
