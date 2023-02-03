@@ -97,9 +97,9 @@ public class QueryEvent {
     }
 
     //количество Событий в сессии камеры в час
-    public static int getCountEventsEveryHourSessionCamera(UUID uuidSession) {
-        /*try {
-            int count = 0;
+    public static ArrayList<Integer> getCountEventsEveryHourSessionCamera(UUID uuidSession) {
+        try {
+            ArrayList<Integer> count = new ArrayList<>();
             String stringSQL = "SELECT DATE_FORMAT(time,'%Y-%m-%d %H:00:00') AS interval_start, " +
                     "DATE_FORMAT(DATE_ADD(time, INTERVAL 1 HOUR),'%Y-%m-%d %H:00:00') AS interval_end, " +
                     "count(*) AS _count " +
@@ -110,12 +110,12 @@ public class QueryEvent {
             ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
 
             while (result.next()) {
-                count = result.getInt("_count");
+                count.add(result.getInt("_count"));
             }
 
             return count;
-        } catch (Exception ex) {ex.printStackTrace();}*/
+        } catch (Exception ex) {ex.printStackTrace();}
 
-        return -5;
+        return null;
     }
 }

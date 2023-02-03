@@ -25,7 +25,7 @@ public class WindowGraphWorkIntervalCamera extends JFrame
         GraphDataset.getGraph();
         final JFreeChart chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(560, 480));
+        chartPanel.setPreferredSize(new Dimension(560, 480));
         chartPanel.setMouseZoomable(true, false);
         setContentPane(chartPanel);
 

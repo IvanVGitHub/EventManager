@@ -1,11 +1,8 @@
 package com.ivank.fraui.db;
 
-import javax.swing.*;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.UUID;
 
 public class QueryCameraStatus {

@@ -5,6 +5,7 @@ import com.ivank.fraui.db.QueryEvent;
 import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -12,6 +13,9 @@ public class GraphDataset
 {
     //тест
     public static void getGraph() {
+        Date date = new Date();
+        date += getHour(2);
+
 //    public static Map<Integer, String> getGraph() {
         Map<Integer, String> states = new HashMap<Integer, String>();
         states.put(1, "Poland");
@@ -49,17 +53,26 @@ public class GraphDataset
 
 //        TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
         Random random = new Random();
-        for (UUID item : listUUID) {
-            TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
+        for (int i = 0; i < listUUID.size(); i++) {
+            //имя кривой должно быть уникальным!!!, иначе отобразится не весь диапазон значений
+//            TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
+//            TimeSeries timeSeries = new TimeSeries("Камера: " + i);
+            TimeSeries timeSeries = new TimeSeries(listUUID.get(i));
             //список дат
-            ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(item));
-            Timestamp date1 = listDate.get(0);
-            Timestamp date2 = listDate.get(listDate.size() - 1);
+            ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(listUUID.get(i)));
+//            double randomValue = random.nextDouble();
+//            Timestamp date1 = listDate.get(0);
+//            Timestamp date2 = listDate.get(listDate.size() - 1);
 //            Timestamp date2 = new Timestamp(System.currentTimeMillis());
-            timeSeries.add(new Millisecond(date1), random.nextDouble());
-//            timeSeries.add(new Millisecond(date1), 0);
-            timeSeries.add(new Millisecond(date2), random.nextDouble());
-//            timeSeries.add(new Millisecond(date2), 0);
+            ArrayList<Integer> value = QueryEvent.getCountEventsEveryHourSessionCamera(listUUID.get(i));
+            if (value == null || value.isEmpty())
+                continue;
+//            timeSeries.add(new Millisecond(date1), random.nextDouble());
+            timeSeries.add(new Millisecond(listDate.get(0)), value.get(0));
+//            timeSeries.add(new Millisecond(listDate.get(0)), listDate.size());
+//            timeSeries.add(new Millisecond(date2), random.nextDouble());
+            timeSeries.add(new Millisecond(listDate.get(listDate.size() - 1)), value.get(value.size() - 1));
+//            timeSeries.add(new Millisecond(listDate.get(listDate.size() - 1)), listDate.size());
 /*            for (Timestamp item1 : listDate) {
                 //количество Событий в сессии
                 int count = QueryEvent.getCountEventsEveryHourSessionCamera(item);
@@ -71,9 +84,9 @@ public class GraphDataset
             dataset.addSeries(timeSeries);
         }
 
-        TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
-        TimeSeries s2 = new TimeSeries("");
-        TimeSeries s3 = new TimeSeries("");
+/*        TimeSeries s1 = new TimeSeries("Камера: " + "'4 сыра общий план'");
+        TimeSeries s2 = new TimeSeries("Камера: ");
+        TimeSeries s3 = new TimeSeries("Камера: ");
         s1.add(new Day(1, 12, 2022), 3);
         s1.add(new Day(2, 12, 2022), 3);
         s1.add(new Day(3, 12, 2022), 3);
@@ -85,7 +98,7 @@ public class GraphDataset
         s3.add(new Day(18, 12, 2022), 4);
         dataset.addSeries(s1);
         dataset.addSeries(s2);
-        dataset.addSeries(s3);
+        dataset.addSeries(s3);*/
 
 /*
         TimeSeries s1 = new TimeSeries("Камера '4 сыра общий план'");
