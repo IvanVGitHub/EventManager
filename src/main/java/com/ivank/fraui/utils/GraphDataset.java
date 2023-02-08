@@ -61,54 +61,63 @@ public class GraphDataset
         //список сессий
         ArrayList<UUID> listUUID = new ArrayList<>(QueryCameraStatus.getListSessionsCamera(idCamera));
 
-        //строим кривые на диаграмме
+        //перебираем все сессии для построения кривых на диаграмме
         for (int i = 0; i < listUUID.size(); i++) {
-            //создаём кривую
-            TimeSeries timeSeries = new TimeSeries("Сессия: " + listUUID.get(i));
             //список дат в одной сессии
             ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(listUUID.get(i)));
 
             //почасовое количество Событий
             ArrayList<Integer> listValue = QueryEvent.getCountEventsEveryHourSessionCamera(listUUID.get(i));
+            Map<Timestamp, Integer> dateAndValue = QueryEvent.getMapEventsEveryHourSessionCamera(listUUID.get(i));
 
             //если Событий не найдено
             if (listValue == null || listValue.isEmpty())
                 continue;
 
+            //создаём кривую
+            TimeSeries timeSeries = new TimeSeries("Сессия: " + listUUID.get(i));
+
             //<-- тестовый блок
-            //округляем до часа
+            //округляем временнУю метку до часа
             Date firstDate = DateUtils.truncate(listDate.get(0), Calendar.HOUR);
             Date lastDate = DateUtils.truncate(listDate.get(listDate.size() - 1), Calendar.HOUR);
-            timeSeries.add(new Millisecond(firstDate), 1);
+//            timeSeries.add(new Millisecond(firstDate), 1);
 
             //если События случались чаще, чем в одном часе
             if (listDate.size() > 1) {
                 try {
-                    timeSeries.add(new Millisecond(lastDate), 10);
+//                    timeSeries.add(new Millisecond(lastDate), 10);
                 }
                 catch (Exception e) {
                     int test = 0;
                 }
             }
 
-            Map<Timestamp, Double> freeDateAndValue = new HashMap<>();
-            Random rand = new Random();
+            //пустая почасовая последовательность данных
+            TreeMap<Timestamp, Double> freeDateAndValue = new TreeMap<>();
+//            Random rand = new Random();
             //берём начальное время и прибавляем по часу (3_600_000 мс), пока не наступит конечное время сессии
-            for (long start = firstDate.getTime(); start < lastDate.getTime(); start += 3_600_000) {
-                //берём первый элемент
-                if (start == firstDate.getTime()) {
-                    freeDateAndValue.put(listDate.get(0), rand.nextDouble());
-//                    timeSeries.add(new Millisecond(listDate.get(0)), rand.nextDouble());
+            //заносим все значения, начиная с первой даты, потом все ровные промежутки по часу, потом последнюю дату
+            for (long start = 0; start < lastDate.getTime(); start += 3_600_000) {
+                //заносим первую дату
+                if (start == 0) {
+                    freeDateAndValue.put(listDate.get(0), (double) 0);
+                    timeSeries.add(new Millisecond(listDate.get(0)), 0);
+                    //круглили до часа первое время, чтобы дальше прибавлять ровно по часу
+                    start = DateUtils.truncate(listDate.get(0), Calendar.HOUR).getTime();
                     continue;
                 }
 
-                freeDateAndValue.put(new Timestamp(start), rand.nextDouble());
-                timeSeries.add(new Millisecond(new Timestamp(start)), rand.nextDouble() * 10);
+                freeDateAndValue.put(new Timestamp(start), (double) 0);
+                timeSeries.add(new Millisecond(new Timestamp(start)), 0);
             }
-            Map<Timestamp, Integer> dateAndValue = QueryEvent.getMapEventsEveryHourSessionCamera(listUUID.get(i));
+            freeDateAndValue.put(listDate.get(listDate.size() - 1), (double) 0);
+            //сортировка по возрастанию даты и печатать в консоль
+//            freeDateAndValue.entrySet().stream().sorted(Map.Entry.<Timestamp, Double>comparingByKey()).forEach(System.out::println);
+            freeDateAndValue.entrySet().stream().forEach(e -> System.out.println(e.getKey() + ":" + e.getValue()));
             //--> тестовый блок
 
-            timeSeries.add(new Millisecond(listDate.get(0)), listValue.get(0));
+//            timeSeries.add(new Millisecond(listDate.get(0)), listValue.get(0));
             timeSeries.add(new Millisecond(listDate.get(listDate.size() - 1)), listValue.get(listValue.size() - 1));
 
             //добавляем кривую на диаграмму
