@@ -12,8 +12,13 @@ import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Map;
 
 public class UtilsAny {
+    //дополняем один Map данными из другого Map
+    public static void mergeMaps(Map primary, Map second) {
+    }
+
     //конвертируем изображение из строки в графику
     public static BufferedImage base64ToImage (String strBase64) {
         byte[] bytes = Base64.getDecoder().decode(strBase64);

@@ -1,7 +1,11 @@
 package com.ivank.fraui.db;
 
 import java.sql.ResultSet;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class QueryEvent {
@@ -96,7 +100,29 @@ public class QueryEvent {
         return -5;
     }
 
-    //количество Событий в сессии камеры в час
+    //почасовое количество Событий
+    public static Map<Timestamp, Integer> getMapEventsEveryHourSessionCamera(UUID uuidSession) {
+        Map<Timestamp, Integer> dateAndValue = new HashMap<>();
+
+        try {
+            String stringSQL = "SELECT DATE_FORMAT(time,'%Y-%m-%d %H:00:00') AS interval_start, " +
+                    "DATE_FORMAT(DATE_ADD(time, INTERVAL 1 HOUR),'%Y-%m-%d %H:00:00') AS interval_end, " +
+                    "count(*) AS _count " +
+                    "FROM event " +
+                    "WHERE uuid_session = '" + uuidSession + "' " +
+                    "GROUP BY interval_start " +
+                    "ORDER BY id";
+            ResultSet result = ConnectDB.getConnector().executeRaw(stringSQL);
+
+            while (result.next()) {
+                dateAndValue.put(result.getTimestamp("interval_start"), result.getInt("_count"));
+            }
+        } catch (Exception ex) {ex.printStackTrace();}
+
+        return dateAndValue;
+    }
+
+    //количество Событий в сессии в каждый час работы камеры
     public static ArrayList<Integer> getCountEventsEveryHourSessionCamera(UUID uuidSession) {
         try {
             ArrayList<Integer> count = new ArrayList<>();

@@ -4,26 +4,25 @@ import com.ivank.fraui.utils.GraphDataset;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.SimpleDateFormat;
+
+import static com.ivank.fraui.db.QueryCamera.getModelCameraById;
 
 public class WindowGraphWorkIntervalCamera extends JFrame
 {
-    static String TITLE = "График работы камеры и количества событий";
+    static String TITLE = "График распределения событий по времени ";
 
     public WindowGraphWorkIntervalCamera(int idCamera) {
         super(TITLE);
         final XYDataset dataset = GraphDataset.createDataset(idCamera);
         GraphDataset.getGraph();
-        final JFreeChart chart = createChart(dataset);
+        final JFreeChart chart = createChart(dataset, getModelCameraById(idCamera).camera_name);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(560, 480));
         chartPanel.setMouseZoomable(true, false);
@@ -35,9 +34,9 @@ public class WindowGraphWorkIntervalCamera extends JFrame
         setVisible(true);
     }
 
-    private JFreeChart createChart(final XYDataset dataset) {
+    private JFreeChart createChart(XYDataset dataset, String cameraName) {
         JFreeChart chart = ChartFactory.createTimeSeriesChart (
-                "Распределение событий по времени с 01.10.2022 по 31.10.2022", null, null,
+                "График распределения событий по времени для камеры: \"" + cameraName + "\"", null, "посетители",
                 dataset, true, true, false);
 
         chart.setBackgroundPaint(Color.WHITE);
@@ -70,6 +69,10 @@ public class WindowGraphWorkIntervalCamera extends JFrame
 //        DateAxis axis = (DateAxis) plot.getDomainAxis();
 //        // Формат отображения осевых меток
 //        axis.setDateFormatOverride(new SimpleDateFormat("dd.MM"));\chart.repaint();
+        //задаём точки на графике, чтобы они отображались
+        XYLineAndShapeRenderer xyLineAndShapeRenderer = (XYLineAndShapeRenderer) plot.getRenderer();
+        xyLineAndShapeRenderer.setBaseShapesVisible(true);
+        plot.setRenderer(xyLineAndShapeRenderer);
 
         return chart;
     }

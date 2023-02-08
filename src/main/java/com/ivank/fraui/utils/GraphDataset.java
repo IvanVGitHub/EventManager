@@ -2,19 +2,28 @@ package com.ivank.fraui.utils;
 
 import com.ivank.fraui.db.QueryCameraStatus;
 import com.ivank.fraui.db.QueryEvent;
+import org.apache.commons.lang.time.DateUtils;
 import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GraphDataset
 {
     //тест
     public static void getGraph() {
-        Date date = new Date();
-        date += getHour(2);
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        //получаем дату в привычном формате
+//        System.out.println(dateFormat.format(date.getTime()));
+        //переводим дату в миллисекунды
+        System.out.println(date.getTimeInMillis());
+        date.add(Calendar.HOUR, 1);
+//        System.out.println(dateFormat.format(date.getTime()));
+        System.out.println(date.getTimeInMillis());
 
 //    public static Map<Integer, String> getGraph() {
         Map<Integer, String> states = new HashMap<Integer, String>();
@@ -46,41 +55,63 @@ public class GraphDataset
     //создаём кривые
     public static XYDataset createDataset(int idCamera)
     {
+        //создаём диаграмму
         TimeSeriesCollection dataset = new TimeSeriesCollection();
 
         //список сессий
         ArrayList<UUID> listUUID = new ArrayList<>(QueryCameraStatus.getListSessionsCamera(idCamera));
 
-//        TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
-        Random random = new Random();
+        //строим кривые на диаграмме
         for (int i = 0; i < listUUID.size(); i++) {
-            //имя кривой должно быть уникальным!!!, иначе отобразится не весь диапазон значений
-//            TimeSeries timeSeries = new TimeSeries("Камера: " + idCamera);
-//            TimeSeries timeSeries = new TimeSeries("Камера: " + i);
-            TimeSeries timeSeries = new TimeSeries(listUUID.get(i));
-            //список дат
+            //создаём кривую
+            TimeSeries timeSeries = new TimeSeries("Сессия: " + listUUID.get(i));
+            //список дат в одной сессии
             ArrayList<Timestamp> listDate = new ArrayList<>(QueryCameraStatus.getListTimesSession(listUUID.get(i)));
-//            double randomValue = random.nextDouble();
-//            Timestamp date1 = listDate.get(0);
-//            Timestamp date2 = listDate.get(listDate.size() - 1);
-//            Timestamp date2 = new Timestamp(System.currentTimeMillis());
-            ArrayList<Integer> value = QueryEvent.getCountEventsEveryHourSessionCamera(listUUID.get(i));
-            if (value == null || value.isEmpty())
-                continue;
-//            timeSeries.add(new Millisecond(date1), random.nextDouble());
-            timeSeries.add(new Millisecond(listDate.get(0)), value.get(0));
-//            timeSeries.add(new Millisecond(listDate.get(0)), listDate.size());
-//            timeSeries.add(new Millisecond(date2), random.nextDouble());
-            timeSeries.add(new Millisecond(listDate.get(listDate.size() - 1)), value.get(value.size() - 1));
-//            timeSeries.add(new Millisecond(listDate.get(listDate.size() - 1)), listDate.size());
-/*            for (Timestamp item1 : listDate) {
-                //количество Событий в сессии
-                int count = QueryEvent.getCountEventsEveryHourSessionCamera(item);
-                //заполняем кривую значениями
-                timeSeries.add(new Millisecond(item1), count);
-            }*/
 
-            //добавляем кривую на график
+            //почасовое количество Событий
+            ArrayList<Integer> listValue = QueryEvent.getCountEventsEveryHourSessionCamera(listUUID.get(i));
+
+            //если Событий не найдено
+            if (listValue == null || listValue.isEmpty())
+                continue;
+
+            //<-- тестовый блок
+            //округляем до часа
+            Date firstDate = DateUtils.truncate(listDate.get(0), Calendar.HOUR);
+            Date lastDate = DateUtils.truncate(listDate.get(listDate.size() - 1), Calendar.HOUR);
+            timeSeries.add(new Millisecond(firstDate), 1);
+
+            //если События случались чаще, чем в одном часе
+            if (listDate.size() > 1) {
+                try {
+                    timeSeries.add(new Millisecond(lastDate), 10);
+                }
+                catch (Exception e) {
+                    int test = 0;
+                }
+            }
+
+            Map<Timestamp, Double> freeDateAndValue = new HashMap<>();
+            Random rand = new Random();
+            //берём начальное время и прибавляем по часу (3_600_000 мс), пока не наступит конечное время сессии
+            for (long start = firstDate.getTime(); start < lastDate.getTime(); start += 3_600_000) {
+                //берём первый элемент
+                if (start == firstDate.getTime()) {
+                    freeDateAndValue.put(listDate.get(0), rand.nextDouble());
+//                    timeSeries.add(new Millisecond(listDate.get(0)), rand.nextDouble());
+                    continue;
+                }
+
+                freeDateAndValue.put(new Timestamp(start), rand.nextDouble());
+                timeSeries.add(new Millisecond(new Timestamp(start)), rand.nextDouble() * 10);
+            }
+            Map<Timestamp, Integer> dateAndValue = QueryEvent.getMapEventsEveryHourSessionCamera(listUUID.get(i));
+            //--> тестовый блок
+
+            timeSeries.add(new Millisecond(listDate.get(0)), listValue.get(0));
+            timeSeries.add(new Millisecond(listDate.get(listDate.size() - 1)), listValue.get(listValue.size() - 1));
+
+            //добавляем кривую на диаграмму
             dataset.addSeries(timeSeries);
         }
 

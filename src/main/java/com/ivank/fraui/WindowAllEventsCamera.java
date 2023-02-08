@@ -89,7 +89,7 @@ public class WindowAllEventsCamera extends JFrame {
     //меню-бар
     void menuBarInWindowBasic(int idCamera) {
         MenuBar menuBar = new MenuBar();
-        Menu parameters = new Menu("Режимы отображения");
+        Menu parameters = new Menu("Режим отображения");
 
         MenuItem workIntervalCamera = new MenuItem("График работы и событий камеры");
         parameters.add(workIntervalCamera);
